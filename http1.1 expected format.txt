@@ -1,0 +1,5 @@
+"GET " + http://(valid URL) + " HTTP/1.1" + "\n\r"
+"Content-Type: " + type + "\n\r"
+(Additional headers, if needed)
+"\n\r"(empty line containing only carriage return)
+(body containing JSON)
