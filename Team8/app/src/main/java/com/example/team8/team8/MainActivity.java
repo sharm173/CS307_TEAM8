@@ -8,10 +8,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     Context context;
+    TextView text1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
         context = this;
 
+        text1 = (TextView) findViewById(R.id.text1);
+        final EditText edit1 = (EditText) findViewById(R.id.edit1);
+
         Button button1 = (Button) findViewById(R.id.button1);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,9 +40,15 @@ public class MainActivity extends AppCompatActivity {
                 //This handler is called whenever the button is pressed,
                 //most things in android have a handler, or many different handlers
 
+                Test t = new Test();
+
+                text1.setText(edit1.getText().toString());
+
+                //text1.setText(t.t);
+
                 //must use "context" instead of "this" because button handler is an inner class
-                Intent i = new Intent(context, Main2Activity.class);
-                startActivity(i);
+                //Intent i = new Intent(context, Main2Activity.class);
+                //startActivity(i);
             }
         });
 
@@ -48,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+
     }
 
     @Override
