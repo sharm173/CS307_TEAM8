@@ -24,6 +24,7 @@ double: lng
 string: description
 
 TAGS table:
+int: tid (primary)
 int: profID (fid)
 string: tag
 
