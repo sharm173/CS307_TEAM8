@@ -4,7 +4,11 @@
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Properties;
 
 @Path("/connect")
 public class ClientComm {
@@ -38,6 +42,26 @@ public class ClientComm {
     @Consumes(MediaType.APPLICATION_JSON)
     public void consumeJSON(Profile[] profiles){
         //automatically builds profile objects for us from the JSON
+    }
+
+    public Connection getConnection() throws SQLException {
+
+        Connection conn = null;
+        Properties connectionProps = new Properties();
+        connectionProps.put("user", "root");
+        connectionProps.put("password", "root");
+        connectionProps.put("zeroDateTimeBehavior", "convertToNull");
+
+        if (this.dbms.equals("mysql")) {
+            conn = DriverManager.getConnection(
+                    "jdbc:" + this.dbms + "://" +
+                            this.serverName +
+                            ":" + this.portNumber + "/" + dbName + "?",
+                    connectionProps);
+        }
+        System.out.println("Connected to database");
+        return conn;
+
     }
 
 
