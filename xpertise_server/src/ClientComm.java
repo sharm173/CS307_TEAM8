@@ -9,18 +9,24 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.net.Socket;
+import java.net.ServerSocket;
+import java.net.InetAddress;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.IOException;
+import java.io.File;
 
 @Path("/connect")
 public class ClientComm {
 
     public String dbms = "mysql";
     public String serverName = "127.0.0.1"; //localhost in this case
-    public String portNumber = "8889";
+    public static String portNumber = "4444";
     public String dbName = "xpertise";
 
-
     @GET
-    @Path("/second")
+    @Path("/profile.json")
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<Profile> produceJSON(){
         ArrayList<Profile> profiles = new ArrayList<>();
@@ -44,6 +50,7 @@ public class ClientComm {
         //automatically builds profile objects for us from the JSON
     }
 
+    /*
     public Connection getConnection() throws SQLException {
 
         Connection conn = null;
@@ -63,6 +70,6 @@ public class ClientComm {
         return conn;
 
     }
-
+    */
 
 }
