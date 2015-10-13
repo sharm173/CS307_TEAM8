@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<navigationModel
+  ns = "http://schemas.android.com?import=com.android.tools.idea.editors.navigation.model.*">
+  <locations  
+    class = "java.util.ArrayList">
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "cs307.chris.purdue.xpertise.Main22Activity"/>
+      <point      
+        x = "1420"      
+        y = "636"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "cs307.chris.purdue.xpertise.Main2Activity"/>
+      <point      
+        x = "2328"      
+        y = "484"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "cs307.chris.purdue.xpertise.LoginActivity"/>
+      <point      
+        x = "352"      
+        y = "672"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "cs307.chris.purdue.xpertise.MainActivity"/>
+      <point      
+        x = "636"      
+        y = "212"/>
+    </statePointEntry>
+  </locations>
+</navigationModel>

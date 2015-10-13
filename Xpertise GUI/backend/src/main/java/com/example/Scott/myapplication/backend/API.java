@@ -37,7 +37,12 @@ public class API {
     }
   }
 
-  @ApiMethod (name = "profile.list")
+   // @ApiMethod(name = "profile.auth", httpMethod = "auth")
+    //public Profile authProfile(@Named("email") String email, @Named("password") String password)
+    //}
+
+
+  @ApiMethod (name = "listProfiles")
   public ArrayList<Profile> listProfiles() {
     return profiles;
   }

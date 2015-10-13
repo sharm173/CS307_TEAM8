@@ -1,5 +1,2 @@
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/develop
 include ':app', ':backend'

@@ -19,7 +19,7 @@
 package com.example.scott.myapplication.backend.myApi.model;
 
 /**
- * Model definition for MyBean.
+ * Model definition for MyBeanCollection.
  *
  * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
  * transmitted over HTTP when working with the myApi. For a detailed explanation see:
@@ -29,37 +29,37 @@ package com.example.scott.myapplication.backend.myApi.model;
  * @author Google, Inc.
  */
 @SuppressWarnings("javadoc")
-public final class MyBean extends com.google.api.client.json.GenericJson {
+public final class MyBeanCollection extends com.google.api.client.json.GenericJson {
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.String data;
+  private java.util.List<MyBean> items;
 
   /**
    * @return value or {@code null} for none
    */
-  public java.lang.String getData() {
-    return data;
+  public java.util.List<MyBean> getItems() {
+    return items;
   }
 
   /**
-   * @param data data or {@code null} for none
+   * @param items items or {@code null} for none
    */
-  public MyBean setData(java.lang.String data) {
-    this.data = data;
+  public MyBeanCollection setItems(java.util.List<MyBean> items) {
+    this.items = items;
     return this;
   }
 
   @Override
-  public MyBean set(String fieldName, Object value) {
-    return (MyBean) super.set(fieldName, value);
+  public MyBeanCollection set(String fieldName, Object value) {
+    return (MyBeanCollection) super.set(fieldName, value);
   }
 
   @Override
-  public MyBean clone() {
-    return (MyBean) super.clone();
+  public MyBeanCollection clone() {
+    return (MyBeanCollection) super.clone();
   }
 
 }
