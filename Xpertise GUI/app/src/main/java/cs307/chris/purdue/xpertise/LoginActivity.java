@@ -1,5 +1,6 @@
 package cs307.chris.purdue.xpertise;
 
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -31,6 +32,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.Scott.myapplication.backend.API;
+import com.example.Scott.myapplication.backend.Profile;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
@@ -56,9 +58,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
      */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
+  //  private static final String[] DUMMY_CREDENTIALS = new String[]{
+    //        "foo@example.com:hello", "bar@example.com:world"
+    //};
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -338,36 +340,34 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 myApiService = builder.build();
             }
 
-            //TODO: use the below code snippet to define what API function you want to use
 
-            String email = params[0].toString();
-            String password = params[1].toString();
-
-
-            try {
+           // try {
                 // Simulate network access.
                 //Thread.sleep(2000);
 
-                myApiService.authProfile(email, password);
+          //   Profile p =  myApiService.authProfile(mEmail, mPassword);
+                ArrayList<Profile> profiles = myApiService.listProfiles();
+                //TODO:change to profile activity
+            //return myApiService.authProfile(mEmail, mPassword)!= null;
+
+            //} catch (IOException e) {
+                //return false;
+            //}
 
 
-            } catch (InterruptedException e) {
-                return false;
 
-            }
-
-
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
+            for (Profile p : profiles) {
+              //  String[] pieces = credential.split(":");
+                if (p.getEmail().equals(mEmail)) {
                     // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
+                    return p.getPassword().equals(mPassword);
                 }
             }
 
             // TODO: register the new account here.
-            return true;
+            //Need profile details to register, switch to new activity to register
+
+            return false;
         }
 
         @Override
