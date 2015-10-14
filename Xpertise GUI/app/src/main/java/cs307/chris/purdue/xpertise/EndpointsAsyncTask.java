@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 
 import com.example.Scott.myapplication.backend.API;
-import com.example.scott.myapplication.backend.myApi.MyApi;
+//import com.example.scott.myapplication.backend.myApi.MyApi;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
@@ -42,17 +42,18 @@ class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> 
         }
 
         //TODO: use the below code snippet to define what API function you want to use
-        /*
+
         context = params[0].first;
         String name = params[0].second;
 
 
         try {
-           // return myApiService
+            return myApiService.authProfile();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-        */
+
         return null;
     }
 

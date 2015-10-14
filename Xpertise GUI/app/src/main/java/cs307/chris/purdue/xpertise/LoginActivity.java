@@ -3,6 +3,7 @@ package cs307.chris.purdue.xpertise;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -318,37 +319,43 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-             MyApi myApiService = null;
-            /*
+           API myApiService = null;
+             Context context;
+            if(myApiService == null) {  // Only do this once
+                API.Builder builder = new API.Builder(AndroidHttp.newCompatibleTransport(),
+                        new AndroidJsonFactory(), null)
+                        // options for running against local devappserver
+                        // - 10.0.2.2 is localhost's IP address in Android emulator
+                        // - turn off compression when running against local devappserver
+                        .setRootUrl("http://xpertiseservergae.appspot.com/_ah/api")
+                        .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
+                            @Override
+                            public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
+                                abstractGoogleClientRequest.setDisableGZipContent(true);
+                            }
+                        });
+
+                myApiService = builder.build();
+            }
+
+            //TODO: use the below code snippet to define what API function you want to use
+
+            String email = params[0].toString();
+            String password = params[1].toString();
+
+
             try {
                 // Simulate network access.
                 //Thread.sleep(2000);
-                if(myApiService == null) {  // Only do this once
-                    MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
-                            new AndroidJsonFactory(), null)
-                            // options for running against local devappserver
-                            // - 10.0.2.2 is localhost's IP address in Android emulator
-                            // - turn off compression when running against local devappserver
-                            .setRootUrl("http://xpertiseservergae.appspot.com/_ah/api")
-                            .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
-                                @Override
-                                public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
-                                    abstractGoogleClientRequest.setDisableGZipContent(true);
-                                }
-                            });
-                    // end options for devappserver
 
-                    myApiService = builder.build();
-                }
-
-                myApiService.
+                myApiService.authProfile(email, password);
 
 
             } catch (InterruptedException e) {
                 return false;
 
             }
-            */
+
 
 
             for (String credential : DUMMY_CREDENTIALS) {
