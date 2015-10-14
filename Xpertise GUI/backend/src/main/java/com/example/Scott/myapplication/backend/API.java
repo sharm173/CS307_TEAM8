@@ -24,8 +24,6 @@ import javax.inject.Named;
 
 public class API {
 
-    public static ArrayList<Profile> profiles = new ArrayList<Profile>();
-
     @ApiMethod(name = "profile.get", httpMethod = "get")
     public Profile getProfile(@Named("pid") Integer pid) throws NotFoundException {
         try {
@@ -55,7 +53,7 @@ public class API {
         return;
     }
 
-    @ApiMethod(name = "profile.auth", httpMethod = "auth")
+    @ApiMethod(name = "profile.auth")
     public Profile authProfile(@Named("email") String email, @Named("password") String password) {
         //Attempts to find the profile information associated with the provided password and email
         //If found, return a profile object containing the information
