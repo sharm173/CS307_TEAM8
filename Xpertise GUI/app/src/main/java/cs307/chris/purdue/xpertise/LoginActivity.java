@@ -340,7 +340,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     myApiService = builder.build();
                 }
 
-                myApiService.
+                //myApiService.
 
 
             } catch (InterruptedException e) {

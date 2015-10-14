@@ -55,7 +55,6 @@ public class databaseConnection {
             try {
                 String statement = "SELECT * FROM entries";
                 PreparedStatement stmt = conn.prepareStatement(statement);
-                int success = -1;
                 ResultSet response = stmt.executeQuery();
                 while (response.next()) {
                     MyBean bean = new MyBean();
