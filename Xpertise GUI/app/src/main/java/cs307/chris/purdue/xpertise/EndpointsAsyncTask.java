@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.util.Pair;
 import android.widget.Toast;
 
+
+import com.example.Scott.myapplication.backend.API;
 import com.example.scott.myapplication.backend.myApi.MyApi;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -17,13 +19,13 @@ import java.io.IOException;
  * Created by tusharsharma on 10/12/15.
  */
 class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
-    private MyApi myApiService = null;
+    private API myApiService = null;
     private Context context;
 
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
         if(myApiService == null) {  // Only do this once
-            MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
+            API.Builder builder = new API.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
                     // options for running against local devappserver
                     // - 10.0.2.2 is localhost's IP address in Android emulator

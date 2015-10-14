@@ -4,7 +4,7 @@
    https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/HelloEndpoints
 */
 
-package com.example.tusharsharma.myapplication.backend;
+package com.example.Scott.myapplication.backend;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
@@ -36,18 +36,20 @@ public class MyEndpoint {
     public MyBean sayHi(@Named("name") String name) {
         MyBean response = new MyBean();
         response.setData("Hi, " + name);
-        try {
+      /*  try {
             databaseConnection.doPost(name);
         }
         catch (IOException e) {
             e.printStackTrace();
         }
+        */
         return response;
     }
-
+/*
     @ApiMethod(name = "getNames")
     public ArrayList<MyBean> getNames() {
         return databaseConnection.goGet();
     }
+*/
 
 }
