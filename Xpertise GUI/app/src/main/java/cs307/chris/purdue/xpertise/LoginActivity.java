@@ -319,6 +319,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
              MyApi myApiService = null;
+            /*
             try {
                 // Simulate network access.
                 //Thread.sleep(2000);
@@ -340,13 +341,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     myApiService = builder.build();
                 }
 
-                //myApiService.
+                myApiService.
 
 
             } catch (InterruptedException e) {
                 return false;
-            }
 
+            }
+            */
 
 
             for (String credential : DUMMY_CREDENTIALS) {
