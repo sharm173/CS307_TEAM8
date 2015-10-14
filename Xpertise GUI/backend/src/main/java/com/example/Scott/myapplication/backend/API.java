@@ -29,47 +29,41 @@ public class API {
     @ApiMethod(name = "profile.get", httpMethod = "get")
     public Profile getProfile(@Named("pid") Integer pid) throws NotFoundException {
         try {
-            return profiles.get(pid);
+            return databaseConnection.getSpecificProfile(pid);
         }
         catch (IndexOutOfBoundsException e) {
-            throw new NotFoundException("Profile not found with an index: ");
+            throw new NotFoundException("Profile not found with an index: " + pid);
         }
     }
 
-    @ApiMethod (name = "listProfiles")
+    @ApiMethod (name = "profile.listAll")
     public ArrayList<Profile> listProfiles() {
+        ArrayList<Profile> profiles = new ArrayList<Profile>();
+        profiles = databaseConnection.getAllProfiles();
         return profiles;
     }
 
     @ApiMethod(name = "profile.post", httpMethod = "post")
-    public Profile insertProfile(@Named("firstName") String firstName, @Named("lastName") String lastName, @Named("password") String password, @Named("email") String email, @Named("city") String city) {
+    public void insertProfile(@Named("firstName") String firstName, @Named("lastName") String lastName, @Named("password") String password, @Named("email") String email, @Named("city") String city) {
         Profile response = new Profile();
-        int pid = profiles.size();
-        response.setPid(pid);
         response.setFirstName(firstName);
         response.setLastName(lastName);
         response.setPassword(password);
         response.setEmail(email);
         response.setCity(city);
-        profiles.add(response);
-        return response;
+        databaseConnection.storeProfile(response);
+        return;
     }
-
-    @ApiMethod(name = "sayHi")
-    public MyBean sayHi() {
-        MyBean data = new MyBean();
-        data.setData("Hello, World!");
-        return data;
-    }
-
 
     @ApiMethod(name = "profile.auth", httpMethod = "auth")
     public Profile authProfile(@Named("email") String email, @Named("password") String password) {
         //Attempts to find the profile information associated with the provided password and email
         //If found, return a profile object containing the information
         //If not found, return an error
-
-        return null;
+        Profile ret = new Profile();
+        ret = databaseConnection.findUserPassCombo(email, password);
+        if (ret == null) return null;
+        return ret;
     }
 
 }

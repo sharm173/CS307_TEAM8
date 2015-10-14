@@ -35,21 +35,29 @@ class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> 
                             abstractGoogleClientRequest.setDisableGZipContent(true);
                         }
                     });
-            // end options for devappserver
 
             myApiService = builder.build();
         }
 
+        //TODO: use the below code snippet to define what API function you want to use
+        /*
         context = params[0].first;
         String name = params[0].second;
+
 
         try {
            // return myApiService
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
+        return null;
     }
 
+    /*
+     *The below function receives the output from the previous API method call
+     *TODO: use this to either pass things back to the GUI or perform computations on the information
+    */
     @Override
     protected void onPostExecute(String result) {
         Toast.makeText(context, result, Toast.LENGTH_LONG).show();
