@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/4LFPKTXQJzsvbKfPBmD_XuYbzwI\"",
+ "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/vwoI9CWw7zodlgIZZ5utYwCBhMg\"",
  "discoveryVersion": "v1",
  "id": "xpertiseAPI:v1",
  "name": "xpertiseAPI",
@@ -122,112 +122,108 @@
    }
   }
  },
- "resources": {
-  "profile": {
-   "methods": {
-    "auth": {
-     "id": "xpertiseAPI.profile.auth",
-     "path": "authProfile/{email}/{password}",
-     "httpMethod": "POST",
-     "parameters": {
-      "email": {
-       "type": "string",
-       "required": true,
-       "location": "path"
-      },
-      "password": {
-       "type": "string",
-       "required": true,
-       "location": "path"
-      }
-     },
-     "parameterOrder": [
-      "email",
-      "password"
-     ],
-     "response": {
-      "$ref": "Profile"
-     },
-     "scopes": [
-      "https://www.googleapis.com/auth/userinfo.email"
-     ]
+ "methods": {
+  "profile_auth": {
+   "id": "xpertiseAPI.profile_auth",
+   "path": "authProfile/{email}/{password}",
+   "httpMethod": "POST",
+   "parameters": {
+    "email": {
+     "type": "string",
+     "required": true,
+     "location": "path"
     },
-    "get": {
-     "id": "xpertiseAPI.profile.get",
-     "path": "profile/{pid}",
-     "httpMethod": "GET",
-     "parameters": {
-      "pid": {
-       "type": "integer",
-       "required": true,
-       "format": "int32",
-       "location": "path"
-      }
-     },
-     "parameterOrder": [
-      "pid"
-     ],
-     "response": {
-      "$ref": "Profile"
-     },
-     "scopes": [
-      "https://www.googleapis.com/auth/userinfo.email"
-     ]
-    },
-    "listAll": {
-     "id": "xpertiseAPI.profile.listAll",
-     "path": "profile",
-     "httpMethod": "GET",
-     "response": {
-      "$ref": "ProfileCollection"
-     },
-     "scopes": [
-      "https://www.googleapis.com/auth/userinfo.email"
-     ]
-    },
-    "post": {
-     "id": "xpertiseAPI.profile.post",
-     "path": "void/{firstName}/{lastName}/{password}/{email}/{city}",
-     "httpMethod": "POST",
-     "parameters": {
-      "city": {
-       "type": "string",
-       "required": true,
-       "location": "path"
-      },
-      "email": {
-       "type": "string",
-       "required": true,
-       "location": "path"
-      },
-      "firstName": {
-       "type": "string",
-       "required": true,
-       "location": "path"
-      },
-      "lastName": {
-       "type": "string",
-       "required": true,
-       "location": "path"
-      },
-      "password": {
-       "type": "string",
-       "required": true,
-       "location": "path"
-      }
-     },
-     "parameterOrder": [
-      "firstName",
-      "lastName",
-      "password",
-      "email",
-      "city"
-     ],
-     "scopes": [
-      "https://www.googleapis.com/auth/userinfo.email"
-     ]
+    "password": {
+     "type": "string",
+     "required": true,
+     "location": "path"
     }
-   }
+   },
+   "parameterOrder": [
+    "email",
+    "password"
+   ],
+   "response": {
+    "$ref": "Profile"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "profile_get": {
+   "id": "xpertiseAPI.profile_get",
+   "path": "profile/{pid}",
+   "httpMethod": "GET",
+   "parameters": {
+    "pid": {
+     "type": "integer",
+     "required": true,
+     "format": "int32",
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "pid"
+   ],
+   "response": {
+    "$ref": "Profile"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "profile_listAll": {
+   "id": "xpertiseAPI.profile_listAll",
+   "path": "profile",
+   "httpMethod": "GET",
+   "response": {
+    "$ref": "ProfileCollection"
+   },
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
+  },
+  "profile_post": {
+   "id": "xpertiseAPI.profile_post",
+   "path": "void/{firstName}/{lastName}/{password}/{email}/{city}",
+   "httpMethod": "POST",
+   "parameters": {
+    "city": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    },
+    "email": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    },
+    "firstName": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    },
+    "lastName": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    },
+    "password": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    }
+   },
+   "parameterOrder": [
+    "firstName",
+    "lastName",
+    "password",
+    "email",
+    "city"
+   ],
+   "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email"
+   ]
   }
  }
 }

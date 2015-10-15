@@ -105,7 +105,7 @@ public class databaseConnection {
 
                 String statement = "SELECT * FROM profile WHERE pid = ?";
                 PreparedStatement stmt = conn.prepareStatement(statement);
-                stmt.setString(1, pid.toString());
+                stmt.setString(1, Integer.toString(pid));
 
                 ResultSet response = stmt.executeQuery();
                 ret.setDescription(response.getString("description"));
