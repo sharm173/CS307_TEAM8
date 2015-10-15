@@ -82,5 +82,34 @@ public class API {
         return ret;
     }
 
+    /*
+    @ApiMethod(name = "profile_edit", httpMethod = "post")
+    public MyBean editProfile(Profile input) {
+        MyBean bean = new MyBean();
+        bean = databaseConnection.editProfile(input);
+        return bean;
+    }
+    */
+
+    @ApiMethod(name = "profile_edit", httpMethod = "post")
+    public MyBean editProfile(@Named("firstName") String firstName, @Named("lastName") String lastName,
+                              @Named("password") String password, @Named("email") String email,
+                              @Named("city") String city, @Named("lat") Double lat,
+                              @Named("lng") Double lng, @Named("description") String description,
+                                @Named("pid") Integer pid) {
+        Profile input = new Profile();
+        input.setPid(pid);
+        input.setFirstName(firstName);
+        input.setLastName(lastName);
+        input.setEmail(email);
+        input.setPassword(password);
+        input.setCity(city);
+        input.setLat(lat);
+        input.setLng(lng);
+        input.setDescription(description);
+        MyBean bean = new MyBean();
+        bean = databaseConnection.editProfile(input);
+        return bean;
+    }
 
 }
