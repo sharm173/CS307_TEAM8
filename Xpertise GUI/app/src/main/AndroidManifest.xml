@@ -19,25 +19,28 @@
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
+
         <activity
             android:name=".Main2Activity"
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
+
         <activity
             android:name=".Main22Activity"
             android:label="@string/title_activity_main22"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
+
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".Registration"
             android:label="@string/title_activity_registration"
@@ -47,6 +50,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="cs307.chris.purdue.xpertise.LoginActivity" />
         </activity>
+
         <activity
             android:name=".DisplayProfile"
             android:label="@string/title_activity_display_profile"
@@ -56,6 +60,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="cs307.chris.purdue.xpertise.LoginActivity" />
         </activity>
+
     </application>
 
 </manifest>
