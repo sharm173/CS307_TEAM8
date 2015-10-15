@@ -38,6 +38,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Registration"
+            android:label="@string/title_activity_registration"
+            android:parentActivityName=".LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cs307.chris.purdue.xpertise.LoginActivity" />
+        </activity>
+        <activity
+            android:name=".DisplayProfile"
+            android:label="@string/title_activity_display_profile"
+            android:parentActivityName=".LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cs307.chris.purdue.xpertise.LoginActivity" />
+        </activity>
     </application>
 
 </manifest>
