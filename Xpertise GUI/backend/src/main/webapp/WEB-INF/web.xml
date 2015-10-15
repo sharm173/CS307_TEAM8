@@ -5,9 +5,7 @@
         <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
         <init-param>
             <param-name>services</param-name>
-
-            <param-value>com.example.Scott.myapplication.backend.MyEndpoint,com.example.Scott.myapplication.backend.API</param-value>
-
+            <param-value>com.example.Scott.myapplication.backend.API</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>

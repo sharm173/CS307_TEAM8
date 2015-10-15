@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/oF02Ux7DD03Mq1AO6EvCalF8Vbg\"",
+ "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/brk5igoSfzNvzDyK4FIhWb7OcY8\"",
  "discoveryVersion": "v1",
  "id": "xpertiseAPI:v1",
  "name": "xpertiseAPI",
@@ -79,6 +79,9 @@
    "properties": {
     "bool": {
      "type": "boolean"
+    },
+    "data": {
+     "type": "string"
     }
    }
   },
@@ -135,7 +138,7 @@
   "profile_auth": {
    "id": "xpertiseAPI.profile_auth",
    "path": "authProfile/{email}/{password}",
-   "httpMethod": "POST",
+   "httpMethod": "GET",
    "parameters": {
     "email": {
      "type": "string",

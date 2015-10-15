@@ -27,9 +27,10 @@ public class API {
     @ApiMethod(name = "profile_get", httpMethod = "get")
     public Profile getProfile(@Named("pid") Integer pid) throws NotFoundException {
         try {
-            Profile ret = databaseConnection.getSpecificProfile(pid);
-            if (ret == null) return null;
-            else return ret;
+            Profile ret = new Profile();
+            ret = databaseConnection.getSpecificProfile(pid);
+            if (ret.getLastName() == null) ret.setFirstName("ERROR");
+            return ret;
         }
         catch (IndexOutOfBoundsException e) {
             throw new NotFoundException("Profile not found with an index: " + pid);
@@ -62,14 +63,14 @@ public class API {
         if (response.getFirstName() == null || response.getLastName() == null
                 || response.getPassword() == null || response.getEmail() == null) {
             ret.setBool(false);
+            ret.setData("API Method Failure");
             return ret;
         }
-        ret.setBool(true);
-        databaseConnection.storeProfile(response);
+        ret = databaseConnection.storeProfile(response);
         return ret;
     }
 
-    @ApiMethod(name = "profile_auth")
+    @ApiMethod(name = "profile_auth", httpMethod = "get")
     public Profile authProfile(@Named("email") String email, @Named("password") String password) {
         //Attempts to find the profile information associated with the provided password and email
         //If found, return a profile object containing the information
