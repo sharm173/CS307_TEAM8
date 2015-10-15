@@ -193,6 +193,16 @@ public class databaseConnection {
                     temp.setLng(response.getDouble("lng"));
                     allProfiles.add(temp);
                 }
+                // TODO: Take this out after testing
+                Profile toTest = new Profile();
+                toTest.setFirstName("Test First Name");
+                toTest.setLastName("Test Last Name");
+                toTest.setPassword("Password");
+                toTest.setCity("Somewhere");
+                toTest.setLat(42.01);
+                toTest.setLng(123.01);
+                toTest.setDescription("Some description");
+                allProfiles.add(toTest);
 
             }
             finally {
