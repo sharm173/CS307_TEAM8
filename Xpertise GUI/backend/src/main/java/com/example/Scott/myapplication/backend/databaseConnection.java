@@ -40,24 +40,41 @@ public class databaseConnection {
     }
 
     //Contact the database and store a single profile in it
-    public static void storeProfile(Profile input) {
-        //TODO: Replace table name with the name of the database table that stores the profile information
+    public static MyBean storeProfile(Profile input) {
         String url = Constants.DATABASE_URL;
+
+        // Used to send data through the google cloud server
+        MyBean bean = new MyBean();
+
+        // SQL statement to execute
+        String statement = null;
+        int success = 0;
         try {
+            // Load the GoogleDriver class
             Class.forName(Constants.GOOGLE_DRIVER);
+
+            // Connect to the database
             Connection conn = DriverManager.getConnection(url);
             try {
                 if (input == null) {
                     //TODO handle null profile;
+                    // Null input profile
+                    bean.setBool(false);
+                    bean.setData("Sent Database a null Profile");
                     databaseError(Constants.DB_ERROR.BAD_INPUT_ERROR);
+                    return bean;
                 } else {
-                    int success;
 
-                    String statement = "INSERT INTO profile (firstName, lastName, password, email, city, lat, lng, description) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+
+                    statement = "INSERT INTO profile (firstName, lastName, password, email, city, lat, lng, description) VALUES ('" +
+                            input.getFirstName() + "', '" + input.getLastName() + "', '" + input.getPassword() + "', '" +
+                            input.getEmail() + "', '" + input.getCity() + "', " + input.getLat() + ", " + input.getLng() +
+                            ", '" + input.getDescription() + "')";
                     PreparedStatement stmt = conn.prepareStatement(statement);
 
+                    /*
                     // Add all values from profile into prepared statement
-                    //stmt.setInt(1, input.getPid());
+                    stmt.setInt(1, input.getPid());
                     stmt.setString(1, input.getFirstName());
                     stmt.setString(2, input.getLastName());
                     stmt.setString(3, input.getPassword());
@@ -66,17 +83,10 @@ public class databaseConnection {
                     stmt.setDouble(6, input.getLat());
                     stmt.setDouble(7, input.getLng());
                     stmt.setString(8, input.getDescription());
+                    */
 
                     // Returns 1 on success, 0 on fail
                     success = stmt.executeUpdate();
-
-                    if (success == 1) {
-                        //TODO successfully posted to database
-                    }
-                    else {
-                        //TODO post to database failed
-                        databaseError(Constants.DB_ERROR.INSERT_ERROR);
-                    }
                 }
             }
             finally {
@@ -85,6 +95,17 @@ public class databaseConnection {
         }
         catch (Exception e){
             e.printStackTrace();
+        }
+        if (success == 1) {
+            bean.setBool(true);
+            return bean;
+        }
+        else {
+            //TODO post to database failed
+            databaseError(Constants.DB_ERROR.INSERT_ERROR);
+            bean.setBool(false);
+            bean.setData(statement);
+            return bean;
         }
     }
 
@@ -142,6 +163,8 @@ public class databaseConnection {
                 stmt.setString(1, Integer.toString(pid));
 
                 ResultSet response = stmt.executeQuery();
+                response.next();
+                ret.setPid(response.getInt("pid"));
                 ret.setDescription(response.getString("description"));
                 ret.setFirstName(response.getString("firstName"));
                 ret.setLastName(response.getString("lastName"));
@@ -159,7 +182,6 @@ public class databaseConnection {
         catch (Exception e){
             e.printStackTrace();
         }
-        if (ret.getEmail() == null) return null;
         return ret;
     }
 
@@ -168,16 +190,20 @@ public class databaseConnection {
     public static Profile findUserPassCombo(String username, String password) {
         String url = Constants.DATABASE_URL;
         Profile ret = new Profile();
+        String statement = null;
         try {
             Class.forName(Constants.GOOGLE_DRIVER);
             Connection conn = DriverManager.getConnection(url);
             try {
-                String statement = "SELECT * FROM profile WHERE username=(?) AND password=(?)";
+                statement = "SELECT * FROM profile WHERE email=('" + username + "') AND password=('" + password + "')";
                 PreparedStatement stmt = conn.prepareStatement(statement);
+                /*
                 stmt.setString(1, username);
                 stmt.setString(1, password);
+                */
 
                 ResultSet response = stmt.executeQuery();
+                response.next();
                 ret.setDescription(response.getString("description"));
                 ret.setFirstName(response.getString("firstName"));
                 ret.setLastName(response.getString("lastName"));
@@ -195,6 +221,7 @@ public class databaseConnection {
         catch (Exception e){
             e.printStackTrace();
         }
+        if (ret.getFirstName() == null) ret.setFirstName(statement);
         return ret;
     }
 }
