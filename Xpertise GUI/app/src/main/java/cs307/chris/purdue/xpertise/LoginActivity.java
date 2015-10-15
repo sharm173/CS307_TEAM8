@@ -42,6 +42,7 @@ import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -350,11 +351,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                // List<com.example.scott.myapplication.backend.xpertiseAPI.model.Profile> profiles = myApiService.profileListAll().execute().getItems();
 
                 //TODO:change to profile activity if p is not null. P is saved in global profile object- 'user'
-
-                Intent i = new Intent(this, DisplayProfile.class);
-                i.putExtra("sampleObject", p);
+                LinkedHashMap<String, Object> obj = new LinkedHashMap<String, Object>();
+                obj.put("hashmapkey", p);
+                Intent i = new Intent(LoginActivity.this, DisplayProfile.class);
+                Bundle b = new Bundle();
+                b.putSerializable("bundleobj", obj);
+                i.putExtras(b);
                 startActivity(i);
-
                 if(p != null) user = p;
 
                 return p != null;
