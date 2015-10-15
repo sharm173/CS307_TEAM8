@@ -12,4 +12,7 @@ public class Constants {
   public static final String API_EXPLORER_CLIENT_ID = com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID;
   public static final String DATABASE_URL = "jdbc:google:mysql://xpertiseservergae:xpertise-db/XpertiseDB?user=root";
   public static final String GOOGLE_DRIVER = "com.mysql.jdbc.GoogleDriver";
+
+  // Used to specify which type of error occurred
+  public enum DB_ERROR {INSERT_ERROR, SELECT_ERROR, UPDATE_ERROR, BAD_INPUT_ERROR};
 }

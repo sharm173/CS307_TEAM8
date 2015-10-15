@@ -16,6 +16,29 @@ import java.util.ArrayList;
  */
 public class databaseConnection {
 
+    // Alert the user of a failure with the database
+    private static void databaseError(Constants.DB_ERROR err){
+
+        // TODO: Handle all errors
+        switch(err){
+            case INSERT_ERROR:
+
+                break;
+            case SELECT_ERROR:
+
+                break;
+            case UPDATE_ERROR:
+
+                break;
+            case BAD_INPUT_ERROR:
+
+                break;
+            default:
+                // Do nothing
+        }
+
+    }
+
     //Contact the database and store a single profile in it
     public static void storeProfile(Profile input) {
         //TODO: Replace table name with the name of the database table that stores the profile information
@@ -26,21 +49,33 @@ public class databaseConnection {
             try {
                 if (input == null) {
                     //TODO handle null profile;
-
+                    databaseError(Constants.DB_ERROR.BAD_INPUT_ERROR);
                 } else {
-                    int success = -1;
-                    //TODO: Change statement string to work with profile table
-                    /*
-                    String statement = "INSERT INTO entries (name) VALUES(?)";
+                    int success;
+
+                    String statement = "INSERT INTO profile VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     PreparedStatement stmt = conn.prepareStatement(statement);
-                    stmt.setString(1, name);
+
+                    // Add all values from profile into prepared statement
+                    stmt.setInt(1, input.getPid());
+                    stmt.setString(2, input.getFirstName());
+                    stmt.setString(3, input.getLastName());
+                    stmt.setString(4, input.getPassword());
+                    stmt.setString(5, input.getEmail());
+                    stmt.setString(6, input.getCity());
+                    stmt.setDouble(7, input.getLat());
+                    stmt.setDouble(8, input.getLng());
+                    stmt.setString(9, input.getDescription());
+
+                    // Returns 1 on success, 0 on fail
                     success = stmt.executeUpdate();
-                    */
+
                     if (success == 1) {
                         //TODO successfully posted to database
                     }
                     else {
                         //TODO post to database failed
+                        databaseError(Constants.DB_ERROR.INSERT_ERROR);
                     }
                 }
             }
@@ -55,7 +90,6 @@ public class databaseConnection {
 
     //Contact the database and return all profiles in it
     public static ArrayList<Profile> getAllProfiles() {
-        //TODO: Replace table name with the name of the database table that stores the profile information
         String url = Constants.DATABASE_URL;
         ArrayList<Profile> allProfiles = new ArrayList<Profile>();
 
@@ -131,17 +165,16 @@ public class databaseConnection {
     //Contact the database and return the profile object that matches the given username and password combo
     //If it cannot find a profile matching the username and password combo, null is returned
     public static Profile findUserPassCombo(String username, String password) {
-        //TODO: Replace table name with the name of the database table that stores the profile information
         String url = Constants.DATABASE_URL;
         Profile ret = new Profile();
         try {
             Class.forName(Constants.GOOGLE_DRIVER);
             Connection conn = DriverManager.getConnection(url);
             try {
-                String statement = "SELECT * FROM profile"; // WHERE username = ?, password = ?
+                String statement = "SELECT * FROM profile WHERE username = ? AND password = ?";
                 PreparedStatement stmt = conn.prepareStatement(statement);
-                //stmt.setString(1, username);
-                //stmt.setString(1, password);
+                stmt.setString(1, username);
+                stmt.setString(1, password);
 
                 ResultSet response = stmt.executeQuery();
                 ret.setDescription(response.getString("description"));
