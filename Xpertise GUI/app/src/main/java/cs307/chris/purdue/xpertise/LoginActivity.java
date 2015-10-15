@@ -31,14 +31,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.Scott.myapplication.backend.*;
+import com.example.scott.myapplication.backend.xpertiseAPI.XpertiseAPI;
 import com.example.Scott.myapplication.backend.Profile;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
-import com.google.api.server.spi.config.Api;
-//import com.google.android.gms.common.api.GoogleApiClient.Builder;
 
 
 import java.io.IOException;
@@ -311,24 +309,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private final String mEmail;
         private final String mPassword;
+        private XpertiseAPI myApiService = null;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
             mPassword = password;
-
-
-
-
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-          API myApiService = null;
+        // TODO: attempt authentication against a network service.
              Context context;
-            
+
             if(myApiService == null) {  // Only do this once
-                API.Builder builder = new API.Builder(AndroidHttp.newCompatibleTransport(),
+                XpertiseAPI.Builder builder = new XpertiseAPI.Builder(AndroidHttp.newCompatibleTransport(),
                         new AndroidJsonFactory(), null)
                         // options for running against local devappserver
                         // - 10.0.2.2 is localhost's IP address in Android emulator
@@ -345,33 +339,31 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
             //TODO: Builder class of API class not accessible
 
-            // try {
-                // Simulate network access.
+            try {
+                //Simulate network access.
                 //Thread.sleep(2000);
-
-          //   Profile p =  myApiService.authProfile(mEmail, mPassword);
-                ArrayList<Profile> profiles = myApiService.listProfiles();
+                com.example.scott.myapplication.backend.xpertiseAPI.model.Profile p =  myApiService.profileAuth(mEmail, mPassword).execute();
+                List<com.example.scott.myapplication.backend.xpertiseAPI.model.Profile> profiles = myApiService.profileListAll().execute().getItems();
                 //TODO:change to profile activity
-            //return myApiService.authProfile(mEmail, mPassword)!= null;
+                return p != null;
 
-            //} catch (IOException e) {
-                //return false;
-            //}
+            } catch (IOException e) {
+                return false;
+            }
 
 
-
+            /*
             for (Profile p : profiles) {
-              //  String[] pieces = credential.split(":");
+                String[] pieces = credential.split(":");
                 if (p.getEmail().equals(mEmail)) {
                     // Account exists, return true if the password matches.
                     return p.getPassword().equals(mPassword);
                 }
             }
+            */
 
             // TODO: register the new account here.
             //Need profile details to register, switch to new activity to register
-
-            return false;
         }
 
         @Override

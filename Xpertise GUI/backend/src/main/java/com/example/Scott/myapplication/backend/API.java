@@ -24,7 +24,7 @@ import javax.inject.Named;
 
 public class API {
 
-    @ApiMethod(name = "profile.get", httpMethod = "get")
+    @ApiMethod(name = "profile_get", httpMethod = "get")
     public Profile getProfile(@Named("pid") Integer pid) throws NotFoundException {
         try {
             return databaseConnection.getSpecificProfile(pid);
@@ -34,14 +34,14 @@ public class API {
         }
     }
 
-    @ApiMethod (name = "profile.listAll")
+    @ApiMethod (name = "profile_listAll")
     public ArrayList<Profile> listProfiles() {
         ArrayList<Profile> profiles = new ArrayList<Profile>();
         profiles = databaseConnection.getAllProfiles();
         return profiles;
     }
 
-    @ApiMethod(name = "profile.post", httpMethod = "post")
+    @ApiMethod(name = "profile_post", httpMethod = "post")
     public void insertProfile(@Named("firstName") String firstName, @Named("lastName") String lastName, @Named("password") String password, @Named("email") String email, @Named("city") String city) {
         Profile response = new Profile();
         response.setFirstName(firstName);
@@ -53,7 +53,7 @@ public class API {
         return;
     }
 
-    @ApiMethod(name = "profile.auth")
+    @ApiMethod(name = "profile_auth")
     public Profile authProfile(@Named("email") String email, @Named("password") String password) {
         //Attempts to find the profile information associated with the provided password and email
         //If found, return a profile object containing the information
