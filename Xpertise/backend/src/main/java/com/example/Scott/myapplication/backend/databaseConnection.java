@@ -100,6 +100,7 @@ public class databaseConnection {
         }
         if (success == 1) {
             bean.setBool(true);
+            bean.setData("Successful insert");
         }
         else {
             databaseError(Constants.DB_ERROR.INSERT_ERROR);
@@ -116,7 +117,7 @@ public class databaseConnection {
         String url = Constants.DATABASE_URL;
         MyBean bean = new MyBean();
         String statement = "";
-        int success;
+        int success = 0;
         try{
             Class.forName(Constants.GOOGLE_DRIVER);
             Connection conn = DriverManager.getConnection(url);
@@ -141,15 +142,7 @@ public class databaseConnection {
                 PreparedStatement stmt = conn.prepareStatement(statement);
                 success = stmt.executeUpdate();
 
-                if(success == 0){
-                    // Update failed
-                    bean.setBool(false);
-                    bean.setData("Error: Update failed");
-                }else{
-                    // Update successful
-                    bean.setBool(true);
-                    bean.setData("Successful update");
-                }
+
             }
             finally{
                 conn.close();
@@ -159,6 +152,17 @@ public class databaseConnection {
         catch (Exception e){
             e.printStackTrace();
         }
+
+        if(success == 1){
+            // Update successful
+            bean.setBool(true);
+            bean.setData("Successful update");
+        }else{
+            // Update failed
+            bean.setBool(false);
+            bean.setData("Error: Update failed");
+        }
+
         return bean;
     }
 
