@@ -2,7 +2,7 @@ package com.example.Scott.myapplication.backend;
 
 import com.google.appengine.api.utils.SystemProperty;
 import com.sun.java.util.jar.pack.*;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
+//import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 
 import java.io.*;
 import java.sql.*;
@@ -144,7 +144,6 @@ public class databaseConnection {
                 //stmt.setString(1, password);
 
                 ResultSet response = stmt.executeQuery();
-                if (response == null) return null;
                 ret.setDescription(response.getString("description"));
                 ret.setFirstName(response.getString("firstName"));
                 ret.setLastName(response.getString("lastName"));
