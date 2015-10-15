@@ -16,3 +16,101 @@ Xpertise GUI/backend/build/tmp/appengineEndpointsExpandClientLibs/xpertiseAPI-v1
 
 Xpertise GUI/backend/build/tmp/appengineEndpointsExpandClientLibs/xpertiseAPI-v1-java.zip-unzipped/xpertiseAPI/src/main/java/com/example/scott/myapplication/backend/xpertiseAPI/model/Profile.java
 
+
+Xpertise GUI/backend/build/classes/endpointsSrc/com/example/scott/myapplication/backend/xpertiseAPI/model/MyBean.class
+
+Xpertise GUI/.idea/gradle.xml
+
+Xpertise GUI/.idea/misc.xml
+
+Xpertise GUI/backend/build/classes/endpointsSrc/com/example/scott/myapplication/backend/xpertiseAPI/XpertiseAPI.class
+
+Xpertise GUI/backend/build/classes/endpointsSrc/com/example/scott/myapplication/backend/xpertiseAPI/XpertiseAPI$Builder.class
+
+Xpertise GUI/backend/build/classes/endpointsSrc/com/example/scott/myapplication/backend/xpertiseAPI/XpertiseAPI$ProfileAuth.class
+
+Xpertise GUI/backend/build/classes/endpointsSrc/com/example/scott/myapplication/backend/xpertiseAPI/XpertiseAPI$ProfileGet.class
+
+Xpertise GUI/backend/build/classes/endpointsSrc/com/example/scott/myapplication/backend/xpertiseAPI/XpertiseAPI$ProfileListAll.class
+
+Xpertise GUI/backend/build/classes/endpointsSrc/com/example/scott/myapplication/backend/xpertiseAPI/XpertiseAPI$ProfilePost.class
+
+Xpertise GUI/backend/build/classes/main/com/example/Scott/myapplication/backend/API.class
+
+Xpertise GUI/backend/build/classes/main/com/example/Scott/myapplication/backend/databaseConnection.class
+
+Xpertise GUI/backend/build/client-libs/myApi-v1-java.zip
+
+Xpertise GUI/backend/build/client-libs/xpertiseAPI-v1-java.zip
+
+Xpertise GUI/backend/build/discovery-docs/xpertiseAPI-v1-rest.discovery
+
+Xpertise GUI/backend/build/exploded-app/WEB-INF/classes/com/example/Scott/myapplication/backend/API.class
+
+Xpertise GUI/backend/build/exploded-app/WEB-INF/xpertiseAPI-v1-rest.discovery
+
+Xpertise GUI/backend/build/exploded-app/WEB-INF/xpertiseAPI-v1-rpc.discovery
+
+Xpertise GUI/backend/build/discovery-docs/xpertiseAPI-v1-rpc.discovery
+
+Xpertise GUI/backend/build/exploded-app/WEB-INF/classes/com/example/Scott/myapplication/backend/MyBean.class
+
+Xpertise GUI/backend/build/exploded-app/WEB-INF/classes/com/example/Scott/myapplication/backend/databaseConnection.class
+
+Xpertise GUI/backend/build/generated-source/endpoints/java/com/example/scott/myapplication/backend/xpertiseAPI/model/MyBean.java
+
+Xpertise GUI/backend/build/generated-source/endpoints/java/com/example/scott/myapplication/backend/xpertiseAPI/model/Profile.java
+
+Xpertise GUI/backend/build/generated-source/endpoints/java/com/example/scott/myapplication/backend/xpertiseAPI/model/ProfileCollection.java
+
+Xpertise GUI/backend/build/generated-source/endpoints/java/com/example/scott/myapplication/backend/xpertiseAPI/XpertiseAPI.java
+
+Xpertise GUI/backend/build/generated-source/endpoints/java/com/example/scott/myapplication/backend/xpertiseAPI/XpertiseAPIRequest.java
+
+Xpertise GUI/backend/build/generated-source/endpoints/java/com/example/scott/myapplication/backend/xpertiseAPI/XpertiseAPIRequestInitializer.java
+
+Xpertise GUI/backend/build/generated-source/endpoints/java/com/example/scott/myapplication/backend/xpertiseAPI/XpertiseAPIRequestInitializer.java
+
+Xpertise GUI/backend/build/generated-source/endpoints/java/com/example/scott/myapplication/backend/xpertiseAPI/XpertiseAPIScopes.java
+
+Xpertise GUI/backend/build/libs/backend-android-endpoints.jar
+
+Xpertise GUI/backend/build/libs/backend.jar
+
+Xpertise GUI/backend/build/libs/backend.war
+
+Xpertise GUI/backend/build/tmp/appengineEndpointsExpandClientLibs/myApi-v1-java.zip-unzipped/myApi/src/main/java/com/example/scott/myapplication/backend/myApi/MyApi.java
+
+Xpertise GUI/backend/build/tmp/appengineEndpointsExpandClientLibs/myApi-v1-java.zip-unzipped/myApi/src/main/java/com/example/scott/myapplication/backend/myApi/MyApiRequest.java
+
+Xpertise GUI/backend/build/tmp/appengineEndpointsExpandClientLibs/myApi-v1-java.zip-unzipped/myApi/src/main/java/com/example/scott/myapplication/backend/myApi/model/MyBean.java
+
+Xpertise GUI/backend/build/tmp/appengineEndpointsExpandClientLibs/myApi-v1-java.zip-unzipped/myApi/src/main/java/com/example/scott/myapplication/backend/myApi/MyApiRequest.java
+
+Xpertise GUI/backend/build/tmp/appengineEndpointsExpandClientLibs/myApi-v1-java.zip-unzipped/myApi/src/main/java/com/example/scott/myapplication/backend/myApi/MyApiRequestInitializer.java
+
+Xpertise GUI/backend/build/tmp/appengineEndpointsExpandClientLibs/myApi-v1-java.zip-unzipped/myApi/src/main/java/com/example/scott/myapplication/backend/myApi/MyApiScopes.java
+
+Xpertise GUI/backend/build/tmp/appengineEndpointsExpandClientLibs/xpertiseAPI-v1-java.zip-unzipped/xpertiseAPI/src/main/java/com/example/scott/myapplication/backend/xpertiseAPI/model/MyBean.java
+
+Xpertise GUI/backend/build/tmp/appengineEndpointsExpandClientLibs/xpertiseAPI-v1-java.zip-unzipped/xpertiseAPI/src/main/java/com/example/scott/myapplication/backend/xpertiseAPI/model/Profile.java
+
+Xpertise GUI/backend/build/tmp/appengineEndpointsExpandClientLibs/xpertiseAPI-v1-java.zip-unzipped/xpertiseAPI/src/main/java/com/example/scott/myapplication/backend/xpertiseAPI/model/ProfileCollection.java
+
+Xpertise GUI/backend/build/tmp/appengineEndpointsExpandClientLibs/xpertiseAPI-v1-java.zip-unzipped/xpertiseAPI/src/main/java/com/example/scott/myapplication/backend/xpertiseAPI/XpertiseAPI.java
+
+Xpertise GUI/backend/build/tmp/appengineEndpointsExpandClientLibs/xpertiseAPI-v1-java.zip-unzipped/xpertiseAPI/src/main/java/com/example/scott/myapplication/backend/xpertiseAPI/XpertiseAPIRequest.java
+
+Xpertise GUI/backend/build/tmp/appengineEndpointsExpandClientLibs/xpertiseAPI-v1-java.zip-unzipped/xpertiseAPI/src/main/java/com/example/scott/myapplication/backend/xpertiseAPI/XpertiseAPIRequestInitializer.java
+
+Xpertise GUI/backend/build/tmp/appengineEndpointsExpandClientLibs/xpertiseAPI-v1-java.zip-unzipped/xpertiseAPI/src/main/java/com/example/scott/myapplication/backend/xpertiseAPI/XpertiseAPIScopes.java
+
+Xpertise GUI/backend/src/main/java/com/example/Scott/myapplication/backend/MyEndpoint.java
+
+Xpertise/backend/build/tmp/appengineEndpointsExpandClientLibs/myApi-v1-java.zip-unzipped/myApi/src/main/java/com/example/scott/myapplication/backend/myApi/MyApi.java
+
+Xpertise/backend/build/tmp/appengineEndpointsExpandClientLibs/myApi-v1-java.zip-unzipped/myApi/src/main/java/com/example/scott/myapplication/backend/myApi/MyApiScopes.java
+
+Xpertise/backend/build/tmp/appengineEndpointsExpandClientLibs/myApi-v1-java.zip-unzipped/myApi/src/main/java/com/example/scott/myapplication/backend/myApi/MyApiRequestInitializer.java
+
+Xpertise/backend/build/tmp/appengineEndpointsExpandClientLibs/myApi-v1-java.zip-unzipped/myApi/src/main/java/com/example/scott/myapplication/backend/myApi/MyApiRequest.java
