@@ -16,6 +16,21 @@ public class Profile {
 
     public Profile() {};
 
+    public Profile(int pid, String firstName, String lastName,
+                   String password, String email, String city,
+                   double lat, double lng,
+                   String description){
+        this.pid = pid;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.email = email;
+        this.city = city;
+        this.lat = lat;
+        this.lng = lng;
+        this.description = description;
+    }
+
     public String getDescription() {
         return description;
     }
