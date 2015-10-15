@@ -53,19 +53,19 @@ public class databaseConnection {
                 } else {
                     int success;
 
-                    String statement = "INSERT INTO profile VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    String statement = "INSERT INTO profile (firstName, lastName, password, email, city, lat, lng, description) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
                     PreparedStatement stmt = conn.prepareStatement(statement);
 
                     // Add all values from profile into prepared statement
-                    stmt.setInt(1, input.getPid());
-                    stmt.setString(2, input.getFirstName());
-                    stmt.setString(3, input.getLastName());
-                    stmt.setString(4, input.getPassword());
-                    stmt.setString(5, input.getEmail());
-                    stmt.setString(6, input.getCity());
-                    stmt.setDouble(7, input.getLat());
-                    stmt.setDouble(8, input.getLng());
-                    stmt.setString(9, input.getDescription());
+                    //stmt.setInt(1, input.getPid());
+                    stmt.setString(1, input.getFirstName());
+                    stmt.setString(2, input.getLastName());
+                    stmt.setString(3, input.getPassword());
+                    stmt.setString(4, input.getEmail());
+                    stmt.setString(5, input.getCity());
+                    stmt.setDouble(6, input.getLat());
+                    stmt.setDouble(7, input.getLng());
+                    stmt.setString(8, input.getDescription());
 
                     // Returns 1 on success, 0 on fail
                     success = stmt.executeUpdate();
@@ -172,7 +172,7 @@ public class databaseConnection {
             Class.forName(Constants.GOOGLE_DRIVER);
             Connection conn = DriverManager.getConnection(url);
             try {
-                String statement = "SELECT * FROM profile WHERE username = ? AND password = ?";
+                String statement = "SELECT * FROM profile WHERE username=(?) AND password=(?)";
                 PreparedStatement stmt = conn.prepareStatement(statement);
                 stmt.setString(1, username);
                 stmt.setString(1, password);

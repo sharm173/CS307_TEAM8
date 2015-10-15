@@ -58,7 +58,6 @@ public class API {
         response.setLat(lat);
         response.setLng(lng);
         response.setDescription(description);
-        databaseConnection.storeProfile(response);
         //A Profile must have at least these fields
         if (response.getFirstName() == null || response.getLastName() == null
                 || response.getPassword() == null || response.getEmail() == null) {
@@ -66,6 +65,7 @@ public class API {
             return ret;
         }
         ret.setBool(true);
+        databaseConnection.storeProfile(response);
         return ret;
     }
 
