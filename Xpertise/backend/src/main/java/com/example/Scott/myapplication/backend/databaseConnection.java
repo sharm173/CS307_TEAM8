@@ -44,7 +44,7 @@ public class databaseConnection {
     public static MyBean storeProfile(Profile input) {
         String url = Constants.DATABASE_URL;
         MyBean bean = new MyBean();
-        String statement = null;
+        String statement = "";
         int success = 0;
         try {
             // Load GoogleDriver class at runtime
@@ -99,7 +99,7 @@ public class databaseConnection {
         else {
             databaseError(Constants.DB_ERROR.INSERT_ERROR);
             bean.setBool(false);
-            bean.setData(statement);
+            bean.setData("Error: Inserting into database failed");
             return bean;
         }
     }
@@ -177,7 +177,7 @@ public class databaseConnection {
         catch (Exception e){
             e.printStackTrace();
         }
-        //TODO: Determine correct return value in the case of none selected from DB (null profile or empty value profile)
+
         return ret;
     }
 
@@ -199,7 +199,7 @@ public class databaseConnection {
                 */
 
                 ResultSet response = stmt.executeQuery();
-                //response.next();
+                response.next();
                 ret.setDescription(response.getString("description"));
                 ret.setFirstName(response.getString("firstName"));
                 ret.setLastName(response.getString("lastName"));
@@ -217,8 +217,8 @@ public class databaseConnection {
         catch (Exception e){
             e.printStackTrace();
         }
-        //TODO: Determine correct return value in the case of none selected from DB (null profile or empty value profile)
-        // If response from database was 'none selected'
+
+        // If response from database was 'none selected', return null
         if (ret.getFirstName() == null)
             ret = null;
         return ret;

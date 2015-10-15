@@ -24,6 +24,8 @@ import javax.inject.Named;
 
 public class API {
 
+    // Returns profile with specified pid
+    // If pid not found, returns empty profile object with "ERROR" as firstName
     @ApiMethod(name = "profile_get", httpMethod = "get")
     public Profile getProfile(@Named("pid") Integer pid) throws NotFoundException {
         try {
@@ -75,10 +77,8 @@ public class API {
         //Attempts to find the profile information associated with the provided password and email
         //If found, return a profile object containing the information
         //If not found, return an error
-        //TODO: if(ret == null) return null; return ret; is a redundant check
-        Profile ret = new Profile();
-        ret = databaseConnection.findUserPassCombo(email, password);
-        if (ret == null) return null;
+        Profile ret = databaseConnection.findUserPassCombo(email, password);
+        if (ret.getFirstName() == null) return null;
         return ret;
     }
 
