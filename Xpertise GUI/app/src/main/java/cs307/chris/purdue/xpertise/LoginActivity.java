@@ -31,12 +31,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.Scott.myapplication.backend.API;
+import com.example.Scott.myapplication.backend.*;
 import com.example.Scott.myapplication.backend.Profile;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
+import com.google.api.server.spi.config.Api;
+//import com.google.android.gms.common.api.GoogleApiClient.Builder;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -321,8 +324,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-           API myApiService = null;
+          API myApiService = null;
              Context context;
+            
             if(myApiService == null) {  // Only do this once
                 API.Builder builder = new API.Builder(AndroidHttp.newCompatibleTransport(),
                         new AndroidJsonFactory(), null)
@@ -339,9 +343,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                 myApiService = builder.build();
             }
+            //TODO: Builder class of API class not accessible
 
-
-           // try {
+            // try {
                 // Simulate network access.
                 //Thread.sleep(2000);
 
