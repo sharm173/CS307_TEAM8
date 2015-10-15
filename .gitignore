@@ -1,30 +1,8 @@
-
-Xpertise GUI/backend/src/main/webapp/WEB-INF/web.xml
-
-EndpointsTest/backend/backend.iml
-
-Xpertise GUI/app/app.iml
-
-EndpointsTest/backend/backend.iml
-
-Xpertise GUI/app/app.iml
-
-Xpertise GUI/backend/src/main/java/com/example/Scott/myapplication/backend/MyEndpoint.java
-
-Xpertise GUI/backend/build/tmp/appengineEndpointsExpandClientLibs/xpertiseAPI-v1-java.zip-unzipped/xpertiseAPI/src/main/java/com/example/scott/myapplication/backend/xpertiseAPI/model/ProfileCollection.java
-
-Xpertise GUI/backend/build/libs/backend-android-endpoints.jar
-
-Xpertise GUI/backend/build/generated-source/endpoints/java/com/example/scott/myapplication/backend/xpertiseAPI/XpertiseAPIScopes.java
-
-Xpertise GUI/backend/build/classes/endpointsSrc/com/example/scott/myapplication/backend/xpertiseAPI/XpertiseAPIRequest.class
-
-Xpertise GUI/backend/build/classes/main/com/example/Scott/myapplication/backend/databaseConnection.class
-
-Xpertise GUI/backend/build/client-libs/xpertiseAPI-v1-java.zip
-
-Xpertise GUI/backend/build/classes/main/com/example/Scott/myapplication/backend/API.class
-
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+.idea/
+app/app.iml
 *.iml
-
-Xpertise GUI/backend/backend.iml
