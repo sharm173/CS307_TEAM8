@@ -26,7 +26,7 @@ public class databaseConnection {
             try {
                 if (input == null) {
                     //TODO handle null profile;
-                    
+
                 } else {
                     int success = -1;
                     //TODO: Change statement string to work with profile table
