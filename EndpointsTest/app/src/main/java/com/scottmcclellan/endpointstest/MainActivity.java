@@ -8,19 +8,27 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.scott.myapplication.backend.myApi.model.MyBean;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
     private EditText name;
     private Button helloButton;
     private Button listButton;
-    public static ArrayList<MyBean> beans = new ArrayList<MyBean>();
+    private ListView nameList;
+    public static List<String> names;
+    ArrayAdapter<String> arrayAdapter;
+    int first = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         name = (EditText) findViewById(R.id.nameField);
         helloButton = (Button) findViewById(R.id.helloButton);
         listButton = (Button) findViewById(R.id.listButton);
+        nameList = (ListView) findViewById(R.id.listNamesView);
 
         helloButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,7 +50,20 @@ public class MainActivity extends AppCompatActivity {
         listButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                names = new ArrayList<String>();
                 new EndpointsAsyncTask2().execute(new Pair<Context, String>(MainActivity.this, null));
+                try {
+                    TimeUnit.SECONDS.sleep(2);
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (first == 0) {
+                    arrayAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, names);
+                }
+                else arrayAdapter.notifyDataSetChanged();
+                nameList.setAdapter(arrayAdapter);
+                Toast.makeText(MainActivity.this, "Done", Toast.LENGTH_SHORT).show();
             }
         });
     }

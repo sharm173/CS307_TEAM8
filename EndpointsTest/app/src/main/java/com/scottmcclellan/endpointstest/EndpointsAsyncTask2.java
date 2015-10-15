@@ -12,6 +12,7 @@ import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Scott on 10/11/2015.
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 public class EndpointsAsyncTask2 extends AsyncTask<Pair<Context, String>, Void, String> {
     private static MyApi myApiService = null;
     private Context context;
+    private  List<MyBean> beans = new ArrayList<MyBean>();
 
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
@@ -28,7 +30,8 @@ public class EndpointsAsyncTask2 extends AsyncTask<Pair<Context, String>, Void, 
                     // options for running against local devappserver
                     // - 10.0.2.2 is localhost's IP address in Android emulator
                     // - turn off compression when running against local devappserver
-                    .setRootUrl("https://endpoints-test-1095.appspot.com/_ah/api/");
+                    .setRootUrl("https://endpoints-test-1095.appspot.com/_ah/api/")
+                    .setApplicationName("EndpointsTest");
 
             myApiService = builder.build();
         }
@@ -36,7 +39,11 @@ public class EndpointsAsyncTask2 extends AsyncTask<Pair<Context, String>, Void, 
         context = params[0].first;
 
         try {
-            MainActivity.beans = (ArrayList<MyBean>) myApiService.getNames().execute().getItems();
+            beans = myApiService.getNames().execute().getItems();
+            for (int i = 0; i < beans.size(); i++) {
+                MainActivity.names.add(beans.get(i).getData());
+                System.err.println(i + " " + beans.get(i).getData());
+            }
             return null;
         }
         catch (IOException e) {
@@ -47,9 +54,6 @@ public class EndpointsAsyncTask2 extends AsyncTask<Pair<Context, String>, Void, 
 
     @Override
     protected void onPostExecute(String result) {
-        for (int i = 0; i < MainActivity.beans.size(); i++) {
-            MyBean bean = MainActivity.beans.get(i);
-            Toast.makeText(context, bean.getData(), Toast.LENGTH_LONG).show();
-        }
+
     }
 }
