@@ -65,6 +65,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
+
+    com.example.scott.myapplication.backend.xpertiseAPI.model.Profile user = null; //Global variable for profile object
     private UserLoginTask mAuthTask = null;
 
     // UI references.
@@ -309,7 +311,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private final String mEmail;
         private final String mPassword;
-        private XpertiseAPI myApiService = null;
+
 
         UserLoginTask(String email, String password) {
             mEmail = email;
@@ -320,6 +322,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected Boolean doInBackground(Void... params) {
         // TODO: attempt authentication against a network service.
              Context context;
+            XpertiseAPI myApiService = null;
 
             if(myApiService == null) {  // Only do this once
                 XpertiseAPI.Builder builder = new XpertiseAPI.Builder(AndroidHttp.newCompatibleTransport(),
@@ -343,8 +346,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 //Simulate network access.
                 //Thread.sleep(2000);
                 com.example.scott.myapplication.backend.xpertiseAPI.model.Profile p =  myApiService.profileAuth(mEmail, mPassword).execute();
-                List<com.example.scott.myapplication.backend.xpertiseAPI.model.Profile> profiles = myApiService.profileListAll().execute().getItems();
-                //TODO:change to profile activity
+               // List<com.example.scott.myapplication.backend.xpertiseAPI.model.Profile> profiles = myApiService.profileListAll().execute().getItems();
+
+                //TODO:change to profile activity if p is not null. P is saved in global profile object- 'user'
+                if(p != null) user = p;
+
                 return p != null;
 
             } catch (IOException e) {

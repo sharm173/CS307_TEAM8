@@ -24,3 +24,7 @@ Xpertise GUI/backend/build/classes/main/com/example/Scott/myapplication/backend/
 Xpertise GUI/backend/build/client-libs/xpertiseAPI-v1-java.zip
 
 Xpertise GUI/backend/build/classes/main/com/example/Scott/myapplication/backend/API.class
+
+*.iml
+
+Xpertise GUI/backend/backend.iml

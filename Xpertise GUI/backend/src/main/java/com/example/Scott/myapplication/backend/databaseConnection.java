@@ -144,6 +144,7 @@ public class databaseConnection {
                 //stmt.setString(1, password);
 
                 ResultSet response = stmt.executeQuery();
+                if (response == null) return null;
                 ret.setDescription(response.getString("description"));
                 ret.setFirstName(response.getString("firstName"));
                 ret.setLastName(response.getString("lastName"));
