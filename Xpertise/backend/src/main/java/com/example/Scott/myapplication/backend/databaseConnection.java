@@ -20,6 +20,7 @@ public class databaseConnection {
     private static void databaseError(Constants.DB_ERROR err){
 
         // TODO: Handle all errors
+        // Alert user of error with some sort of dialog box?
         switch(err){
             case INSERT_ERROR:
 
@@ -41,17 +42,18 @@ public class databaseConnection {
 
     //Contact the database and store a single profile in it
     public static MyBean storeProfile(Profile input) {
-        //TODO: Replace table name with the name of the database table that stores the profile information
         String url = Constants.DATABASE_URL;
         MyBean bean = new MyBean();
         String statement = null;
         int success = 0;
         try {
+            // Load GoogleDriver class at runtime
             Class.forName(Constants.GOOGLE_DRIVER);
+
+            // Open connection to database
             Connection conn = DriverManager.getConnection(url);
             try {
                 if (input == null) {
-                    //TODO handle null profile;
                     bean.setBool(false);
                     bean.setData("Sent Database a null Profile");
                     databaseError(Constants.DB_ERROR.BAD_INPUT_ERROR);
@@ -83,6 +85,7 @@ public class databaseConnection {
                 }
             }
             finally {
+                // Always make sure to close database connection
                 conn.close();
             }
         }
@@ -94,7 +97,6 @@ public class databaseConnection {
             return bean;
         }
         else {
-            //TODO post to database failed
             databaseError(Constants.DB_ERROR.INSERT_ERROR);
             bean.setBool(false);
             bean.setData(statement);
@@ -175,6 +177,7 @@ public class databaseConnection {
         catch (Exception e){
             e.printStackTrace();
         }
+        //TODO: Determine correct return value in the case of none selected from DB (null profile or empty value profile)
         return ret;
     }
 
@@ -183,7 +186,7 @@ public class databaseConnection {
     public static Profile findUserPassCombo(String username, String password) {
         String url = Constants.DATABASE_URL;
         Profile ret = new Profile();
-        String statement = null;
+        String statement = "";
         try {
             Class.forName(Constants.GOOGLE_DRIVER);
             Connection conn = DriverManager.getConnection(url);
@@ -196,7 +199,7 @@ public class databaseConnection {
                 */
 
                 ResultSet response = stmt.executeQuery();
-                response.next();
+                //response.next();
                 ret.setDescription(response.getString("description"));
                 ret.setFirstName(response.getString("firstName"));
                 ret.setLastName(response.getString("lastName"));
@@ -214,7 +217,10 @@ public class databaseConnection {
         catch (Exception e){
             e.printStackTrace();
         }
-        if (ret.getFirstName() == null) ret.setFirstName(statement);
+        //TODO: Determine correct return value in the case of none selected from DB (null profile or empty value profile)
+        // If response from database was 'none selected'
+        if (ret.getFirstName() == null)
+            ret = null;
         return ret;
     }
 }
