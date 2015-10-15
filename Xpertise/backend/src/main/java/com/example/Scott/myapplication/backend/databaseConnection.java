@@ -61,10 +61,16 @@ public class databaseConnection {
                 } else {
 
 
-                    statement = "INSERT INTO profile (firstName, lastName, password, email, city, lat, lng, description) VALUES ('" +
-                            input.getFirstName() + "', '" + input.getLastName() + "', '" + input.getPassword() + "', '" +
-                            input.getEmail() + "', '" + input.getCity() + "', " + input.getLat() + ", " + input.getLng() +
-                            ", '" + input.getDescription() + "')";
+                    statement = "INSERT INTO profile (firstName, lastName, password, email, city, lat, lng, description)" +
+                            " VALUES ('" +
+                            input.getFirstName() + "', '" +
+                            input.getLastName() + "', '" +
+                            input.getPassword() + "', '" +
+                            input.getEmail() + "', '" +
+                            input.getCity() + "', " +
+                            input.getLat() + ", " +
+                            input.getLng() + ", '" +
+                            input.getDescription() + "')";
                     PreparedStatement stmt = conn.prepareStatement(statement);
 
                     /*
@@ -94,14 +100,66 @@ public class databaseConnection {
         }
         if (success == 1) {
             bean.setBool(true);
-            return bean;
         }
         else {
             databaseError(Constants.DB_ERROR.INSERT_ERROR);
             bean.setBool(false);
             bean.setData("Error: Inserting into database failed");
-            return bean;
         }
+        return bean;
+    }
+
+    // This function will update the row containing the input profile's PID to match the
+    // rest of the fields of the input profile.  Returns a MyBean object indicating
+    // success or fail
+    public static MyBean editProfile(Profile input){
+        String url = Constants.DATABASE_URL;
+        MyBean bean = new MyBean();
+        String statement = "";
+        int success;
+        try{
+            Class.forName(Constants.GOOGLE_DRIVER);
+            Connection conn = DriverManager.getConnection(url);
+
+            try{
+                if(input == null){
+                    bean.setBool(false);
+                    bean.setData("Error: Sent database a null profile");
+                    return bean;
+                }
+
+                statement = "UPDATE profile " +
+                        "SET firstName = '" + input.getFirstName() + "'," +
+                        " lastName = '" + input.getLastName() + "'," +
+                        " password = '" + input.getPassword() + "'," +
+                        " email = '" + input.getEmail() + "'," +
+                        " city = '" + input.getCity() + "'," +
+                        " lat = " + input.getLat() + "," +
+                        " lng = " + input.getLng() + "," +
+                        " description = '" + input.getDescription() + "'" +
+                        " WHERE pid = " + input.getPid();
+                PreparedStatement stmt = conn.prepareStatement(statement);
+                success = stmt.executeUpdate();
+
+                if(success == 0){
+                    // Update failed
+                    bean.setBool(false);
+                    bean.setData("Error: Update failed");
+                }else{
+                    // Update successful
+                    bean.setBool(true);
+                    bean.setData("Successful update");
+                }
+            }
+            finally{
+                conn.close();
+            }
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return bean;
     }
 
     //Contact the database and return all profiles in it
