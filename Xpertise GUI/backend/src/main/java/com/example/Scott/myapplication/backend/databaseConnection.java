@@ -41,17 +41,24 @@ public class databaseConnection {
 
     //Contact the database and store a single profile in it
     public static MyBean storeProfile(Profile input) {
-        //TODO: Replace table name with the name of the database table that stores the profile information
         String url = Constants.DATABASE_URL;
+
+        // Used to send data through the google cloud server
         MyBean bean = new MyBean();
+
+        // SQL statement to execute
         String statement = null;
         int success = 0;
         try {
+            // Load the GoogleDriver class
             Class.forName(Constants.GOOGLE_DRIVER);
+
+            // Connect to the database
             Connection conn = DriverManager.getConnection(url);
             try {
                 if (input == null) {
                     //TODO handle null profile;
+                    // Null input profile
                     bean.setBool(false);
                     bean.setData("Sent Database a null Profile");
                     databaseError(Constants.DB_ERROR.BAD_INPUT_ERROR);
