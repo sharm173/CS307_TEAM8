@@ -137,7 +137,7 @@ public class databaseConnection {
             Connection conn = DriverManager.getConnection(url);
             try {
 
-                String statement = "SELECT * FROM profile WHERE pid = ?";
+                String statement = "SELECT * FROM profile WHERE pid=(?)";
                 PreparedStatement stmt = conn.prepareStatement(statement);
                 stmt.setString(1, Integer.toString(pid));
 
@@ -159,6 +159,7 @@ public class databaseConnection {
         catch (Exception e){
             e.printStackTrace();
         }
+        if (ret.getEmail() == null) return null;
         return ret;
     }
 

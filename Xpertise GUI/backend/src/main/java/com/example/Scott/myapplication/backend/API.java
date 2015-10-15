@@ -27,7 +27,9 @@ public class API {
     @ApiMethod(name = "profile_get", httpMethod = "get")
     public Profile getProfile(@Named("pid") Integer pid) throws NotFoundException {
         try {
-            return databaseConnection.getSpecificProfile(pid);
+            Profile ret = databaseConnection.getSpecificProfile(pid);
+            if (ret == null) return null;
+            else return ret;
         }
         catch (IndexOutOfBoundsException e) {
             throw new NotFoundException("Profile not found with an index: " + pid);
@@ -42,15 +44,29 @@ public class API {
     }
 
     @ApiMethod(name = "profile_post", httpMethod = "post")
-    public void insertProfile(@Named("firstName") String firstName, @Named("lastName") String lastName, @Named("password") String password, @Named("email") String email, @Named("city") String city) {
+    public MyBean insertProfile(@Named("firstName") String firstName, @Named("lastName") String lastName,
+                              @Named("password") String password, @Named("email") String email,
+                              @Named("city") String city, @Named("lat") Double lat,
+                              @Named("lng") Double lng, @Named("description") String description) {
+        MyBean ret = new MyBean();
         Profile response = new Profile();
         response.setFirstName(firstName);
         response.setLastName(lastName);
         response.setPassword(password);
         response.setEmail(email);
         response.setCity(city);
+        response.setLat(lat);
+        response.setLng(lng);
+        response.setDescription(description);
         databaseConnection.storeProfile(response);
-        return;
+        //A Profile must have at least these fields
+        if (response.getFirstName() == null || response.getLastName() == null
+                || response.getPassword() == null || response.getEmail() == null) {
+            ret.setBool(false);
+            return ret;
+        }
+        ret.setBool(true);
+        return ret;
     }
 
     @ApiMethod(name = "profile_auth")

@@ -1,6 +1,6 @@
 {
  "kind": "discovery#restDescription",
- "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/vwoI9CWw7zodlgIZZ5utYwCBhMg\"",
+ "etag": "\"u_zXkMELIlX4ktyNbM2XKD4vK8E/oF02Ux7DD03Mq1AO6EvCalF8Vbg\"",
  "discoveryVersion": "v1",
  "id": "xpertiseAPI:v1",
  "name": "xpertiseAPI",
@@ -73,6 +73,15 @@
   }
  },
  "schemas": {
+  "MyBean": {
+   "id": "MyBean",
+   "type": "object",
+   "properties": {
+    "bool": {
+     "type": "boolean"
+    }
+   }
+  },
   "Profile": {
    "id": "Profile",
    "type": "object",
@@ -185,10 +194,15 @@
   },
   "profile_post": {
    "id": "xpertiseAPI.profile_post",
-   "path": "void/{firstName}/{lastName}/{password}/{email}/{city}",
+   "path": "mybean/{firstName}/{lastName}/{password}/{email}/{city}/{lat}/{lng}/{description}",
    "httpMethod": "POST",
    "parameters": {
     "city": {
+     "type": "string",
+     "required": true,
+     "location": "path"
+    },
+    "description": {
      "type": "string",
      "required": true,
      "location": "path"
@@ -208,6 +222,18 @@
      "required": true,
      "location": "path"
     },
+    "lat": {
+     "type": "number",
+     "required": true,
+     "format": "double",
+     "location": "path"
+    },
+    "lng": {
+     "type": "number",
+     "required": true,
+     "format": "double",
+     "location": "path"
+    },
     "password": {
      "type": "string",
      "required": true,
@@ -219,8 +245,14 @@
     "lastName",
     "password",
     "email",
-    "city"
+    "city",
+    "lat",
+    "lng",
+    "description"
    ],
+   "response": {
+    "$ref": "MyBean"
+   },
    "scopes": [
     "https://www.googleapis.com/auth/userinfo.email"
    ]

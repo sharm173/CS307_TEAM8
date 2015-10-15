@@ -5,13 +5,9 @@ package com.example.Scott.myapplication.backend;
  */
 public class MyBean {
 
-    private String myData;
+    private Boolean success;
 
-    public String getData() {
-        return myData;
-    }
+    public Boolean getBool(){ return success; }
 
-    public void setData(String data) {
-        myData = data;
-    }
+    public void setBool(Boolean input){ success = input; }
 }
