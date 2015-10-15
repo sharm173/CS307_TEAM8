@@ -6,14 +6,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.Scott.myapplication.backend.Profile;
-
-import java.util.HashMap;
 
 public class DisplayProfile extends AppCompatActivity {
 
@@ -46,16 +43,6 @@ public class DisplayProfile extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Profile temp = new Profile();
         //TODO INVOKE API CALL, call method Profile_AUTH, store return in profile object (variables above)
-        try {
-            setContentView(R.layout.activity_display_profile);
-            Bundle bn = new Bundle();
-            bn = getIntent().getExtras();
-            HashMap<String, Object> getobj = new HashMap<String, Object>();
-            getobj = (HashMap<String, Object>) bn.getSerializable("bundleobj");
-            temp = (Profile) getobj.get("hashmapkey");
-        } catch (Exception e) {
-            Log.e("Err", e.getMessage());
-        }
         FirstName.setText(temp.getFirstName());
         LastName.setText(temp.getLastName());
         Password.setText(temp.getPassword());

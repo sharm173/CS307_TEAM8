@@ -75,6 +75,7 @@ public class API {
         //Attempts to find the profile information associated with the provided password and email
         //If found, return a profile object containing the information
         //If not found, return an error
+        //TODO: if(ret == null) return null; return ret; is a redundant check
         Profile ret = new Profile();
         ret = databaseConnection.findUserPassCombo(email, password);
         if (ret == null) return null;

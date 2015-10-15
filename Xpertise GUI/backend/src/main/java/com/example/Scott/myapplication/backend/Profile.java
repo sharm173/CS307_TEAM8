@@ -1,12 +1,8 @@
 package com.example.Scott.myapplication.backend;
-
-import java.io.Serializable;
-
 /**
  * Created by JoshFoeh on 10/6/15.
  */
-@SuppressWarnings("serial")
-public class Profile implements Serializable {
+public class Profile {
     int pid;
     String firstName;
     String lastName;
