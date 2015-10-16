@@ -17,8 +17,8 @@ public class DisplayProfileActivity extends AppCompatActivity {
     private TextView email;
     private TextView pass;
     private TextView city;
-    private TextView lat;
-    private TextView lng;
+//    private TextView lat;
+//    private TextView lng;
     private TextView desc;
     private Button menu;
 
@@ -32,8 +32,8 @@ public class DisplayProfileActivity extends AppCompatActivity {
         email = (TextView) findViewById(R.id.email);
         pass = (TextView) findViewById(R.id.password);
         city = (TextView) findViewById(R.id.city);
-        lat = (TextView) findViewById(R.id.lat);
-        lng = (TextView) findViewById(R.id.lng);
+//        lat = (TextView) findViewById(R.id.lat);
+//        lng = (TextView) findViewById(R.id.lng);
         desc = (TextView) findViewById(R.id.desc);
         menu = (Button) findViewById(R.id.login);
 
@@ -42,8 +42,8 @@ public class DisplayProfileActivity extends AppCompatActivity {
         email.setText(LoginActivity.loggedInProfile.getEmail());
         pass.setText(LoginActivity.loggedInProfile.getPassword());
         city.setText(LoginActivity.loggedInProfile.getCity());
-        lat.setText(Double.toString(LoginActivity.loggedInProfile.getLat()));
-        lng.setText(Double.toString(LoginActivity.loggedInProfile.getLng()));
+//        lat.setText(Double.toString(LoginActivity.loggedInProfile.getLat()));
+//        lng.setText(Double.toString(LoginActivity.loggedInProfile.getLng()));
         desc.setText(LoginActivity.loggedInProfile.getDescription());
 
         menu.setOnClickListener(new View.OnClickListener() {

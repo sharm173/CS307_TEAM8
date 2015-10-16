@@ -1,11 +1,15 @@
 package com.scottmcclellan.xpertise;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
 import com.example.scott.myapplication.backend.xpertiseAPI.XpertiseAPI;
 import com.example.scott.myapplication.backend.xpertiseAPI.model.Profile;
 
@@ -48,4 +52,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
