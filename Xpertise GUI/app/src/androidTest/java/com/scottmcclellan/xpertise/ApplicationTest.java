@@ -1,4 +1,4 @@
-package cs307.chris.purdue.xpertise;
+package com.scottmcclellan.xpertise;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

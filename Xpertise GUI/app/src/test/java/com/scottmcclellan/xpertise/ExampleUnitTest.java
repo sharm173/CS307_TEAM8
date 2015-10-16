@@ -1,4 +1,4 @@
-package cs307.chris.purdue.xpertise;
+package com.scottmcclellan.xpertise;
 
 import org.junit.Test;
 

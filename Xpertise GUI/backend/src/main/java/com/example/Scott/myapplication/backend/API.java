@@ -24,6 +24,8 @@ import javax.inject.Named;
 
 public class API {
 
+    // Returns profile with specified pid
+    // If pid not found, returns empty profile object with "ERROR" as firstName
     @ApiMethod(name = "profile_get", httpMethod = "get")
     public Profile getProfile(@Named("pid") Integer pid) throws NotFoundException {
         try {
@@ -75,11 +77,39 @@ public class API {
         //Attempts to find the profile information associated with the provided password and email
         //If found, return a profile object containing the information
         //If not found, return an error
-        Profile ret = new Profile();
-        ret = databaseConnection.findUserPassCombo(email, password);
-        if (ret == null) return null;
+        Profile ret = databaseConnection.findUserPassCombo(email, password);
+        if (ret.getFirstName() == null) return null;
         return ret;
     }
 
+    /*
+    @ApiMethod(name = "profile_edit", httpMethod = "post")
+    public MyBean editProfile(Profile input) {
+        MyBean bean = new MyBean();
+        bean = databaseConnection.editProfile(input);
+        return bean;
+    }
+    */
+
+    @ApiMethod(name = "profile_edit", httpMethod = "post")
+    public MyBean editProfile(@Named("firstName") String firstName, @Named("lastName") String lastName,
+                              @Named("password") String password, @Named("email") String email,
+                              @Named("city") String city, @Named("lat") Double lat,
+                              @Named("lng") Double lng, @Named("description") String description,
+                                @Named("pid") Integer pid) {
+        Profile input = new Profile();
+        input.setPid(pid);
+        input.setFirstName(firstName);
+        input.setLastName(lastName);
+        input.setEmail(email);
+        input.setPassword(password);
+        input.setCity(city);
+        input.setLat(lat);
+        input.setLng(lng);
+        input.setDescription(description);
+        MyBean bean;
+        bean = databaseConnection.editProfile(input);
+        return bean;
+    }
 
 }

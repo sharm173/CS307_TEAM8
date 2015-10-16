@@ -20,6 +20,7 @@ public class databaseConnection {
     private static void databaseError(Constants.DB_ERROR err){
 
         // TODO: Handle all errors
+        // Alert user of error with some sort of dialog box?
         switch(err){
             case INSERT_ERROR:
 
@@ -42,23 +43,17 @@ public class databaseConnection {
     //Contact the database and store a single profile in it
     public static MyBean storeProfile(Profile input) {
         String url = Constants.DATABASE_URL;
-
-        // Used to send data through the google cloud server
         MyBean bean = new MyBean();
-
-        // SQL statement to execute
-        String statement = null;
+        String statement = "";
         int success = 0;
         try {
-            // Load the GoogleDriver class
+            // Load GoogleDriver class at runtime
             Class.forName(Constants.GOOGLE_DRIVER);
 
-            // Connect to the database
+            // Open connection to database
             Connection conn = DriverManager.getConnection(url);
             try {
                 if (input == null) {
-                    //TODO handle null profile;
-                    // Null input profile
                     bean.setBool(false);
                     bean.setData("Sent Database a null Profile");
                     databaseError(Constants.DB_ERROR.BAD_INPUT_ERROR);
@@ -66,10 +61,16 @@ public class databaseConnection {
                 } else {
 
 
-                    statement = "INSERT INTO profile (firstName, lastName, password, email, city, lat, lng, description) VALUES ('" +
-                            input.getFirstName() + "', '" + input.getLastName() + "', '" + input.getPassword() + "', '" +
-                            input.getEmail() + "', '" + input.getCity() + "', " + input.getLat() + ", " + input.getLng() +
-                            ", '" + input.getDescription() + "')";
+                    statement = "INSERT INTO profile (firstName, lastName, password, email, city, lat, lng, description)" +
+                            " VALUES ('" +
+                            input.getFirstName() + "', '" +
+                            input.getLastName() + "', '" +
+                            input.getPassword() + "', '" +
+                            input.getEmail() + "', '" +
+                            input.getCity() + "', " +
+                            input.getLat() + ", " +
+                            input.getLng() + ", '" +
+                            input.getDescription() + "')";
                     PreparedStatement stmt = conn.prepareStatement(statement);
 
                     /*
@@ -90,6 +91,7 @@ public class databaseConnection {
                 }
             }
             finally {
+                // Always make sure to close database connection
                 conn.close();
             }
         }
@@ -98,15 +100,70 @@ public class databaseConnection {
         }
         if (success == 1) {
             bean.setBool(true);
-            return bean;
+            bean.setData("Successful insert");
         }
         else {
-            //TODO post to database failed
             databaseError(Constants.DB_ERROR.INSERT_ERROR);
             bean.setBool(false);
-            bean.setData(statement);
-            return bean;
+            bean.setData("Error: Inserting into database failed");
         }
+        return bean;
+    }
+
+    // This function will update the row containing the input profile's PID to match the
+    // rest of the fields of the input profile.  Returns a MyBean object indicating
+    // success or fail
+    public static MyBean editProfile(Profile input){
+        String url = Constants.DATABASE_URL;
+        MyBean bean = new MyBean();
+        String statement = "";
+        int success = 0;
+        try{
+            Class.forName(Constants.GOOGLE_DRIVER);
+            Connection conn = DriverManager.getConnection(url);
+
+            try{
+                if(input == null){
+                    bean.setBool(false);
+                    bean.setData("Error: Sent database a null profile");
+                    return bean;
+                }
+
+                statement = "UPDATE profile " +
+                        "SET firstName = '" + input.getFirstName() + "'," +
+                        " lastName = '" + input.getLastName() + "'," +
+                        " password = '" + input.getPassword() + "'," +
+                        " email = '" + input.getEmail() + "'," +
+                        " city = '" + input.getCity() + "'," +
+                        " lat = " + input.getLat() + "," +
+                        " lng = " + input.getLng() + "," +
+                        " description = '" + input.getDescription() + "'" +
+                        " WHERE pid = " + input.getPid();
+                PreparedStatement stmt = conn.prepareStatement(statement);
+                success = stmt.executeUpdate();
+
+
+            }
+            finally{
+                conn.close();
+            }
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        if(success == 1){
+            // Update successful
+            bean.setBool(true);
+            bean.setData("Successful update");
+        }else{
+            // Update failed
+            bean.setBool(false);
+            bean.setData("Error: Update failed");
+        }
+
+        return bean;
     }
 
     //Contact the database and return all profiles in it
@@ -136,6 +193,16 @@ public class databaseConnection {
                     temp.setLng(response.getDouble("lng"));
                     allProfiles.add(temp);
                 }
+                // TODO: Take this out after testing
+                Profile toTest = new Profile();
+                toTest.setFirstName("Test First Name");
+                toTest.setLastName("Test Last Name");
+                toTest.setPassword("Password");
+                toTest.setCity("Somewhere");
+                toTest.setLat(42.01);
+                toTest.setLng(123.01);
+                toTest.setDescription("Some description");
+                allProfiles.add(toTest);
 
             }
             finally {
@@ -182,6 +249,7 @@ public class databaseConnection {
         catch (Exception e){
             e.printStackTrace();
         }
+
         return ret;
     }
 
@@ -190,7 +258,7 @@ public class databaseConnection {
     public static Profile findUserPassCombo(String username, String password) {
         String url = Constants.DATABASE_URL;
         Profile ret = new Profile();
-        String statement = null;
+        String statement = "";
         try {
             Class.forName(Constants.GOOGLE_DRIVER);
             Connection conn = DriverManager.getConnection(url);
@@ -221,7 +289,10 @@ public class databaseConnection {
         catch (Exception e){
             e.printStackTrace();
         }
-        if (ret.getFirstName() == null) ret.setFirstName(statement);
+
+        // If response from database was 'none selected', return null
+        if (ret.getFirstName() == null)
+            ret = null;
         return ret;
     }
 }
