@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.scott.myapplication.backend.xpertiseAPI.model.Profile;
+
 import org.w3c.dom.Text;
 
 public class DisplayProfileActivity extends AppCompatActivity {
@@ -23,10 +25,16 @@ public class DisplayProfileActivity extends AppCompatActivity {
     private TextView desc;
     private Button menu;
 
+    private Profile profile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_profile);
+
+        Intent i = this.getIntent();
+        Bundle bundle = i.getExtras();
+        profile = (Profile) bundle.getSerializable("profile")
 
         first = (TextView) findViewById(R.id.firstName);
         last = (TextView) findViewById(R.id.lastName);

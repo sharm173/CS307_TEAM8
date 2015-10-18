@@ -1,8 +1,14 @@
 package com.example.Scott.myapplication.backend;
+
+import java.io.Serializable;
+
 /**
  * Created by JoshFoeh on 10/6/15.
  */
-public class Profile {
+public class Profile implements java.io.Serializable {
+
+    private static final long serialVersionUID = -7060210544600464481L;
+
     int pid;
     String firstName;
     String lastName;
