@@ -25,7 +25,7 @@ import java.util.LinkedHashMap;
 public class LoginActivity extends AppCompatActivity {
 
     private UserLoginTask mAuthTask = null;
-    Profile user;
+    public Profile user;
     private EditText email;
     private EditText password;
     private Button login;
@@ -123,6 +123,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if(p != null) {
                     user = p;
+                    loggedInProfile = p;
                     loginSuccess = 1;
                 }
 
@@ -143,22 +144,22 @@ public class LoginActivity extends AppCompatActivity {
            // showProgress(false);
 
             Log.e("Succes is: ", Boolean.toString(success));
-
+//LoginActivity.this
             if (success) {
-//                LinkedHashMap<String, Object> obj = new LinkedHashMap<String, Object>();
-//                obj.put("hashmapkey", user);
-//                Intent i = new Intent(LoginActivity.this, DisplayProfileActivity.class);
-//                Bundle b = new Bundle();
-//                b.putSerializable("bundleobj", obj);
-//                i.putExtras(b);
-//                startActivity(i);
-//                finish();
+                //LinkedHashMap<String, Object> obj = new LinkedHashMap<String, Object>();
+               // obj.put("hashmapkey", user);
                 Intent i = new Intent(context, DisplayProfileActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("profile", user);
-                i.putExtras(bundle);
+         //       Bundle b = new Bundle();
+           //     b.putSerializable("bundleobj", user);
+             //   i.putExtra("profile",b);
                 startActivity(i);
                 finish();
+           //     Intent i = new Intent(context, DisplayProfileActivity.class);
+            //    Bundle bundle = new Bundle();
+            //    bundle.putSerializable("profile", user);
+            //    i.putExtras(bundle);
+            //    startActivity(i);
+            //    finish();
 
             } else {
                 password.setError(getString(R.string.error_incorrect_password));

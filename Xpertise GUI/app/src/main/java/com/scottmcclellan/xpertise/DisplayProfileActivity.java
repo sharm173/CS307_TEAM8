@@ -33,9 +33,9 @@ public class DisplayProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_display_profile);
 
         Intent i = this.getIntent();
-        Bundle bundle = i.getExtras();
-        profile = (Profile) bundle.getSerializable("profile")
-
+       // Bundle bundle = i.getExtras();
+      //  profile = (Profile) bundle.getSerializable("profile");
+        profile = LoginActivity.loggedInProfile;
         first = (TextView) findViewById(R.id.firstName);
         last = (TextView) findViewById(R.id.lastName);
         email = (TextView) findViewById(R.id.email);
