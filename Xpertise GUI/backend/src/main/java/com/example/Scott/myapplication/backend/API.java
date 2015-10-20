@@ -69,6 +69,7 @@ public class API {
             return ret;
         }
         ret = databaseConnection.storeProfile(response);
+        ret.setBool(true);
         return ret;
     }
 
