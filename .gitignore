@@ -1,0 +1,55 @@
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+.idea/
+app/app.iml
+*.iml
+*.class
+
+Xpertise GUI/backend/build/tmp/appengineEndpointsExpandClientLibs/xpertiseAPI-v1-java.zip-unzipped/xpertiseAPI/src/main/java/com/example/scott/myapplication/backend/xpertiseAPI/XpertiseAPIScopes.java
+
+Xpertise GUI/backend/build/tmp/appengineEndpointsExpandClientLibs/xpertiseAPI-v1-java.zip-unzipped/xpertiseAPI/src/main/java/com/example/scott/myapplication/backend/xpertiseAPI/XpertiseAPIRequestInitializer.java
+
+Xpertise GUI/backend/build/tmp/appengineEndpointsExpandClientLibs/xpertiseAPI-v1-java.zip-unzipped/xpertiseAPI/src/main/java/com/example/scott/myapplication/backend/xpertiseAPI/XpertiseAPIRequestInitializer.java
+
+Xpertise GUI/backend/build/classes/endpointsSrc/com/example/scott/myapplication/backend/xpertiseAPI/model/MyBean.class
+
+Xpertise GUI/.idea/gradle.xml
+
+Xpertise GUI/.idea/misc.xml
+
+Xpertise GUI/backend/build/classes/endpointsSrc/com/example/scott/myapplication/backend/xpertiseAPI/XpertiseAPI.class
+
+Xpertise GUI/backend/build/classes/endpointsSrc/com/example/scott/myapplication/backend/xpertiseAPI/XpertiseAPI$Builder.class
+
+Xpertise GUI/backend/build/classes/endpointsSrc/com/example/scott/myapplication/backend/xpertiseAPI/XpertiseAPI$ProfileAuth.class
+
+Xpertise GUI/backend/build/classes/endpointsSrc/com/example/scott/myapplication/backend/xpertiseAPI/XpertiseAPI$ProfileGet.class
+
+Xpertise GUI/backend/build/classes/endpointsSrc/com/example/scott/myapplication/backend/xpertiseAPI/XpertiseAPI$ProfileListAll.class
+
+Xpertise GUI/backend/build/classes/endpointsSrc/com/example/scott/myapplication/backend/xpertiseAPI/XpertiseAPI$ProfilePost.class
+
+Xpertise GUI/backend/build/classes/main/com/example/Scott/myapplication/backend/API.class
+
+Xpertise GUI/backend/build/classes/main/com/example/Scott/myapplication/backend/databaseConnection.class
+
+Xpertise GUI/backend/build/client-libs/myApi-v1-java.zip
+
+Xpertise GUI/backend/build/client-libs/xpertiseAPI-v1-java.zip
+
+Xpertise GUI/backend/build/discovery-docs/xpertiseAPI-v1-rest.discovery
+
+Xpertise GUI/backend/build/exploded-app/WEB-INF/classes/com/example/Scott/myapplication/backend/API.class
+
+Xpertise GUI/backend/build/exploded-app/WEB-INF/xpertiseAPI-v1-rest.discovery
+
+Xpertise GUI/backend/build/exploded-app/WEB-INF/xpertiseAPI-v1-rpc.discovery
+
+Xpertise GUI/backend/build/discovery-docs/xpertiseAPI-v1-rpc.discovery
+
+Xpertise GUI/backend/build/exploded-app/WEB-INF/classes/com/example/Scott/myapplication/backend/MyBean.class
+
+Xpertise GUI/backend/build/exploded-app/WEB-INF/classes/com/example/Scott/myapplication/backend/databaseConnection.class
