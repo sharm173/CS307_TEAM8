@@ -9,6 +9,27 @@ public class MyBean {
 
     private Boolean success;
 
+    private double hiLat;
+    private double loLat;
+    private double hiLng;
+    private double loLng;
+
+    public double getHiLat() { return hiLat; }
+
+    public void setHiLat(double set) { hiLat = set; }
+
+    public double getLoLat() { return loLat; }
+
+    public void setLoLat(double set) { loLat = set; }
+
+    public double getHiLng() { return hiLng; }
+
+    public void setHiLng(double set) { hiLng = set; }
+
+    public double getLoLng() { return loLng; }
+
+    public void setLoLng(double set) { loLng = set; }
+
     public void setData(String stuff) { data = stuff; }
 
     public String getData() { return data; }
