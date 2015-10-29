@@ -10,7 +10,7 @@ public class Search {
     // @param distance: distance of radius in miles
     // TODO: Make this function general for world
     // TODO: Currently, assumes user is in NW quadrant of Earth
-    public MyBean boundingBox(double lat_start, double lng_start, double distance){
+    public static MyBean boundingBox(double lat_start, double lng_start, double distance){
         MyBean bean = new MyBean();
 
         // 'Complicated' math to calculate new latitude and longitude
