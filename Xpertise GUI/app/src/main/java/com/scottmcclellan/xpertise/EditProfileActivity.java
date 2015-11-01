@@ -30,6 +30,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private EditText city;
     private EditText description;
     private Button submit;
+    int pid;
     //public static Profile myProfile = new Profile();
 
     private Profile profile;
@@ -58,6 +59,7 @@ public class EditProfileActivity extends AppCompatActivity {
         pass.setText(profile.getPassword());
         city.setText(profile.getCity());
         description.setText(profile.getDescription());
+        pid = profile.getPid();
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,14 +98,14 @@ public class EditProfileActivity extends AppCompatActivity {
 
 
         UserRegisterTask(Profile p) {
-            mFirst = p.getFirstName();
-            mLast = p.getLastName();
-            mEmail = p.getEmail();
-            mPass = p.getPassword();
-            mCity = p.getCity();
-            mLat = p.getLat();
-            mLng = p.getLng();
-            mDes = p.getDescription();
+            mFirst = first.getText().toString();
+            mLast = last.getText().toString();
+            mEmail = email.getText().toString();
+            mPass = pass.getText().toString();
+            mCity = city.getText().toString();
+            mLat = p.getLat();// does not edit lat or lng
+            mLng = p.getLng();//
+            mDes = description.getText().toString();
         }
 
         @Override
@@ -135,11 +137,11 @@ public class EditProfileActivity extends AppCompatActivity {
                 //Simulate network access.
                 //Thread.sleep(2000);
 
-                MyBean b = myApiService.profileEdit(mFirst,mLast,mPass, mEmail, mCity, mLat, mLng, mDes,profile.getPid()).execute();
+                MyBean b = myApiService.profileEdit(mFirst,mLast,mPass, mEmail, mCity, mLat, mLng, mDes,pid).execute();
 
                 //TODO:change to profile activity if p is not null. P is saved in global profile object- 'user'
 
-                // Log.e("First name is: ", p.getFirstName() + ", last name is: " + p.getLastName());
+                 //Log.e("First name is: ",p.getFirstName() + ", last name is: " + p.getLastName());
 
                 //  if(b.getBool()) {
 
@@ -163,7 +165,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
             Log.e("Succes is: ", Boolean.toString(success));
 //LoginActivity.this
-            if (!success) {
+            if (success) {
                 //LinkedHashMap<String, Object> obj = new LinkedHashMap<String, Object>();
                 // obj.put("hashmapkey", user);
                 // Intent i = new Intent(context, LoginActivity.class);
@@ -172,7 +174,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 //   i.putExtra("profile",b);
                 // startActivity(i);
                 Toast.makeText(EditProfileActivity.this, "Your profile has been successfully edited!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(EditProfileActivity.this, LoginActivity.class);
+                Intent intent = new Intent(EditProfileActivity.this, DisplayProfileActivity.class);
                 startActivity(intent);
 
 
@@ -185,6 +187,8 @@ public class EditProfileActivity extends AppCompatActivity {
                 //    finish();
 
             } else {
+
+                Toast.makeText(EditProfileActivity.this, "Profile edit failed!", Toast.LENGTH_SHORT).show();
                 //password.setError(getString(R.string.error_incorrect_password));
                 //password.requestFocus();
             }
