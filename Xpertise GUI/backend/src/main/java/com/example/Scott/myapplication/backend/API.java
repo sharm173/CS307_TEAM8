@@ -105,6 +105,7 @@ public class API {
         input.setDescription(description);
         MyBean bean;
         bean = databaseConnection.editProfile(input);
+        bean.setBool(true);
         return bean;
     }
 
@@ -133,7 +134,7 @@ public class API {
             Profile err = ret.get(0);
             err.setFirstName("ERROR");
         }
-        MyBean radius = Search.findRadius(main, miles);
+      //  MyBean radius = Search.findRadius(main, miles);
         //TODO: Database call to retrieve all profiles in the lat and lng range
         return ret;
     }

@@ -21,7 +21,7 @@ import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 
 import java.io.IOException;
 
-public class RegisterActivity extends AppCompatActivity {
+public class EditProfileActivity extends AppCompatActivity {
     private UserRegisterTask mAuthTask = null;
     private EditText first;
     private EditText last;
@@ -30,7 +30,10 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText city;
     private EditText description;
     private Button submit;
-    public static Profile myProfile = new Profile();
+    //public static Profile myProfile = new Profile();
+
+    private Profile profile;
+
     Context context;
 
     @Override
@@ -39,6 +42,8 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         context = this;
 
+        profile = LoginActivity.loggedInProfile;
+
         first = (EditText) findViewById(R.id.firstName);
         last = (EditText) findViewById(R.id.lastName);
         email = (EditText) findViewById(R.id.email);
@@ -46,6 +51,13 @@ public class RegisterActivity extends AppCompatActivity {
         city = (EditText) findViewById(R.id.city);
         description = (EditText) findViewById(R.id.description);
         submit = (Button) findViewById(R.id.submit);
+
+        first.setText(profile.getFirstName());
+        last.setText(profile.getLastName());
+        email.setText(profile.getEmail());
+        pass.setText(profile.getPassword());
+        city.setText(profile.getCity());
+        description.setText(profile.getDescription());
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,19 +68,12 @@ public class RegisterActivity extends AppCompatActivity {
                 if (first.getText().toString() == null || last.getText().toString() == null ||
                         email.getText().toString() == null || pass.getText().toString() == null ||
                         city.getText().toString() == null) {
-                    Toast.makeText(RegisterActivity.this, "Please fill out all the fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditProfileActivity.this, "Please fill out all the fields", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    myProfile.setFirstName(first.getText().toString());
-                    myProfile.setLastName(last.getText().toString());
-                    myProfile.setEmail(email.getText().toString());
-                    myProfile.setPassword(pass.getText().toString());
-                    myProfile.setCity(city.getText().toString());
-                    myProfile.setLat(0.00);
-                    myProfile.setLng(0.00);
-                    myProfile.setDescription(description.getText().toString());
+
                     //TODO: API call to store profile object
-                    mAuthTask = new UserRegisterTask(myProfile);
+                    mAuthTask = new UserRegisterTask(profile);
                     mAuthTask.execute((Void) null);
 
 
@@ -129,15 +134,16 @@ public class RegisterActivity extends AppCompatActivity {
             try {
                 //Simulate network access.
                 //Thread.sleep(2000);
-                MyBean b = myApiService.profilePost(mFirst,mLast,mPass, mEmail, mCity, mLat, mLng, mDes).execute();
+
+                MyBean b = myApiService.profileEdit(mFirst,mLast,mPass, mEmail, mCity, mLat, mLng, mDes,profile.getPid()).execute();
 
                 //TODO:change to profile activity if p is not null. P is saved in global profile object- 'user'
 
-               // Log.e("First name is: ", p.getFirstName() + ", last name is: " + p.getLastName());
+                // Log.e("First name is: ", p.getFirstName() + ", last name is: " + p.getLastName());
 
-              //  if(b.getBool()) {
+                //  if(b.getBool()) {
 
-               // }
+                // }
 
                 return b.getBool();
 
@@ -157,16 +163,16 @@ public class RegisterActivity extends AppCompatActivity {
 
             Log.e("Succes is: ", Boolean.toString(success));
 //LoginActivity.this
-            if (success) {
+            if (!success) {
                 //LinkedHashMap<String, Object> obj = new LinkedHashMap<String, Object>();
                 // obj.put("hashmapkey", user);
-               // Intent i = new Intent(context, LoginActivity.class);
+                // Intent i = new Intent(context, LoginActivity.class);
                 //       Bundle b = new Bundle();
                 //     b.putSerializable("bundleobj", user);
                 //   i.putExtra("profile",b);
-               // startActivity(i);
-                Toast.makeText(RegisterActivity.this, "Your profile has been successfully created!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                // startActivity(i);
+                Toast.makeText(EditProfileActivity.this, "Your profile has been successfully edited!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(EditProfileActivity.this, LoginActivity.class);
                 startActivity(intent);
 
 

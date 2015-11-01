@@ -124,4 +124,11 @@
         android:text="Return to Login"
         android:id="@+id/login"
         android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Profile"
+        android:id="@+id/edit"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>
