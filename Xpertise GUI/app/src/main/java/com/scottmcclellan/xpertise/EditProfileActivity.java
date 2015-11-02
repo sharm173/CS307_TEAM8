@@ -147,6 +147,9 @@ public class EditProfileActivity extends AppCompatActivity {
 
                 // }
 
+                Log.e("Succes is: ", Boolean.toString(b.getBool()));
+                Log.e("Data is: ", b.getData());
+
                 return b.getBool();
 
             } catch (IOException e) {
@@ -163,7 +166,6 @@ public class EditProfileActivity extends AppCompatActivity {
             // mAuthTask = null;
             // showProgress(false);
 
-            Log.e("Succes is: ", Boolean.toString(success));
 //LoginActivity.this
             if (success) {
                 //LinkedHashMap<String, Object> obj = new LinkedHashMap<String, Object>();

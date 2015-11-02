@@ -105,7 +105,6 @@ public class API {
         input.setDescription(description);
         MyBean bean;
         bean = databaseConnection.editProfile(input);
-        //bean.setBool(true);
         return bean;
     }
 

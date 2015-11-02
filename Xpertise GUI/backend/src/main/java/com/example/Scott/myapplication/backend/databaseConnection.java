@@ -160,7 +160,7 @@ public class databaseConnection {
         }else{
             // Update failed
             bean.setBool(false);
-            bean.setData("Error: Update failed");
+            bean.setData("Error: Update failed; Statement: " + statement);
         }
 
         return bean;
@@ -275,6 +275,7 @@ public class databaseConnection {
 
                 ResultSet response = stmt.executeQuery();
                 response.next();
+                ret.setPid(response.getInt("pid"));
                 ret.setDescription(response.getString("description"));
                 ret.setFirstName(response.getString("firstName"));
                 ret.setLastName(response.getString("lastName"));
