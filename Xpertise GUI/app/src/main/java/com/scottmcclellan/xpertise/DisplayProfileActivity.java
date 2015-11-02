@@ -57,6 +57,9 @@ public class DisplayProfileActivity extends AppCompatActivity {
 //        lng.setText(Double.toString(LoginActivity.loggedInProfile.getLng()));
         desc.setText(LoginActivity.loggedInProfile.getDescription());
 
+        Log.e("Lat: ", String.valueOf(profile.getLat()));
+        Log.e("Long: ", String.valueOf(profile.getLng()));
+
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

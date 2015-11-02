@@ -1,8 +1,15 @@
 package com.scottmcclellan.xpertise;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +27,8 @@ import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class RegisterActivity extends AppCompatActivity {
     private UserRegisterTask mAuthTask = null;
@@ -30,8 +39,27 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText city;
     private EditText description;
     private Button submit;
+    private double loclong =0.0;
+    private double loclat =0.0;
     public static Profile myProfile = new Profile();
     Context context;
+    boolean flag;
+    private LocationManager locationManager=null;
+    private LocationListener locationListener=null;
+
+    private Boolean displayGpsStatus() {
+        ContentResolver contentResolver = getBaseContext()
+                .getContentResolver();
+        boolean gpsStatus = Settings.Secure
+                .isLocationProviderEnabled(contentResolver,
+                        LocationManager.GPS_PROVIDER);
+        if (gpsStatus) {
+            return true;
+
+        } else {
+            return false;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +74,28 @@ public class RegisterActivity extends AppCompatActivity {
         city = (EditText) findViewById(R.id.city);
         description = (EditText) findViewById(R.id.description);
         submit = (Button) findViewById(R.id.submit);
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        flag = displayGpsStatus();
+        if (flag) {
+
+            //Log.v(TAG, "onClick");
+
+            //editLocation.setText("Please!! move your device to"+
+              //      " see the changes in coordinates."+"\nWait..");
+
+           // pb.setVisibility(View.VISIBLE);
+            locationListener = new MyLocationListener();
+            try {
+                locationManager.requestLocationUpdates(LocationManager
+                        .GPS_PROVIDER, 5000, 10, locationListener);
+            }
+            catch (SecurityException e) {
+
+            }
+        } else {
+            //alertbox("Gps Status!!", "Your GPS is: OFF");
+        }
+
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,8 +114,8 @@ public class RegisterActivity extends AppCompatActivity {
                     myProfile.setEmail(email.getText().toString());
                     myProfile.setPassword(pass.getText().toString());
                     myProfile.setCity(city.getText().toString());
-                    myProfile.setLat(0.00);
-                    myProfile.setLng(0.00);
+                    myProfile.setLat(loclong);
+                    myProfile.setLng(loclat);
                     myProfile.setDescription(description.getText().toString());
                     //TODO: API call to store profile object
                     mAuthTask = new UserRegisterTask(myProfile);
@@ -189,6 +239,43 @@ public class RegisterActivity extends AppCompatActivity {
             mAuthTask = null;
             // showProgress(false);
         }
+    }
+
+    /*---------- Listener class to get coordinates ------------- */
+    private class MyLocationListener implements LocationListener {
+
+        @Override
+        public void onLocationChanged(Location loc) {
+          //  editLocation.setText("");
+          //  pb.setVisibility(View.INVISIBLE);
+            loclong = loc.getLongitude();
+            loclat = loc.getLatitude();
+            Toast.makeText(
+                    getBaseContext(),
+                    "Location changed: Lat: " + loclat + " Lng: "
+                            + loclong, Toast.LENGTH_SHORT).show();
+
+
+            //String longitude = "Longitude: " + loc.getLongitude();
+            //Log.v(TAG, longitude);
+            //String latitude = "Latitude: " + loc.getLatitude();
+            //Log.v(TAG, latitude);
+
+
+
+          //  String s = longitude + "\n" + latitude + "\n\nMy Current City is: "
+            //        + cityName;
+           // editLocation.setText(s);
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {}
+
+        @Override
+        public void onProviderEnabled(String provider) {}
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {}
     }
 
 
