@@ -22,7 +22,7 @@ import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 import java.io.IOException;
 
 public class EditProfileActivity extends AppCompatActivity {
-    private UserRegisterTask mAuthTask = null;
+    private UserUpdateTask mAuthTask = null;
     private EditText first;
     private EditText last;
     private EditText email;
@@ -30,9 +30,8 @@ public class EditProfileActivity extends AppCompatActivity {
     private EditText city;
     private EditText description;
     private Button submit;
-    int pid;
     //public static Profile myProfile = new Profile();
-
+    private int pid;
     private Profile profile;
 
     Context context;
@@ -59,7 +58,7 @@ public class EditProfileActivity extends AppCompatActivity {
         pass.setText(profile.getPassword());
         city.setText(profile.getCity());
         description.setText(profile.getDescription());
-        pid = profile.getPid();
+
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,9 +72,18 @@ public class EditProfileActivity extends AppCompatActivity {
                     Toast.makeText(EditProfileActivity.this, "Please fill out all the fields", Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    profile.setFirstName(first.getText().toString());
+                    profile.setLastName(last.getText().toString());
+                    profile.setEmail(email.getText().toString());
+                    profile.setPassword(pass.getText().toString());
+                    profile.setCity(city.getText().toString());
+                    //mLat = p.getLat();// does not edit lat or lng
+                   // mLng = p.getLng();//
+                    profile.setDescription(description.getText().toString());
+                    pid = profile.getPid();
 
                     //TODO: API call to store profile object
-                    mAuthTask = new UserRegisterTask(profile);
+                    mAuthTask = new UserUpdateTask(profile);
                     mAuthTask.execute((Void) null);
 
 
@@ -85,7 +93,7 @@ public class EditProfileActivity extends AppCompatActivity {
         });
     }
 
-    public class UserRegisterTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserUpdateTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mFirst;
         private final String mLast;
@@ -95,17 +103,19 @@ public class EditProfileActivity extends AppCompatActivity {
         private final Double mLat;
         private final Double mLng;
         private final String mDes;
+       // private final int pid;
 
 
-        UserRegisterTask(Profile p) {
-            mFirst = first.getText().toString();
-            mLast = last.getText().toString();
-            mEmail = email.getText().toString();
-            mPass = pass.getText().toString();
-            mCity = city.getText().toString();
-            mLat = p.getLat();// does not edit lat or lng
-            mLng = p.getLng();//
-            mDes = description.getText().toString();
+        UserUpdateTask(Profile p) {
+            mFirst = profile.getFirstName();
+            mLast = profile.getLastName();
+            mEmail = profile.getEmail();
+            mPass = profile.getPassword();
+            mCity = profile.getCity();
+            mLat = profile.getLat();// does not edit lat or lng
+            mLng = profile.getLng();//
+            mDes = profile.getDescription();
+            pid = profile.getPid();
         }
 
         @Override
@@ -136,7 +146,8 @@ public class EditProfileActivity extends AppCompatActivity {
             try {
                 //Simulate network access.
                 //Thread.sleep(2000);
-
+                Log.e("First: ", mFirst);
+                Log.e("Pid: ", String.valueOf(pid));
                 MyBean b = myApiService.profileEdit(mFirst,mLast,mPass, mEmail, mCity, mLat, mLng, mDes,pid).execute();
 
                 //TODO:change to profile activity if p is not null. P is saved in global profile object- 'user'
@@ -153,6 +164,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 return b.getBool();
 
             } catch (IOException e) {
+                Log.e("Success???", "IOException");
                 e.printStackTrace();
                 return false;
             }
