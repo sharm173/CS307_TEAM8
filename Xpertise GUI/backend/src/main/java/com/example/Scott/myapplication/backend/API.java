@@ -110,22 +110,25 @@ public class API {
     }
 
     //Find all profiles in the same city
+    //TODO: Implemented, Needs testing
     @ApiMethod(name = "profile_city")
     public ArrayList<Profile> profilesInCity(@Named("pid") Integer pid) {
         ArrayList<Profile> ret = new ArrayList<Profile>();
+        Profile main = new Profile();
         try {
-            Profile main = getProfile(pid);
+            main = getProfile(pid);
         } catch (Exception e) {
-            Profile err = ret.get(0);
-            err.setFirstName("ERROR");
+            main.setFirstName("ERROR");
+            ret.add(main);
+            return ret;
         }
-        //TODO: Database connection call; SELECT * FROM profiles WHERE city=(main.getCity);
+        ret = databaseConnection.getProfilesInCity(main);
         return ret;
     }
 
     //Find all profiles within a certain radius in miles
     @ApiMethod(name = "profile_radius")
-    public ArrayList<Profile> profilesInRadius(@Named("pid") Integer pid, @Named("miles") Integer miles) {
+    public ArrayList<Profile> profilesInRadius(@Named("pid") Integer pid, @Named("miles") double distance) {
         ArrayList<Profile> ret = new ArrayList<Profile>();
         Profile main = new Profile();
         try {
@@ -134,24 +137,20 @@ public class API {
             Profile err = ret.get(0);
             err.setFirstName("ERROR");
         }
-      //  MyBean radius = Search.findRadius(main, miles);
+        MyBean radius = Search.boundingBox(main.getLat(), main.getLng(), distance);
         //TODO: Database call to retrieve all profiles in the lat and lng range
         return ret;
     }
 
     //Add a review to the database for a profile
     @ApiMethod(name = "profile_postReview")
-    public MyBean postReview(@Named("pid") Integer pid) {//TODO: Add Review fields. or possibly accept review object?
-        Profile main = new Profile();
+    public MyBean postReview(@Named("reviewerPid") Integer reviewerPid, @Named("revieweePid") Integer revieweePid, @Named("stars") Integer stars, @Named("description") String desc) {//TODO: Add Review fields. or possibly accept review object?
+        Review store = new Review();
         MyBean ret = new MyBean();
-        try {
-            main = getProfile(pid);
-        } catch (Exception e) {
-            MyBean err = new MyBean();
-            err.setBool(false);
-            err.setData("Failed Fetching Profile in API class");
-            return err;
-        }
+        store.setReviewer_pid(reviewerPid);
+        store.setReviewee_pid(revieweePid);
+        store.setStars(stars);
+        store.setReviewDesc(desc);
         //TODO: Database call to store review object
         ret.setBool(true);
         return ret;
@@ -162,6 +161,32 @@ public class API {
     public ArrayList<Review> getReviews(@Named("pid") Integer pid) {
         ArrayList<Review> ret = new ArrayList<Review>();
         //TODO: Database call to fetch all review objects WHERE pid=pid
+        return ret;
+    }
+
+    @ApiMethod(name = "profile_setTag")
+    public MyBean setTag(@Named("pid") Integer pid, @Named("tag") String tag) {
+        MyBean ret = new MyBean();
+        try {
+            //TODO: Database call to store a tag for the given pid
+        } catch (Exception e) {
+            ret.setData("Failed to add the tag to the database");
+            ret.setBool(false);
+        }
+        return ret;
+    }
+
+    @ApiMethod(name = "profile_getTags")
+    public ArrayList<MyBean> getTags(@Named("pid") Integer pid) {
+        ArrayList<MyBean> ret = new ArrayList<MyBean>();
+        try {
+            //TODO: Database call to get all tags associated with a profile
+        } catch (Exception e) {
+            MyBean temp = new MyBean();
+            temp.setBool(false);
+            temp.setData("Failed retrieving tags from database");
+            ret.add(temp);
+        }
         return ret;
     }
 }

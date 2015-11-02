@@ -5,6 +5,8 @@ package com.example.Scott.myapplication.backend;
  */
 public class MyBean {
 
+    private int pid;
+
     private String data;
 
     private Boolean success;
@@ -37,4 +39,8 @@ public class MyBean {
     public Boolean getBool(){ return success; }
 
     public void setBool(Boolean input){ success = input; }
+
+    public void setPid(int set) { pid = set; }
+
+    public int getPid() { return pid; }
 }
