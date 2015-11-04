@@ -160,7 +160,7 @@ public class databaseConnection {
         }else{
             // Update failed
             bean.setBool(false);
-            bean.setData("Error: Update failed");
+            bean.setData("Error: Update failed; Statement: " + statement);
         }
 
         return bean;
@@ -193,6 +193,8 @@ public class databaseConnection {
                     temp.setLng(response.getDouble("lng"));
                     allProfiles.add(temp);
                 }
+
+                /*
                 // TODO: Take this out after testing
                 Profile toTest = new Profile();
                 toTest.setFirstName("Test First Name");
@@ -203,6 +205,7 @@ public class databaseConnection {
                 toTest.setLng(123.01);
                 toTest.setDescription("Some description");
                 allProfiles.add(toTest);
+                */
 
             }
             finally {
@@ -272,6 +275,7 @@ public class databaseConnection {
 
                 ResultSet response = stmt.executeQuery();
                 response.next();
+                ret.setPid(response.getInt("pid"));
                 ret.setDescription(response.getString("description"));
                 ret.setFirstName(response.getString("firstName"));
                 ret.setLastName(response.getString("lastName"));
@@ -293,6 +297,57 @@ public class databaseConnection {
         // If response from database was 'none selected', return null
         if (ret.getFirstName() == null)
             ret = null;
+        return ret;
+    }
+
+    public static ArrayList<Profile> getProfilesInCity(Profile input) {
+        ArrayList<Profile> ret = new ArrayList<Profile>();
+        String city = input.getCity();
+        String url = Constants.DATABASE_URL;
+
+        try {
+            Class.forName(Constants.GOOGLE_DRIVER);
+            Connection conn = DriverManager.getConnection(url);
+            try {
+
+                String statement = "SELECT * FROM profiles WHERE city='" + city + "'";
+                PreparedStatement stmt = conn.prepareStatement(statement);
+
+                ResultSet response = stmt.executeQuery();
+                while (response.next()) {
+                    Profile temp = new Profile();
+                    temp.setPid(response.getInt("pid"));
+                    temp.setDescription(response.getString("description"));
+                    temp.setFirstName(response.getString("firstName"));
+                    temp.setLastName(response.getString("lastName"));
+                    temp.setPassword(response.getString("password"));
+                    temp.setEmail(response.getString("email"));
+                    temp.setCity(response.getString("city"));
+                    temp.setLat(response.getDouble("lat"));
+                    temp.setLng(response.getDouble("lng"));
+                    ret.add(temp);
+                }
+
+                /*
+                // TODO: Take this out after testing
+                Profile toTest = new Profile();
+                toTest.setFirstName("Test First Name");
+                toTest.setLastName("Test Last Name");
+                toTest.setPassword("Password");
+                toTest.setCity("Somewhere");
+                toTest.setLat(42.01);
+                toTest.setLng(123.01);
+                toTest.setDescription("Some description");
+                ret.add(toTest);
+                */
+            }
+            finally {
+                conn.close();
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
         return ret;
     }
 }

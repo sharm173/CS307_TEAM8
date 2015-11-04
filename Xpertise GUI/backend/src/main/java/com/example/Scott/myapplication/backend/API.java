@@ -39,6 +39,7 @@ public class API {
         }
     }
 
+    //Returns an ArrayList of all the profiles currently stored in the database
     @ApiMethod (name = "profile_listAll")
     public ArrayList<Profile> listProfiles() {
         ArrayList<Profile> profiles = new ArrayList<Profile>();
@@ -46,6 +47,7 @@ public class API {
         return profiles;
     }
 
+    //Store a profile in the database
     @ApiMethod(name = "profile_post", httpMethod = "post")
     public MyBean insertProfile(@Named("firstName") String firstName, @Named("lastName") String lastName,
                               @Named("password") String password, @Named("email") String email,
@@ -73,6 +75,7 @@ public class API {
         return ret;
     }
 
+    //Return the profile object matching the email and password combo, if not found return null
     @ApiMethod(name = "profile_auth", httpMethod = "get")
     public Profile authProfile(@Named("email") String email, @Named("password") String password) {
         //Attempts to find the profile information associated with the provided password and email
@@ -83,15 +86,7 @@ public class API {
         return ret;
     }
 
-    /*
-    @ApiMethod(name = "profile_edit", httpMethod = "post")
-    public MyBean editProfile(Profile input) {
-        MyBean bean = new MyBean();
-        bean = databaseConnection.editProfile(input);
-        return bean;
-    }
-    */
-
+    //Edit an existing profile in the database (no err catch so only call after profile_auth)
     @ApiMethod(name = "profile_edit", httpMethod = "post")
     public MyBean editProfile(@Named("firstName") String firstName, @Named("lastName") String lastName,
                               @Named("password") String password, @Named("email") String email,
@@ -113,4 +108,84 @@ public class API {
         return bean;
     }
 
+    //Find all profiles in the same city
+    //TODO: Implemented, Needs testing
+    @ApiMethod(name = "profile_city")
+    public ArrayList<Profile> profilesInCity(@Named("pid") Integer pid) {
+        ArrayList<Profile> ret = new ArrayList<Profile>();
+        Profile main = new Profile();
+        try {
+            main = getProfile(pid);
+        } catch (Exception e) {
+            main.setFirstName("ERROR");
+            ret.add(main);
+            return ret;
+        }
+        ret = databaseConnection.getProfilesInCity(main);
+        return ret;
+    }
+
+    //Find all profiles within a certain radius in miles
+    @ApiMethod(name = "profile_radius")
+    public ArrayList<Profile> profilesInRadius(@Named("pid") Integer pid, @Named("miles") double distance) {
+        ArrayList<Profile> ret = new ArrayList<Profile>();
+        Profile main = new Profile();
+        try {
+            main = getProfile(pid);
+        } catch (Exception e) {
+            Profile err = ret.get(0);
+            err.setFirstName("ERROR");
+        }
+        MyBean radius = Search.boundingBox(main.getLat(), main.getLng(), distance);
+        //TODO: Database call to retrieve all profiles in the lat and lng range
+        return ret;
+    }
+
+    //Add a review to the database for a profile
+    @ApiMethod(name = "profile_postReview")
+    public MyBean postReview(@Named("reviewerPid") Integer reviewerPid, @Named("revieweePid") Integer revieweePid, @Named("stars") Integer stars, @Named("description") String desc) {//TODO: Add Review fields. or possibly accept review object?
+        Review store = new Review();
+        MyBean ret = new MyBean();
+        store.setReviewer_pid(reviewerPid);
+        store.setReviewee_pid(revieweePid);
+        store.setStars(stars);
+        store.setReviewDesc(desc);
+        //TODO: Database call to store review object
+        ret.setBool(true);
+        return ret;
+    }
+
+    //Get all reviews for a specific profile
+    @ApiMethod(name = "profile_getReviews")
+    public ArrayList<Review> getReviews(@Named("pid") Integer pid) {
+        ArrayList<Review> ret = new ArrayList<Review>();
+        //TODO: Database call to fetch all review objects WHERE pid=pid
+        return ret;
+    }
+
+    @ApiMethod(name = "profile_setTag")
+    public MyBean setTag(@Named("pid") Integer pid, @Named("tag") String tag) {
+        MyBean ret = new MyBean();
+        try {
+            //TODO: Database call to store a tag for the given pid
+        } catch (Exception e) {
+            ret.setData("Failed to add the tag to the database");
+            ret.setBool(false);
+        }
+        return ret;
+    }
+
+    @ApiMethod(name = "profile_getTags")
+    public ArrayList<MyBean> getTags(@Named("pid") Integer pid) {
+        ArrayList<MyBean> ret = new ArrayList<MyBean>();
+        try {
+            //TODO: Database call to get all tags associated with a profile
+        } catch (Exception e) {
+            MyBean temp = new MyBean();
+            temp.setBool(false);
+            temp.setData("Failed retrieving tags from database");
+            ret.add(temp);
+        }
+        return ret;
+    }
 }

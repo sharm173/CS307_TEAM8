@@ -24,6 +24,7 @@ public class DisplayProfileActivity extends AppCompatActivity {
 //    private TextView lng;
     private TextView desc;
     private Button menu;
+    private Button edit;
 
     private Profile profile;
 
@@ -45,6 +46,7 @@ public class DisplayProfileActivity extends AppCompatActivity {
 //        lng = (TextView) findViewById(R.id.lng);
         desc = (TextView) findViewById(R.id.desc);
         menu = (Button) findViewById(R.id.login);
+        edit = (Button) findViewById(R.id.edit);
 
         first.setText(LoginActivity.loggedInProfile.getFirstName());
         last.setText(LoginActivity.loggedInProfile.getLastName());
@@ -54,6 +56,17 @@ public class DisplayProfileActivity extends AppCompatActivity {
 //        lat.setText(Double.toString(LoginActivity.loggedInProfile.getLat()));
 //        lng.setText(Double.toString(LoginActivity.loggedInProfile.getLng()));
         desc.setText(LoginActivity.loggedInProfile.getDescription());
+
+        Log.e("Lat: ", String.valueOf(profile.getLat()));
+        Log.e("Long: ", String.valueOf(profile.getLng()));
+
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DisplayProfileActivity.this, EditProfileActivity.class);
+                startActivity(intent);
+            }
+        });
 
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
