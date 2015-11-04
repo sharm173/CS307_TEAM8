@@ -23,8 +23,9 @@ public class DisplayProfileActivity extends AppCompatActivity {
 //    private TextView lat;
 //    private TextView lng;
     private TextView desc;
-    private Button menu;
+    private Button login;
     private Button edit;
+    private Button find;
 
     private Profile profile;
 
@@ -45,8 +46,9 @@ public class DisplayProfileActivity extends AppCompatActivity {
 //        lat = (TextView) findViewById(R.id.lat);
 //        lng = (TextView) findViewById(R.id.lng);
         desc = (TextView) findViewById(R.id.desc);
-        menu = (Button) findViewById(R.id.login);
+        login = (Button) findViewById(R.id.login);
         edit = (Button) findViewById(R.id.edit);
+        find = (Button) findViewById(R.id.findButton);
 
         first.setText(LoginActivity.loggedInProfile.getFirstName());
         last.setText(LoginActivity.loggedInProfile.getLastName());
@@ -68,10 +70,18 @@ public class DisplayProfileActivity extends AppCompatActivity {
             }
         });
 
-        menu.setOnClickListener(new View.OnClickListener() {
+        login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DisplayProfileActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        find.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DisplayProfileActivity.this, ListUsersActivity.class);
                 startActivity(intent);
             }
         });

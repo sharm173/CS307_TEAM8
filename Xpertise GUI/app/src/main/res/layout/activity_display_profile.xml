@@ -118,6 +118,7 @@
             android:textSize="20dp" />
     </LinearLayout>
 
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="60dp"
@@ -131,4 +132,12 @@
         android:text="Edit Profile"
         android:id="@+id/edit"
         android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:text="Find other users"
+        android:id="@+id/findButton"
+        android:layout_gravity="center_horizontal"/>
+
 </LinearLayout>

@@ -93,4 +93,5 @@ public class Profile implements java.io.Serializable {
     public void setLng(double lng) {
         this.lng = lng;
     }
+
 }

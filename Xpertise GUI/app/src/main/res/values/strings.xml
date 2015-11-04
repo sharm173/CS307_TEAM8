@@ -13,4 +13,8 @@
     </string>
     <string name="title_activity_registration">Registration</string>
     <string name="title_activity_display_profile">DisplayProfile</string>
+    <string name="title_activity_list_users">ListUsersActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>
