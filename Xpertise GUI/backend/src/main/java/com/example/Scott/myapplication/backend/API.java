@@ -109,7 +109,6 @@ public class API {
     }
 
     //Find all profiles in the same city
-    //TODO: Implemented, Needs testing
     @ApiMethod(name = "profile_city")
     public ArrayList<Profile> profilesInCity(@Named("pid") Integer pid) {
         ArrayList<Profile> ret = new ArrayList<Profile>();
@@ -126,18 +125,12 @@ public class API {
     }
 
     //Find all profiles within a certain radius in miles
+    //TODO: Needs testing
     @ApiMethod(name = "profile_radius")
     public ArrayList<Profile> profilesInRadius(@Named("pid") Integer pid, @Named("miles") double distance) {
         ArrayList<Profile> ret = new ArrayList<Profile>();
-        Profile main = new Profile();
-        try {
-            main = getProfile(pid);
-        } catch (Exception e) {
-            Profile err = ret.get(0);
-            err.setFirstName("ERROR");
-        }
-        MyBean radius = Search.boundingBox(main.getLat(), main.getLng(), distance);
-        //TODO: Database call to retrieve all profiles in the lat and lng range
+        //sad lyfe trevor did everything for me in database class
+        ret = databaseConnection.profilesInRadius(pid, distance);
         return ret;
     }
 
@@ -150,8 +143,7 @@ public class API {
         store.setReviewee_pid(revieweePid);
         store.setStars(stars);
         store.setReviewDesc(desc);
-        //TODO: Database call to store review object
-        ret.setBool(true);
+        ret = databaseConnection.postReview(store);
         return ret;
     }
 
@@ -159,7 +151,7 @@ public class API {
     @ApiMethod(name = "profile_getReviews")
     public ArrayList<Review> getReviews(@Named("pid") Integer pid) {
         ArrayList<Review> ret = new ArrayList<Review>();
-        //TODO: Database call to fetch all review objects WHERE pid=pid
+        ret = databaseConnection.getReviews(pid);
         return ret;
     }
 
@@ -167,9 +159,9 @@ public class API {
     public MyBean setTag(@Named("pid") Integer pid, @Named("tag") String tag) {
         MyBean ret = new MyBean();
         try {
-            //TODO: Database call to store a tag for the given pid
+            ret = databaseConnection.setTag(pid, tag);
         } catch (Exception e) {
-            ret.setData("Failed to add the tag to the database");
+            ret.setData("Failed to call database class method");
             ret.setBool(false);
         }
         return ret;
@@ -179,11 +171,11 @@ public class API {
     public ArrayList<MyBean> getTags(@Named("pid") Integer pid) {
         ArrayList<MyBean> ret = new ArrayList<MyBean>();
         try {
-            //TODO: Database call to get all tags associated with a profile
+            ret = databaseConnection.getTags(pid);
         } catch (Exception e) {
             MyBean temp = new MyBean();
             temp.setBool(false);
-            temp.setData("Failed retrieving tags from database");
+            temp.setData("Failed to call database class method");
             ret.add(temp);
         }
         return ret;
