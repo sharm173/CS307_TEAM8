@@ -18,6 +18,7 @@ import android.widget.Toast;
 /*
     Need to add search bar at the top of the function
     Drop down to select what field to search on?
+
     - Name?
     - City
     - Tags
