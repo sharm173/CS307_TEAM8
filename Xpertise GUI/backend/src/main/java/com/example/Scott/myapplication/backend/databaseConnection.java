@@ -309,7 +309,7 @@ public class databaseConnection {
             Connection conn = DriverManager.getConnection(url);
             try {
 
-                String statement = "SELECT * FROM profiles WHERE city='" + city + "'";
+                String statement = "SELECT * FROM profile WHERE city='" + city + "'";
                 PreparedStatement stmt = conn.prepareStatement(statement);
 
                 ResultSet response = stmt.executeQuery();
@@ -327,18 +327,6 @@ public class databaseConnection {
                     ret.add(temp);
                 }
 
-                /*
-                // TODO: Take this out after testing
-                Profile toTest = new Profile();
-                toTest.setFirstName("Test First Name");
-                toTest.setLastName("Test Last Name");
-                toTest.setPassword("Password");
-                toTest.setCity("Somewhere");
-                toTest.setLat(42.01);
-                toTest.setLng(123.01);
-                toTest.setDescription("Some description");
-                ret.add(toTest);
-                */
             }
             finally {
                 conn.close();
@@ -350,10 +338,8 @@ public class databaseConnection {
         return ret;
     }
 
-    //TODO: Make all these work
-    //TODO: Ensure all relevant MyBean fields are populated with correct data
-
-    public ArrayList<Profile> profilesInRadius(int pid, double dist) {
+    //TODO: Needs SQL statement
+    public static ArrayList<Profile> profilesInRadius(int pid, double dist) {
         ArrayList<Profile> profiles = new ArrayList<Profile>();
         String url = Constants.DATABASE_URL;
 
@@ -399,23 +385,24 @@ public class databaseConnection {
         return profiles;
     }
 
-    public static MyBean postReview(int reviewerPid, int revieweePid, int stars, String desc){
+    //TODO: what is the rid in the database table 'review' and what do we do with it?
+    public static MyBean postReview(Review input){
         String url = Constants.DATABASE_URL;
         MyBean bean = new MyBean();
         int success = 0;
-
+        String statement = null;
         try{
             Class.forName(Constants.GOOGLE_DRIVER);
             Connection conn = DriverManager.getConnection(url);
 
             try{
 
-                String statement = "INSERT INTO reviews (reviewer, reviewee, stars, desc) " +
-                        "VALUES ('" +
-                        Integer.toString(reviewerPid) + "', '" +
-                        Integer.toString(revieweePid) + "', '" +
-                        Integer.toString(stars) + "', '" +
-                        desc + "')";
+                statement = "INSERT INTO review (aboutID, byID, rating, review) " +
+                        "VALUES (" +
+                        Integer.toString(input.getReviewer_pid()) + ", " +
+                        Integer.toString(input.getReviewee_pid()) + ", " +
+                        Integer.toString(input.getStars()) + ", '" +
+                        input.getReviewDesc() + "')";
                 PreparedStatement stmt = conn.prepareStatement(statement);
 
                 success = stmt.executeUpdate();
@@ -433,7 +420,7 @@ public class databaseConnection {
             bean.setData("Successful insert");
         }else{
             bean.setBool(false);
-            bean.setData("Error: Inserting into database failed");
+            bean.setData("Error: Inserting into database failed. statement: " + statement);
         }
 
         return bean;
@@ -449,7 +436,7 @@ public class databaseConnection {
 
             try {
 
-                String statement = "SELECT * FROM review WHERE pid=(?)";
+                String statement = "SELECT * FROM review WHERE aboutID=(?)";
                 PreparedStatement stmt = conn.prepareStatement(statement);
                 stmt.setString(1, Integer.toString(pid));
 
@@ -458,11 +445,10 @@ public class databaseConnection {
                     // Set data for myBean
                     Review temp = new Review();
 
-                    //TODO: Make sure column names are correct
-                    temp.setReviewDesc(response.getString("description"));
-                    temp.setReviewee_pid(response.getInt("reviewee"));
-                    temp.setReviewer_pid(response.getInt("reviewer"));
-                    temp.setStars(response.getInt("stars"));
+                    temp.setReviewDesc(response.getString("review"));
+                    temp.setReviewee_pid(response.getInt("aboutID"));
+                    temp.setReviewer_pid(response.getInt("byID"));
+                    temp.setStars(response.getInt("rating"));
                     reviews.add(temp);
                 }
 
@@ -477,10 +463,12 @@ public class databaseConnection {
         return reviews;
     }
 
+    //TODO: what is the tid in the database table 'tag' and what do we do with it?
     public static MyBean setTag(int pid, String tag){
         String url = Constants.DATABASE_URL;
         MyBean bean = new MyBean();
         int success = 0;
+        String statement = null;
 
         try{
             Class.forName(Constants.GOOGLE_DRIVER);
@@ -488,8 +476,8 @@ public class databaseConnection {
 
             try{
 
-                String statement = "INSERT INTO table (pid, tag) VALUES ('" +
-                        Integer.toString(pid) + "', '" +
+                statement = "INSERT INTO tag (pid, tag) VALUES (" +
+                        Integer.toString(pid) + ", '" +
                         tag + "')";
                 PreparedStatement stmt = conn.prepareStatement(statement);
 
@@ -509,7 +497,7 @@ public class databaseConnection {
             bean.setData("Successful insert");
         }else{
             bean.setBool(false);
-            bean.setData("Error: Inserting into database failed");
+            bean.setData("Error: Inserting into database failed. statement: " + statement);
         }
 
         return bean;
@@ -518,6 +506,7 @@ public class databaseConnection {
     public static ArrayList<MyBean> getTags(int pid){
         String url = Constants.DATABASE_URL;
         ArrayList<MyBean> beans = new ArrayList<MyBean>();
+        String statement = null;
 
         try{
             Class.forName(Constants.GOOGLE_DRIVER);
@@ -525,17 +514,15 @@ public class databaseConnection {
 
             try{
 
-                String statement = "SELECT * FROM tags WEHRE pid=(?)";
+                statement = "SELECT * FROM tag WHERE pid=(" + pid + ")";
                 PreparedStatement stmt = conn.prepareStatement(statement);
-                stmt.setString(1, Integer.toString(pid));
 
                 ResultSet response = stmt.executeQuery();
                 while(response.next()){
                     MyBean temp = new MyBean();
 
-                    //TODO: Make sure column names are correct
                     temp.setData(response.getString("tag"));
-                    temp.setPid(pid);
+                    temp.setPid(response.getInt("pid"));
                     beans.add(temp);
                 }
 
@@ -547,7 +534,6 @@ public class databaseConnection {
         }catch(Exception e){
             e.printStackTrace();
         }
-
         return beans;
     }
 }
