@@ -356,7 +356,9 @@ public class databaseConnection {
                 double loLng = latLngHolder.getLoLng();
 
                 //TODO: Figure out how to do this SQL magic here
-                String statement = "";
+                //lat, lng
+                String statement = "SELECT * FROM profile WHERE lat<=" + hiLat + " AND lat>=" + loLat +
+                        " AND lng<=" + hiLng + " AND lng>=" + loLng;
                 PreparedStatement stmt = conn.prepareStatement(statement);
 
                 ResultSet response = stmt.executeQuery();
