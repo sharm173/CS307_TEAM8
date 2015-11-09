@@ -56,7 +56,7 @@
             android:id="@+id/userTags"
             android:textSize="18sp"
             android:textColor="@color/black"
-            android:text="Programmer, sex god, bro"
+            android:text="Programmer, Designer, Pal"
             android:layout_gravity="bottom"
             android:gravity="bottom"/>
 

@@ -358,7 +358,7 @@ public class databaseConnection {
                 //TODO: Figure out how to do this SQL magic here
                 //lat, lng
                 String statement = "SELECT * FROM profile WHERE lat<=" + hiLat + " AND lat>=" + loLat +
-                        " AND lng<=" + hiLng + " AND lng>=" + loLng;
+                        " AND lng<=" + hiLng + " AND lng>=" + loLng + " AND pid<>" + pid;
                 PreparedStatement stmt = conn.prepareStatement(statement);
 
                 ResultSet response = stmt.executeQuery();

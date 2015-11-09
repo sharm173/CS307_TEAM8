@@ -1,10 +1,13 @@
 package com.scottmcclellan.xpertise;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +16,14 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.example.scott.myapplication.backend.xpertiseAPI.XpertiseAPI;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.extensions.android.json.AndroidJsonFactory;
+import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
+import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
+
+import java.io.IOException;
 
 
 /*
@@ -56,22 +67,9 @@ public class ListUsersActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 linLay.setVisibility(View.GONE);
-                try {
-                    LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                    Location loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                    if(loc != null) {
-                        double lat = loc.getLatitude();
-                        double longe = loc.getLongitude();
-                        //query database for users within radius
-                        //populate listview
-                    }
-                    else{
-                        //we gotsa problem, no location available, async thread required
-                    }
-                }
-                catch(Exception e){
-                    e.printStackTrace();
-                }
+                int pid = LoginActivity.loggedInProfile.getPid();
+                //make the radius call using pid and some radius
+
             }
         });
 
@@ -119,4 +117,5 @@ public class ListUsersActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
