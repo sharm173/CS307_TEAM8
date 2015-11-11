@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.scott.myapplication.backend.xpertiseAPI.model.Profile;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by JoshFoeh on 11/9/15.
@@ -17,9 +18,9 @@ import java.util.ArrayList;
 public class ProfileListAdapter extends BaseAdapter {
 
     LayoutInflater inflater;
-    ArrayList<Profile> profiles;
+    List<Profile> profiles;
 
-    public ProfileListAdapter(Context context, ArrayList<Profile> profiles){
+    public ProfileListAdapter(Context context, List<Profile> profiles){
         this.profiles = profiles;
         inflater = LayoutInflater.from(context);
     }

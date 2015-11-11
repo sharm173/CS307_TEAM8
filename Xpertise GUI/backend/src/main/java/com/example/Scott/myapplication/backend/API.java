@@ -110,7 +110,7 @@ public class API {
 
     //Find all profiles in the same city
     @ApiMethod(name = "profile_city")
-    public ArrayList<Profile> profilesInCity(@Named("pid") Integer pid) {
+    public ArrayList<Profile> profilesInCity(@Named("pid") Integer pid, @Named("city") String city) {
         ArrayList<Profile> ret = new ArrayList<Profile>();
         Profile main = new Profile();
         try {
@@ -120,7 +120,7 @@ public class API {
             ret.add(main);
             return ret;
         }
-        ret = databaseConnection.getProfilesInCity(main);
+        ret = databaseConnection.getProfilesInCity(main, city);
         return ret;
     }
 

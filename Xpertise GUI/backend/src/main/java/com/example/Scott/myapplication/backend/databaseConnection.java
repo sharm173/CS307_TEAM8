@@ -299,17 +299,17 @@ public class databaseConnection {
         return ret;
     }
 
-    public static ArrayList<Profile> getProfilesInCity(Profile input) {
+    public static ArrayList<Profile> getProfilesInCity(Profile input, String city) {
         ArrayList<Profile> ret = new ArrayList<Profile>();
-        String city = input.getCity();
         String url = Constants.DATABASE_URL;
+        int pid = input.getPid();
 
         try {
             Class.forName(Constants.GOOGLE_DRIVER);
             Connection conn = DriverManager.getConnection(url);
             try {
 
-                String statement = "SELECT * FROM profile WHERE city='" + city + "'";
+                String statement = "SELECT * FROM profile WHERE city='" + city + "' AND pid<>" + pid;
                 PreparedStatement stmt = conn.prepareStatement(statement);
 
                 ResultSet response = stmt.executeQuery();
