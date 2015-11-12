@@ -114,8 +114,8 @@ public class RegisterActivity extends AppCompatActivity {
                     myProfile.setEmail(email.getText().toString());
                     myProfile.setPassword(pass.getText().toString());
                     myProfile.setCity(city.getText().toString());
-                    myProfile.setLat(loclong);
-                    myProfile.setLng(loclat);
+                    myProfile.setLat(loclat);
+                    myProfile.setLng(loclong);
                     myProfile.setDescription(description.getText().toString());
                     //TODO: API call to store profile object
                     mAuthTask = new UserRegisterTask(myProfile);
