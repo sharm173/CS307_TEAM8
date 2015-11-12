@@ -60,8 +60,8 @@ public class API {
         response.setPassword(password);
         response.setEmail(email);
         response.setCity(city);
-        response.setLat(lat);
-        response.setLng(lng);
+        response.setLat(Math.abs(lat));
+        response.setLng(Math.abs(lng));
         response.setDescription(description);
         //A Profile must have at least these fields
         if (response.getFirstName() == null || response.getLastName() == null
