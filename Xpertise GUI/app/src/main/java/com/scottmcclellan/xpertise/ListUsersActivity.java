@@ -88,9 +88,7 @@ public class ListUsersActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 linLay.setVisibility(View.VISIBLE);
-                int pid = LoginActivity.loggedInProfile.getPid();
-                mAuthTask2 = new UserListCityTask(pid);
-                mAuthTask2.execute((Void) null);
+
             }
         });
 
@@ -99,8 +97,9 @@ public class ListUsersActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String city = cityText.getText().toString();
                 if(city.length() != 0){
-                    //query database for cities
-                    //populate listview
+                    int pid = LoginActivity.loggedInProfile.getPid();
+                    mAuthTask2 = new UserListCityTask(pid, city);
+                    mAuthTask2.execute((Void) null);
                 }
                 else {
                     Toast.makeText(context, "Please enter a city", Toast.LENGTH_LONG).show();
@@ -112,19 +111,14 @@ public class ListUsersActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_list_users, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -146,16 +140,11 @@ public class ListUsersActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-           // Context context = ListUsersActivity.this;
             XpertiseAPI myApiService = null;
 
             if(myApiService == null) {  // Only do this once
                 XpertiseAPI.Builder builder = new XpertiseAPI.Builder(AndroidHttp.newCompatibleTransport(),
                         new AndroidJsonFactory(), null)
-                        // options for running against local devappserver
-                        // - 10.0.2.2 is localhost's IP address in Android emulator
-                        // - turn off compression when running against local devappserver
                         .setRootUrl("https://xpertiseservergae.appspot.com/_ah/api")
                         .setApplicationName("xpertise")
                         .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
@@ -170,8 +159,6 @@ public class ListUsersActivity extends AppCompatActivity {
 
 
             try {
-                //Simulate network access.
-                //Thread.sleep(2000);
                 ProfileCollection b = myApiService.profileRadius(mPid, mRad).execute(); //TODO: API call is returning Profile collection instead of arraylist
                 userRadList = b.getItems();
 
@@ -181,39 +168,18 @@ public class ListUsersActivity extends AppCompatActivity {
                 e.printStackTrace();
                 return false;
             }
-
-            // TODO: register the new account here.
-            //Need profile details to register, switch to new activity to register
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
 
-            Log.e("Succes is: ", Boolean.toString(success));
-
             if (success) {
 
-               // ListAdapter listAdapter = new ArrayAdapter<Profile>(this, R.layout.user_list, userRadList);
-               // Toast.makeText(RegisterActivity.this, "Your profile has been successfully created!", Toast.LENGTH_SHORT).show();
                 lv = (ListView) findViewById(R.id.userList);
-                ArrayAdapter<Profile> arrayAdapter = new ArrayAdapter<Profile>(
-                        ListUsersActivity.this,
-                        android.R.layout.simple_list_item_1,
-                        userRadList);
-
-                lv.setAdapter(arrayAdapter);
-                Toast.makeText(ListUsersActivity.this, "List view should be populated", Toast.LENGTH_SHORT).show();
-
-                // Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-               // startActivity(intent);
-
-
-                //finish();
-
+                ListAdapter custAdapt = new ProfileListAdapter(context, userRadList);
+                lv.setAdapter(custAdapt);
 
             } else {
-                //password.setError(getString(R.string.error_incorrect_password));
-                //password.requestFocus();
                 Toast.makeText(ListUsersActivity.this, "Unknown error", Toast.LENGTH_SHORT).show();
             }
         }
@@ -226,13 +192,12 @@ public class ListUsersActivity extends AppCompatActivity {
     }
     public class UserListCityTask extends AsyncTask<Void, Void, Boolean> {
         private final int mPid;
-       // private final Double mRad;
+        private final String city;
         List<Profile> userRadList;
 
-
-
-        UserListCityTask(int pid) {
+        UserListCityTask(int pid, String city) {
             mPid = pid;
+            this.city = city;
         }
 
         @Override
@@ -244,9 +209,6 @@ public class ListUsersActivity extends AppCompatActivity {
             if(myApiService == null) {  // Only do this once
                 XpertiseAPI.Builder builder = new XpertiseAPI.Builder(AndroidHttp.newCompatibleTransport(),
                         new AndroidJsonFactory(), null)
-                        // options for running against local devappserver
-                        // - 10.0.2.2 is localhost's IP address in Android emulator
-                        // - turn off compression when running against local devappserver
                         .setRootUrl("https://xpertiseservergae.appspot.com/_ah/api")
                         .setApplicationName("xpertise")
                         .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
@@ -261,9 +223,7 @@ public class ListUsersActivity extends AppCompatActivity {
 
 
             try {
-                //Simulate network access.
-                //Thread.sleep(2000);
-                ProfileCollection b = myApiService.profileCity(mPid).execute(); //TODO: API call is returning Profile collection instead of arraylist
+                ProfileCollection b = myApiService.profileCity(mPid, city).execute(); //TODO: API call is returning Profile collection instead of arraylist
                 userRadList = b.getItems();
 
                 return b != null;
@@ -284,27 +244,14 @@ public class ListUsersActivity extends AppCompatActivity {
 
             if (success) {
 
-                // ListAdapter listAdapter = new ArrayAdapter<Profile>(this, R.layout.user_list, userRadList);
-                // Toast.makeText(RegisterActivity.this, "Your profile has been successfully created!", Toast.LENGTH_SHORT).show();
                 lv = (ListView) findViewById(R.id.userList);
-                ArrayAdapter<Profile> arrayAdapter = new ArrayAdapter<Profile>(
-                        ListUsersActivity.this,
-                        android.R.layout.simple_list_item_1,
-                        userRadList);
-
-                lv.setAdapter(arrayAdapter);
-                Toast.makeText(ListUsersActivity.this, "List view should be populated", Toast.LENGTH_SHORT).show();
-
-                // Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                // startActivity(intent);
+                ListAdapter custAdapt = new ProfileListAdapter(context, userRadList);
+                lv.setAdapter(custAdapt);
 
 
-               // finish();
 
 
             } else {
-                //password.setError(getString(R.string.error_incorrect_password));
-                //password.requestFocus();
                 Toast.makeText(ListUsersActivity.this, "Unknown error", Toast.LENGTH_SHORT).show();
             }
         }
@@ -312,7 +259,6 @@ public class ListUsersActivity extends AppCompatActivity {
         @Override
         protected void onCancelled() {
             mAuthTask = null;
-            // showProgress(false);
         }
     }
 }
