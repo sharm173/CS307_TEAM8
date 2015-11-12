@@ -19,8 +19,8 @@ public class Search {
         double radius_earth = 3963.1676;    // miles
         double brng_north = 0;           // 0 degrees converted to radians
         double brng_west = 1.57;       // 90 degrees converted to radians
-        double brng_south = 2 * brng_north;
-        double brng_east = 3 * brng_north;
+        double brng_south = 2 * brng_west;
+        double brng_east = 3 * brng_west;
 
         double lat_start_rad = Math.toRadians(lat_start);
         double lng_start_rad = Math.toRadians(lng_start);
@@ -63,8 +63,8 @@ public class Search {
         boundary_west = Math.toDegrees(boundary_west);
 
         // latitude increaes towards the equator
-        bean.setHiLat(boundary_south);
-        bean.setLoLat(boundary_north);
+        bean.setHiLat(boundary_north);
+        bean.setLoLat(boundary_south);
 
         // longitude increases away from the prime meridian
         bean.setHiLng(boundary_west);
