@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.scott.myapplication.backend.xpertiseAPI.model.MyBean;
 import com.example.scott.myapplication.backend.xpertiseAPI.model.Profile;
 
 import java.util.ArrayList;
@@ -51,6 +52,17 @@ public class ProfileListAdapter extends BaseAdapter {
             ((TextView)v.findViewById(R.id.userName)).setText(p.getFirstName() + " " + p.getLastName());
             ((TextView)v.findViewById(R.id.userCity)).setText("Located in " + p.getCity());
             //set tags
+            List<MyBean> tagBeans = p.getTags();
+            String tags = "";
+            if(tagBeans != null) {
+                for (int i = 0; i < tagBeans.size(); i++) {
+                    tags += tagBeans.get(i).getData();
+                    if (i != (tagBeans.size() - 1)) {
+                        tags += ", ";
+                    }
+                }
+            }
+            ((TextView)v.findViewById(R.id.userTags)).setText(tags);
         }
         else{
             v = convertView;

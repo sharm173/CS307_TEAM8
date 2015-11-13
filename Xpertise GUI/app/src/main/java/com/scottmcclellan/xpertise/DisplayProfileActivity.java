@@ -9,9 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.scott.myapplication.backend.xpertiseAPI.model.MyBean;
 import com.example.scott.myapplication.backend.xpertiseAPI.model.Profile;
 
 import org.w3c.dom.Text;
+
+import java.util.List;
 
 public class DisplayProfileActivity extends AppCompatActivity {
 
@@ -23,6 +26,7 @@ public class DisplayProfileActivity extends AppCompatActivity {
 //    private TextView lat;
 //    private TextView lng;
     private TextView desc;
+    private TextView tagsView;
     private Button login;
     private Button edit;
     private Button find;
@@ -34,33 +38,34 @@ public class DisplayProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_profile);
 
-        Intent i = this.getIntent();
-       // Bundle bundle = i.getExtras();
-      //  profile = (Profile) bundle.getSerializable("profile");
         profile = LoginActivity.loggedInProfile;
         first = (TextView) findViewById(R.id.firstName);
         last = (TextView) findViewById(R.id.lastName);
         email = (TextView) findViewById(R.id.email);
         pass = (TextView) findViewById(R.id.password);
         city = (TextView) findViewById(R.id.city);
-//        lat = (TextView) findViewById(R.id.lat);
-//        lng = (TextView) findViewById(R.id.lng);
         desc = (TextView) findViewById(R.id.desc);
+        tagsView = (TextView) findViewById(R.id.tags);
         login = (Button) findViewById(R.id.login);
         edit = (Button) findViewById(R.id.edit);
         find = (Button) findViewById(R.id.findButton);
 
-        first.setText(LoginActivity.loggedInProfile.getFirstName());
-        last.setText(LoginActivity.loggedInProfile.getLastName());
-        email.setText(LoginActivity.loggedInProfile.getEmail());
-        pass.setText(LoginActivity.loggedInProfile.getPassword());
-        city.setText(LoginActivity.loggedInProfile.getCity());
-//        lat.setText(Double.toString(LoginActivity.loggedInProfile.getLat()));
-//        lng.setText(Double.toString(LoginActivity.loggedInProfile.getLng()));
-        desc.setText(LoginActivity.loggedInProfile.getDescription());
+        first.setText(profile.getFirstName());
+        last.setText(profile.getLastName());
+        email.setText(profile.getEmail());
+        pass.setText(profile.getPassword());
+        city.setText(profile.getCity());
+        desc.setText(profile.getDescription());
 
-        Log.e("Lat: ", String.valueOf(profile.getLat()));
-        Log.e("Long: ", String.valueOf(profile.getLng()));
+        List<MyBean> tagBeans = profile.getTags();
+        String tags = "";
+        for(int j = 0; j < tagBeans.size(); j++){
+            tags += tagBeans.get(j).getData();
+            if(j != (tagBeans.size() - 1)){
+                tags += ", ";
+            }
+        }
+        tagsView.setText(tags);
 
         edit.setOnClickListener(new View.OnClickListener() {
             @Override

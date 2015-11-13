@@ -118,6 +118,21 @@
             android:textSize="20dp" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Tags: "
+            android:textSize="20dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:id="@+id/tags"
+            android:textSize="20dp" />
+    </LinearLayout>
+
 
     <Button
         android:layout_width="wrap_content"

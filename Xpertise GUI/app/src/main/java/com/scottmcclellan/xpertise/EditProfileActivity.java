@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.scott.myapplication.backend.xpertiseAPI.XpertiseAPI;
 import com.example.scott.myapplication.backend.xpertiseAPI.model.MyBean;
+import com.example.scott.myapplication.backend.xpertiseAPI.model.MyBeanCollection;
 import com.example.scott.myapplication.backend.xpertiseAPI.model.Profile;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -20,6 +21,8 @@ import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EditProfileActivity extends AppCompatActivity {
     private UserUpdateTask mAuthTask = null;
@@ -29,6 +32,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private EditText pass;
     private EditText city;
     private EditText description;
+    //public EditText editTags;
     private Button submit;
     //public static Profile myProfile = new Profile();
     private int pid;
@@ -39,8 +43,10 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_edit_profile);
         context = this;
+
+        final EditText tagEdit;
 
         profile = LoginActivity.loggedInProfile;
 
@@ -50,6 +56,7 @@ public class EditProfileActivity extends AppCompatActivity {
         pass = (EditText) findViewById(R.id.password);
         city = (EditText) findViewById(R.id.city);
         description = (EditText) findViewById(R.id.description);
+        tagEdit = (EditText) findViewById(R.id.tag);
         submit = (Button) findViewById(R.id.submit);
 
         first.setText(profile.getFirstName());
@@ -66,9 +73,9 @@ public class EditProfileActivity extends AppCompatActivity {
                 //Check that all fields have text
                 //API call
                 //proceed to next activity
-                if (first.getText().toString() == null || last.getText().toString() == null ||
-                        email.getText().toString() == null || pass.getText().toString() == null ||
-                        city.getText().toString() == null) {
+                if ((first.getText().toString().length() == 0) && (last.getText().toString().length() == 0) &&
+                        (email.getText().toString().length() == 0) && (pass.getText().toString().length() == 0) &&
+                        (city.getText().toString().length() == 0) && (tagEdit.getText().toString().length() == 0)) {
                     Toast.makeText(EditProfileActivity.this, "Please fill out all the fields", Toast.LENGTH_SHORT).show();
                 }
                 else {
@@ -77,20 +84,127 @@ public class EditProfileActivity extends AppCompatActivity {
                     profile.setEmail(email.getText().toString());
                     profile.setPassword(pass.getText().toString());
                     profile.setCity(city.getText().toString());
-                    //mLat = p.getLat();// does not edit lat or lng
-                   // mLng = p.getLng();//
                     profile.setDescription(description.getText().toString());
                     pid = profile.getPid();
-
-                    //TODO: API call to store profile object
-                    mAuthTask = new UserUpdateTask(profile);
-                    mAuthTask.execute((Void) null);
-
-
+                    if(tagEdit.getText().toString().length() != 0) {
+                        String newTag = tagEdit.getText().toString();
+                        if (newTag.length() != 0) {
+                            setTagsTask tagsTask = new setTagsTask(newTag);
+                            tagsTask.execute((Void) null);
+                        }
+                    }
+                    else {
+                        mAuthTask = new UserUpdateTask(profile);
+                        mAuthTask.execute((Void) null);
+                    }
 
                 }
             }
         });
+    }
+
+    public class setTagsTask extends AsyncTask<Void, Void, Boolean> {
+
+        String tag;
+
+        setTagsTask(String tag) {
+            this.tag = tag;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+            XpertiseAPI myApiService = null;
+
+            if(myApiService == null) {  // Only do this once
+                XpertiseAPI.Builder builder = new XpertiseAPI.Builder(AndroidHttp.newCompatibleTransport(),
+                        new AndroidJsonFactory(), null)
+                        .setRootUrl("https://xpertiseservergae.appspot.com/_ah/api")
+                        .setApplicationName("xpertise")
+                        .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
+                            @Override
+                            public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
+                                abstractGoogleClientRequest.setDisableGZipContent(true);
+                            }
+                        });
+
+                myApiService = builder.build();
+            }
+
+
+            try {
+                myApiService.profileSetTag(LoginActivity.loggedInProfile.getPid(), tag).execute();
+
+                return true;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            getTagsTask tagsTask = new getTagsTask();
+            tagsTask.execute((Void) null);
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+            // showProgress(false);
+        }
+    }
+
+    public class getTagsTask extends AsyncTask<Void, Void, Boolean> {
+
+        getTagsTask() {}
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+            XpertiseAPI myApiService = null;
+
+            if(myApiService == null) {  // Only do this once
+                XpertiseAPI.Builder builder = new XpertiseAPI.Builder(AndroidHttp.newCompatibleTransport(),
+                        new AndroidJsonFactory(), null)
+                        .setRootUrl("https://xpertiseservergae.appspot.com/_ah/api")
+                        .setApplicationName("xpertise")
+                        .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
+                            @Override
+                            public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
+                                abstractGoogleClientRequest.setDisableGZipContent(true);
+                            }
+                        });
+
+                myApiService = builder.build();
+            }
+
+
+            try {
+                MyBeanCollection beanList = myApiService.profileGetTags(profile.getPid()).execute();
+                List<MyBean> beans = beanList.getItems();
+                profile.setTags(beans);
+
+                return true;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mAuthTask = new UserUpdateTask(profile);
+            mAuthTask.execute((Void) null);
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+            // showProgress(false);
+        }
     }
 
     public class UserUpdateTask extends AsyncTask<Void, Void, Boolean> {
@@ -158,7 +272,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
                 // }
 
-                Log.e("Succes is: ", Boolean.toString(b.getBool()));
+                Log.e("Success is: ", Boolean.toString(b.getBool()));
                 Log.e("Data is: ", b.getData());
 
                 return b.getBool();

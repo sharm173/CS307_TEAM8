@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.scott.myapplication.backend.xpertiseAPI.XpertiseAPI;
+import com.example.scott.myapplication.backend.xpertiseAPI.model.MyBean;
+import com.example.scott.myapplication.backend.xpertiseAPI.model.MyBeanCollection;
 import com.example.scott.myapplication.backend.xpertiseAPI.model.Profile;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -20,7 +22,9 @@ import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -51,19 +55,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Profile temp = new Profile();
-                //TODO: AsyncTask call to access profile_auth method in API
                 String myemail = email.getText().toString();
                 String mypassword = password.getText().toString();
 
                 mAuthTask = new UserLoginTask(myemail, mypassword);
                 mAuthTask.execute((Void) null);
 
-
-
-                //loginSuccess = 1;
-                //loggedInProfile = temp;
-                //Intent intent = new Intent(LoginActivity.this, DisplayProfileActivity.class);
-                //startActivity(intent);
             }
         });
 
@@ -90,15 +87,11 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            Context context;
             XpertiseAPI myApiService = null;
 
             if(myApiService == null) {  // Only do this once
                 XpertiseAPI.Builder builder = new XpertiseAPI.Builder(AndroidHttp.newCompatibleTransport(),
                         new AndroidJsonFactory(), null)
-                        // options for running against local devappserver
-                        // - 10.0.2.2 is localhost's IP address in Android emulator
-                        // - turn off compression when running against local devappserver
                         .setRootUrl("https://xpertiseservergae.appspot.com/_ah/api")
                         .setApplicationName("xpertise")
                         .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
@@ -113,8 +106,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
             try {
-                //Simulate network access.
-                //Thread.sleep(2000);
                 com.example.scott.myapplication.backend.xpertiseAPI.model.Profile p = myApiService.profileAuth(mEmail, mPassword).execute();
 
                 //TODO:change to profile activity if p is not null. P is saved in global profile object- 'user'
@@ -133,33 +124,14 @@ public class LoginActivity extends AppCompatActivity {
                 e.printStackTrace();
                 return false;
             }
-
-            // TODO: register the new account here.
-            //Need profile details to register, switch to new activity to register
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
-           // mAuthTask = null;
-           // showProgress(false);
-
             Log.e("Succes is: ", Boolean.toString(success));
-//LoginActivity.this
             if (success) {
-                //LinkedHashMap<String, Object> obj = new LinkedHashMap<String, Object>();
-               // obj.put("hashmapkey", user);
-                Intent i = new Intent(context, DisplayProfileActivity.class);
-         //       Bundle b = new Bundle();
-           //     b.putSerializable("bundleobj", user);
-             //   i.putExtra("profile",b);
-                startActivity(i);
-                finish();
-           //     Intent i = new Intent(context, DisplayProfileActivity.class);
-            //    Bundle bundle = new Bundle();
-            //    bundle.putSerializable("profile", user);
-            //    i.putExtras(bundle);
-            //    startActivity(i);
-            //    finish();
+                setTagsTask tagsTask = new setTagsTask();
+                tagsTask.execute((Void) null);
 
             } else {
                 password.setError(getString(R.string.error_incorrect_password));
@@ -171,6 +143,60 @@ public class LoginActivity extends AppCompatActivity {
         protected void onCancelled() {
             mAuthTask = null;
            // showProgress(false);
+        }
+    }
+
+
+
+    public class setTagsTask extends AsyncTask<Void, Void, Boolean> {
+
+        setTagsTask() {}
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+            XpertiseAPI myApiService = null;
+
+            if(myApiService == null) {  // Only do this once
+                XpertiseAPI.Builder builder = new XpertiseAPI.Builder(AndroidHttp.newCompatibleTransport(),
+                        new AndroidJsonFactory(), null)
+                        .setRootUrl("https://xpertiseservergae.appspot.com/_ah/api")
+                        .setApplicationName("xpertise")
+                        .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
+                            @Override
+                            public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
+                                abstractGoogleClientRequest.setDisableGZipContent(true);
+                            }
+                        });
+
+                myApiService = builder.build();
+            }
+
+
+            try {
+                MyBeanCollection beanList = myApiService.profileGetTags(loggedInProfile.getPid()).execute();
+                List<MyBean> beans = beanList.getItems();
+                loggedInProfile.setTags(beans);
+
+                return true;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            Intent i = new Intent(context, DisplayProfileActivity.class);
+            startActivity(i);
+            finish();
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+            // showProgress(false);
         }
     }
 

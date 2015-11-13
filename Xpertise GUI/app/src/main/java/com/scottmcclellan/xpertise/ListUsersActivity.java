@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.scott.myapplication.backend.xpertiseAPI.XpertiseAPI;
 import com.example.scott.myapplication.backend.xpertiseAPI.model.MyBean;
+import com.example.scott.myapplication.backend.xpertiseAPI.model.MyBeanCollection;
 import com.example.scott.myapplication.backend.xpertiseAPI.model.Profile;
 import com.example.scott.myapplication.backend.xpertiseAPI.model.ProfileCollection;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -48,16 +50,18 @@ import java.util.List;
 
 
 public class ListUsersActivity extends AppCompatActivity {
-    private ListView lv;
+    //private ListView lv;
     Button radiusButton;
     Button cityButton;
     Button getCityButton;
     EditText cityText;
     LinearLayout linLay;
     Context context;
-    //ListView userList;
+    ListView userList;
     private UserListTask mAuthTask = null;
     private UserListCityTask mAuthTask2 = null;
+    List<Profile> profiles;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +73,7 @@ public class ListUsersActivity extends AppCompatActivity {
         getCityButton = (Button) findViewById(R.id.citySearchButton);
         cityText = (EditText) findViewById(R.id.cityEdit);
         linLay = (LinearLayout) findViewById(R.id.cityInput);
-        //userList = (ListView) findViewById(R.id.userList);
+        userList = (ListView) findViewById(R.id.userList);
 
         radiusButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +111,19 @@ public class ListUsersActivity extends AppCompatActivity {
             }
         });
 
+        userList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Profile selectedProf = profiles.get(position);
+                //TUSHAR, selectedProf is what needs to be displayed
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
     }
 
     @Override
@@ -129,9 +146,6 @@ public class ListUsersActivity extends AppCompatActivity {
     public class UserListTask extends AsyncTask<Void, Void, Boolean> {
         private final int mPid;
         private final Double mRad;
-        List<Profile> userRadList;
-
-
 
         UserListTask(int pid, double rad) {
             mPid = pid;
@@ -160,7 +174,7 @@ public class ListUsersActivity extends AppCompatActivity {
 
             try {
                 ProfileCollection b = myApiService.profileRadius(mPid, mRad).execute(); //TODO: API call is returning Profile collection instead of arraylist
-                userRadList = b.getItems();
+                profiles = b.getItems();
 
                 return b != null;
 
@@ -174,10 +188,8 @@ public class ListUsersActivity extends AppCompatActivity {
         protected void onPostExecute(final Boolean success) {
 
             if (success) {
-
-                lv = (ListView) findViewById(R.id.userList);
-                ListAdapter custAdapt = new ProfileListAdapter(context, userRadList);
-                lv.setAdapter(custAdapt);
+                setTagsTask tagsTask = new setTagsTask(0);
+                tagsTask.execute((Void) null);
 
             } else {
                 Toast.makeText(ListUsersActivity.this, "Unknown error", Toast.LENGTH_SHORT).show();
@@ -187,13 +199,11 @@ public class ListUsersActivity extends AppCompatActivity {
         @Override
         protected void onCancelled() {
             mAuthTask = null;
-            // showProgress(false);
         }
     }
     public class UserListCityTask extends AsyncTask<Void, Void, Boolean> {
         private final int mPid;
         private final String city;
-        List<Profile> userRadList;
 
         UserListCityTask(int pid, String city) {
             mPid = pid;
@@ -203,7 +213,6 @@ public class ListUsersActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            // Context context = ListUsersActivity.this;
             XpertiseAPI myApiService = null;
 
             if(myApiService == null) {  // Only do this once
@@ -224,7 +233,7 @@ public class ListUsersActivity extends AppCompatActivity {
 
             try {
                 ProfileCollection b = myApiService.profileCity(mPid, city).execute(); //TODO: API call is returning Profile collection instead of arraylist
-                userRadList = b.getItems();
+                profiles = b.getItems();
 
                 return b != null;
 
@@ -240,19 +249,75 @@ public class ListUsersActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
 
-            Log.e("Succes is: ", Boolean.toString(success));
-
             if (success) {
-
-                lv = (ListView) findViewById(R.id.userList);
-                ListAdapter custAdapt = new ProfileListAdapter(context, userRadList);
-                lv.setAdapter(custAdapt);
-
-
-
-
+                setTagsTask tagsTask = new setTagsTask(0);
+                tagsTask.execute((Void) null);
             } else {
                 Toast.makeText(ListUsersActivity.this, "Unknown error", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+        }
+    }
+
+
+    public class setTagsTask extends AsyncTask<Void, Void, Boolean> {
+
+        Profile prof;
+        int count;
+
+        setTagsTask(int count) {
+            prof = profiles.get(count);
+            this.count = count;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+            XpertiseAPI myApiService = null;
+
+            if(myApiService == null) {  // Only do this once
+                XpertiseAPI.Builder builder = new XpertiseAPI.Builder(AndroidHttp.newCompatibleTransport(),
+                        new AndroidJsonFactory(), null)
+                        .setRootUrl("https://xpertiseservergae.appspot.com/_ah/api")
+                        .setApplicationName("xpertise")
+                        .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
+                            @Override
+                            public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
+                                abstractGoogleClientRequest.setDisableGZipContent(true);
+                            }
+                        });
+
+                myApiService = builder.build();
+            }
+
+
+            try {
+                MyBeanCollection beanList = myApiService.profileGetTags(prof.getPid()).execute();
+                List<MyBean> beans = beanList.getItems();
+                prof.setTags(beans);
+
+                return true;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if(count != (profiles.size() - 1)){
+                setTagsTask tagsTask = new setTagsTask(count + 1);
+                tagsTask.execute((Void) null);
+            }
+            else{
+                userList = (ListView) findViewById(R.id.userList);
+                ListAdapter custAdapt = new ProfileListAdapter(context, profiles);
+                userList.setAdapter(custAdapt);
             }
         }
 
