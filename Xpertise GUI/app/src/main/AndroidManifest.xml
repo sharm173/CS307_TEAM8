@@ -25,6 +25,8 @@
         </activity>
         <activity android:name=".EditProfileActivity" >
         </activity>
+        <activity android:name=".SelectedUserActivity" >
+        </activity>
         <activity
             android:name=".ListUsersActivity"
             android:label="@string/title_activity_list_users" >

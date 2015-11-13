@@ -62,6 +62,8 @@ public class ListUsersActivity extends AppCompatActivity {
     private UserListCityTask mAuthTask2 = null;
     List<Profile> profiles;
 
+    public static Profile selectedProf;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +81,7 @@ public class ListUsersActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 linLay.setVisibility(View.GONE);
-                int pid = LoginActivity.loggedInProfile.getPid();
+                int pid = LoginActivity.loggedInProfile.getPid(); // TODO:change to selected users profile
                 //make the radius call using pid and some radius
                 double rad = 100.00; //hardcoded for now
                 mAuthTask = new UserListTask(pid,rad);
@@ -111,16 +113,26 @@ public class ListUsersActivity extends AppCompatActivity {
             }
         });
 
-        userList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Profile selectedProf = profiles.get(position);
-                //TUSHAR, selectedProf is what needs to be displayed
-            }
+//        userList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                selectedProf = profiles.get(position);
+//                Intent i = new Intent(context, SelectedUserActivity.class);
+//                startActivity(i);
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
 
+        userList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedProf = profiles.get(position);
+                Intent i = new Intent(context, SelectedUserActivity.class);
+                startActivity(i);
             }
         });
 
