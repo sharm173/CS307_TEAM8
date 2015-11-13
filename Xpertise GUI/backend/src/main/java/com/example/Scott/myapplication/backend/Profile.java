@@ -1,6 +1,7 @@
 package com.example.Scott.myapplication.backend;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by JoshFoeh on 10/6/15.
@@ -18,9 +19,11 @@ public class Profile implements java.io.Serializable {
     double lat;
     double lng;
     String description;
-    //String[] tags;
+    ArrayList<MyBean> tags;
 
-    public Profile() {};
+    public Profile() {
+        tags = new ArrayList<MyBean>();
+    };
 
     public String getDescription() {
         return description;
@@ -93,5 +96,9 @@ public class Profile implements java.io.Serializable {
     public void setLng(double lng) {
         this.lng = lng;
     }
+
+    public void setTags(ArrayList<MyBean> set) { tags = set; }
+
+    public ArrayList<MyBean> getTags() { return tags; }
 
 }
