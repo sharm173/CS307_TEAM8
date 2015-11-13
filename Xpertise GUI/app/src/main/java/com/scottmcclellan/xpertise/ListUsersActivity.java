@@ -75,7 +75,7 @@ public class ListUsersActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 linLay.setVisibility(View.GONE);
-                int pid = LoginActivity.loggedInProfile.getPid();
+                int pid = LoginActivity.loggedInProfile.getPid(); // TODO:change to selected users profile
                 //make the radius call using pid and some radius
                 double rad = 100.00; //hardcoded for now
                 mAuthTask = new UserListTask(pid,rad);
