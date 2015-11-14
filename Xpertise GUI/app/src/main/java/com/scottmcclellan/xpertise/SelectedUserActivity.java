@@ -163,25 +163,10 @@ public class SelectedUserActivity extends AppCompatActivity {
             Log.e("Succes is: ", Boolean.toString(success));
 //LoginActivity.this
             if (success) {
-                //LinkedHashMap<String, Object> obj = new LinkedHashMap<String, Object>();
-                // obj.put("hashmapkey", user);
-                // Intent i = new Intent(context, LoginActivity.class);
-                //       Bundle b = new Bundle();
-                //     b.putSerializable("bundleobj", user);
-                //   i.putExtra("profile",b);
-                // startActivity(i);
-            //    Toast.makeText(RegisterActivity.this, "Your profile has been successfully created!", Toast.LENGTH_SHORT).show();
-              //  Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-              //  startActivity(intent);
+
 
                 Toast.makeText(SelectedUserActivity.this, "Review submitted", Toast.LENGTH_SHORT).show();
-               // finish();
-                //     Intent i = new Intent(context, DisplayProfileActivity.class);
-                //    Bundle bundle = new Bundle();
-                //    bundle.putSerializable("profile", user);
-                //    i.putExtras(bundle);
-                //    startActivity(i);
-                //    finish();
+
 
             } else {
                 //password.setError(getString(R.string.error_incorrect_password));
@@ -264,7 +249,7 @@ public class SelectedUserActivity extends AppCompatActivity {
 //LoginActivity.this
             if (success) {
 
-                ListAdapter custAdapt = new ReviewListAdapter(context, userRevList);
+                ListAdapter custAdapt = new ReviewListAdapter(SelectedUserActivity.this, userRevList);
                 lv.setAdapter(custAdapt);
 
                 Toast.makeText(SelectedUserActivity.this, "Reviews fetched", Toast.LENGTH_SHORT).show();

@@ -37,8 +37,12 @@ public class DisplayProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_profile);
-
-        profile = LoginActivity.loggedInProfile;
+        if(ListUsersActivity.selectedProf == null) {
+            profile = LoginActivity.loggedInProfile;
+        }
+        else {
+         profile =  ListUsersActivity.selectedProf;
+        }
         first = (TextView) findViewById(R.id.firstName);
         last = (TextView) findViewById(R.id.lastName);
         email = (TextView) findViewById(R.id.email);
@@ -50,12 +54,12 @@ public class DisplayProfileActivity extends AppCompatActivity {
         edit = (Button) findViewById(R.id.edit);
         find = (Button) findViewById(R.id.findButton);
 
-        first.setText(profile.getFirstName());
-        last.setText(profile.getLastName());
-        email.setText(profile.getEmail());
-        pass.setText(profile.getPassword());
-        city.setText(profile.getCity());
-        desc.setText(profile.getDescription());
+        first.setText(profile.getFirstName().toString());
+        last.setText(profile.getLastName().toString());
+        email.setText(profile.getEmail().toString());
+       // pass.setText(profile.getPassword());
+        city.setText(profile.getCity().toString());
+        desc.setText(profile.getDescription().toString());
 
         List<MyBean> tagBeans = profile.getTags();
         String tags = "";

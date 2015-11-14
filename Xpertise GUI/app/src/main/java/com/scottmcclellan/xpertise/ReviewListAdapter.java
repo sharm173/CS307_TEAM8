@@ -31,7 +31,16 @@ public class ReviewListAdapter extends BaseAdapter {
 
     @Override
     public int getCount(){
-        return reviews.size();
+        int a = 0;
+        try {
+            a = reviews.size();
+        }
+        catch (Exception e){
+            a = 0;
+        }
+        finally {
+            return a;
+        }
     }
 
     @Override

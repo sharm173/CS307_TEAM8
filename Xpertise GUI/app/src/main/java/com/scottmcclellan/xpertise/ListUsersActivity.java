@@ -62,7 +62,7 @@ public class ListUsersActivity extends AppCompatActivity {
     private UserListCityTask mAuthTask2 = null;
     List<Profile> profiles;
 
-    public static Profile selectedProf;
+    public static Profile selectedProf = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
