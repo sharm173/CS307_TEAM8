@@ -31,7 +31,16 @@ public class ReviewListAdapter extends BaseAdapter {
 
     @Override
     public int getCount(){
-        return reviews.size();
+        int a = 0;
+        try {
+            a = reviews.size();
+        }
+        catch (Exception e){
+            a = 0;
+        }
+        finally {
+            return a;
+        }
     }
 
     @Override
@@ -52,10 +61,12 @@ public class ReviewListAdapter extends BaseAdapter {
             Review r = reviews.get(pos);
             //set image
             //set rating
-            ((TextView)v.findViewById(R.id.userName2)).setText(r.getReviewerPid());//change to reviewer's name
-            ((TextView)v.findViewById(R.id.userRating2)).setText(r.getStars());
+            ((TextView)v.findViewById(R.id.userName2)).setText(String.valueOf(r.getReviewerPid()));//change to reviewer's name
+            ((TextView)v.findViewById(R.id.userRating2)).setText(r.getStars().toString());
             ((EditText)v.findViewById(R.id.userReview2)).setText(r.getReviewDesc());
-            //set tags
+            //set tag
+
+
         }
         else{
             v = convertView;
