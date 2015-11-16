@@ -91,7 +91,7 @@ public class SelectedUserActivity extends AppCompatActivity {
                 String comments;
                 int rate;
                 comments = comment.getText().toString();
-                rate = rating.getNumStars();
+                rate = (int)rating.getRating();      //TODO: currently int. Change to float
                 mAuthTask = new UserSetRatingTask(pid, comments, rate);
                 mAuthTask.execute((Void) null);
 
