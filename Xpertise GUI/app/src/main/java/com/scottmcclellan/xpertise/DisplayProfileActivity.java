@@ -61,15 +61,27 @@ public class DisplayProfileActivity extends AppCompatActivity {
         city.setText(profile.getCity().toString());
         desc.setText(profile.getDescription().toString());
 
-//        List<MyBean> tagBeans = profile.getTags();
-  //      String tags = "";
-    //    for(int j = 0; j < tagBeans.size(); j++){
-      //      tags += tagBeans.get(j).getData();
-        //    if(j != (tagBeans.size() - 1)){
-         //       tags += ", ";
-         //   }
-       // }
-        //tagsView.setText(tags);
+
+        try {
+
+            List<MyBean> tagBeans = profile.getTags();
+            String tags = "";
+            for (int j = 0; j < tagBeans.size(); j++) {
+                tags += tagBeans.get(j).getData();
+                if (j != (tagBeans.size() - 1)) {
+                    tags += ", ";
+                }
+            }
+            tagsView.setText(tags);
+        }
+
+        catch (Exception e) {
+
+        }
+
+        //Added try and catch. Not yet tested.
+
+
 
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
