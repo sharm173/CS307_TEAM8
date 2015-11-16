@@ -9,14 +9,11 @@ public class Review {
     private int reviewee_pid;
     private int stars; // should be a range of 0-5
     private String reviewDesc;
+    private String reviewerName;
 
-    public int getReviewer_pid(){
-        return reviewer_pid;
-    }
+    public int getReviewer_pid(){ return reviewer_pid; }
 
-    public void setReviewer_pid(int p){
-        reviewer_pid = p;
-    }
+    public void setReviewer_pid(int p){ reviewer_pid = p; }
 
     public int getReviewee_pid(){
         return reviewee_pid;
@@ -34,11 +31,11 @@ public class Review {
         stars = s;
     }
 
-    public String getReviewDesc(){
-        return reviewDesc;
-    }
+    public String getReviewDesc(){ return reviewDesc; }
 
-    public void setReviewDesc(String s){
-        reviewDesc = s;
-    }
+    public void setReviewDesc(String s){ reviewDesc = s; }
+
+    public String getReviewerName() { return reviewerName; }
+
+    public void setReviewerName(String s) { reviewerName = s; }
 }

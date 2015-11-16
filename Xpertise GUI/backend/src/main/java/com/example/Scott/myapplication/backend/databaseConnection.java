@@ -338,7 +338,6 @@ public class databaseConnection {
         return ret;
     }
 
-    //TODO: Needs SQL statement
     public static ArrayList<Profile> profilesInRadius(int pid, double dist) {
         ArrayList<Profile> profiles = new ArrayList<Profile>();
         String url = Constants.DATABASE_URL;
@@ -387,7 +386,6 @@ public class databaseConnection {
         return profiles;
     }
 
-    //TODO: what is the rid in the database table 'review' and what do we do with it?
     public static MyBean postReview(Review input){
         String url = Constants.DATABASE_URL;
         MyBean bean = new MyBean();
@@ -404,7 +402,7 @@ public class databaseConnection {
                         Integer.toString(input.getReviewer_pid()) + ", " +
                         Integer.toString(input.getReviewee_pid()) + ", " +
                         Integer.toString(input.getStars()) + ", '" +
-                        input.getReviewDesc() + "')";
+                        input.getReviewDesc() + "')"; //TODO: Update to store reviewer name when db is updated
                 PreparedStatement stmt = conn.prepareStatement(statement);
 
                 success = stmt.executeUpdate();
@@ -451,6 +449,7 @@ public class databaseConnection {
                     temp.setReviewee_pid(response.getInt("aboutID"));
                     temp.setReviewer_pid(response.getInt("byID"));
                     temp.setStars(response.getInt("rating"));
+                    //temp.setReviewerName(""); TODO: Confirm new column in database
                     reviews.add(temp);
                 }
 
@@ -465,7 +464,6 @@ public class databaseConnection {
         return reviews;
     }
 
-    //TODO: what is the tid in the database table 'tag' and what do we do with it?
     public static MyBean setTag(int pid, String tag){
         String url = Constants.DATABASE_URL;
         MyBean bean = new MyBean();

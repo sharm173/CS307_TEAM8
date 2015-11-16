@@ -28,15 +28,17 @@ public class API {
     // If pid not found, returns empty profile object with "ERROR" as firstName
     @ApiMethod(name = "profile_get", httpMethod = "get")
     public Profile getProfile(@Named("pid") Integer pid) throws NotFoundException {
+        Profile ret = null;
         try {
-            Profile ret = new Profile();
+            ret = new Profile();
             ret = databaseConnection.getSpecificProfile(pid);
             if (ret.getLastName() == null) ret.setFirstName("ERROR");
-            return ret;
         }
         catch (IndexOutOfBoundsException e) {
             throw new NotFoundException("Profile not found with an index: " + pid);
         }
+        ret.setTags(getTags(ret.getPid()));
+        return ret;
     }
 
     //Returns an ArrayList of all the profiles currently stored in the database
@@ -44,6 +46,9 @@ public class API {
     public ArrayList<Profile> listProfiles() {
         ArrayList<Profile> profiles = new ArrayList<Profile>();
         profiles = databaseConnection.getAllProfiles();
+        for (int i = 0; i < profiles.size(); i++) {
+            profiles.get(i).setTags(getTags(profiles.get(i).getPid()));
+        }
         return profiles;
     }
 
@@ -83,6 +88,7 @@ public class API {
         //If not found, return an error
         Profile ret = databaseConnection.findUserPassCombo(email, password);
         if (ret.getFirstName() == null) return null;
+        ret.setTags(getTags(ret.getPid()));
         return ret;
     }
 
@@ -121,28 +127,36 @@ public class API {
             return ret;
         }
         ret = databaseConnection.getProfilesInCity(main, city);
+
+        for (int i = 0; i < ret.size(); i++) {
+            ret.get(i).setTags(getTags(ret.get(i).getPid()));
+        }
         return ret;
     }
 
     //Find all profiles within a certain radius in miles
-    //TODO: Needs testing
     @ApiMethod(name = "profile_radius")
     public ArrayList<Profile> profilesInRadius(@Named("pid") Integer pid, @Named("miles") double distance) {
         ArrayList<Profile> ret = new ArrayList<Profile>();
         //sad lyfe trevor did everything for me in database class
         ret = databaseConnection.profilesInRadius(pid, distance);
+
+        for (int i = 0; i < ret.size(); i++) {
+            ret.get(i).setTags(getTags(ret.get(i).getPid()));
+        }
         return ret;
     }
 
     //Add a review to the database for a profile
     @ApiMethod(name = "profile_postReview")
-    public MyBean postReview(@Named("reviewerPid") Integer reviewerPid, @Named("revieweePid") Integer revieweePid, @Named("stars") Integer stars, @Named("description") String desc) {//TODO: Add Review fields. or possibly accept review object?
+    public MyBean postReview(@Named("reviewerPid") Integer reviewerPid, @Named("reviewerName") String reviewerName, @Named("revieweePid") Integer revieweePid, @Named("stars") Integer stars, @Named("description") String desc) {//TODO: Add Review fields. or possibly accept review object?
         Review store = new Review();
         MyBean ret = new MyBean();
         store.setReviewer_pid(reviewerPid);
         store.setReviewee_pid(revieweePid);
         store.setStars(stars);
         store.setReviewDesc(desc);
+        store.setReviewerName(reviewerName);
         ret = databaseConnection.postReview(store);
         return ret;
     }
