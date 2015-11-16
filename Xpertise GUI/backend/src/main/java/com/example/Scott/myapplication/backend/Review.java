@@ -28,6 +28,8 @@ public class Review {
     }
 
     public void setStars(int s){
+        if (s > 5) s = 5;
+        if (s < 0) s = 0;
         stars = s;
     }
 

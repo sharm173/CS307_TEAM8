@@ -20,18 +20,16 @@ public class Profile implements java.io.Serializable {
     double lng;
     String description;
     ArrayList<MyBean> tags;
+    ArrayList<Group> groups;
 
     public Profile() {
         tags = new ArrayList<MyBean>();
+        groups = new ArrayList<Group>();
     };
 
-    public String getDescription() {
-        return description;
-    }
+    public String getDescription() { return description; }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    public void setDescription(String set) { description = set; }
 
     public int getPid() {
         return pid;
@@ -93,12 +91,14 @@ public class Profile implements java.io.Serializable {
         return lng;
     }
 
-    public void setLng(double lng) {
-        this.lng = lng;
-    }
+    public void setLng(double set) { lng = set; }
 
     public void setTags(ArrayList<MyBean> set) { tags = set; }
 
     public ArrayList<MyBean> getTags() { return tags; }
+
+    public void setGroups(ArrayList<Group> set) { groups = set; }
+
+    public  ArrayList<Group> getGroups() { return groups; }
 
 }

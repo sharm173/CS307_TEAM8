@@ -6,6 +6,8 @@ import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.NotFoundException;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import javax.inject.Named;
 
@@ -33,21 +35,23 @@ public class API {
             ret = new Profile();
             ret = databaseConnection.getSpecificProfile(pid);
             if (ret.getLastName() == null) ret.setFirstName("ERROR");
-        }
-        catch (IndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
             throw new NotFoundException("Profile not found with an index: " + pid);
         }
         ret.setTags(getTags(ret.getPid()));
+        ret.setGroups(getGroups(ret.getPid()));
         return ret;
     }
 
     //Returns an ArrayList of all the profiles currently stored in the database
-    @ApiMethod (name = "profile_listAll")
+    @ApiMethod(name = "profile_listAll")
     public ArrayList<Profile> listProfiles() {
         ArrayList<Profile> profiles = new ArrayList<Profile>();
         profiles = databaseConnection.getAllProfiles();
+        //lol gl trying to understand my magical one liners
         for (int i = 0; i < profiles.size(); i++) {
             profiles.get(i).setTags(getTags(profiles.get(i).getPid()));
+            profiles.get(i).setGroups(getGroups(profiles.get(i).getPid()));
         }
         return profiles;
     }
@@ -55,9 +59,9 @@ public class API {
     //Store a profile in the database
     @ApiMethod(name = "profile_post", httpMethod = "post")
     public MyBean insertProfile(@Named("firstName") String firstName, @Named("lastName") String lastName,
-                              @Named("password") String password, @Named("email") String email,
-                              @Named("city") String city, @Named("lat") Double lat,
-                              @Named("lng") Double lng, @Named("description") String description) {
+                                @Named("password") String password, @Named("email") String email,
+                                @Named("city") String city, @Named("lat") Double lat,
+                                @Named("lng") Double lng, @Named("description") String description) {
         MyBean ret = new MyBean();
         Profile response = new Profile();
         response.setFirstName(firstName);
@@ -89,6 +93,7 @@ public class API {
         Profile ret = databaseConnection.findUserPassCombo(email, password);
         if (ret.getFirstName() == null) return null;
         ret.setTags(getTags(ret.getPid()));
+        ret.setGroups(getGroups(ret.getPid()));
         return ret;
     }
 
@@ -98,7 +103,7 @@ public class API {
                               @Named("password") String password, @Named("email") String email,
                               @Named("city") String city, @Named("lat") Double lat,
                               @Named("lng") Double lng, @Named("description") String description,
-                                @Named("pid") Integer pid) {
+                              @Named("pid") Integer pid) {
         Profile input = new Profile();
         input.setPid(pid);
         input.setFirstName(firstName);
@@ -169,6 +174,7 @@ public class API {
         return ret;
     }
 
+    //Associate a single tag to a profile
     @ApiMethod(name = "profile_setTag")
     public MyBean setTag(@Named("pid") Integer pid, @Named("tag") String tag) {
         MyBean ret = new MyBean();
@@ -181,6 +187,7 @@ public class API {
         return ret;
     }
 
+    //Get all tags associated with a profile
     @ApiMethod(name = "profile_getTags")
     public ArrayList<MyBean> getTags(@Named("pid") Integer pid) {
         ArrayList<MyBean> ret = new ArrayList<MyBean>();
@@ -192,6 +199,95 @@ public class API {
             temp.setData("Failed to call database class method");
             ret.add(temp);
         }
+        return ret;
+    }
+
+
+    //Get all profiles that have a certain tag TODO
+    @ApiMethod(name = "profile_searchTag")
+    public ArrayList<Profile> searchTags(@Named("tag") String tag) {
+        ArrayList<Profile> ret = new ArrayList<Profile>();
+        //TODO database call to get all profiles with a certain tag
+        return ret;
+    }
+
+    //Associates a single group with a profile TODO
+    @ApiMethod(name = "profile_setGroup")
+    public MyBean setGroup(@Named("pid") Integer pid, @Named("gid") Integer gid) {
+        MyBean ret = new MyBean();
+        //TODO: Database call to store group
+        return ret;
+    }
+
+    //Gets all groups associated with a profile TODO
+    @ApiMethod(name = "profile_getGroups")
+    public ArrayList<Group> getGroups(@Named("pid") Integer pid) {
+        ArrayList<Group> ret = new ArrayList<Group>();
+        int gids[] = null;
+        //TODO database call to get all gids associated with pid
+        for (int i = 0; i < gids.length; i++) {
+            Group temp = new Group();
+            temp = getGroup(gids[i]);
+        }
+        return ret;
+    }
+
+    //Creates a new group TODO
+    @ApiMethod(name = "group_post")
+    public MyBean postGroup(@Named("name") String name, @Named("desc") String desc, @Named("makerPid") Integer makerPid) {
+        MyBean ret = new MyBean();
+        Group insert = new Group();
+        insert.setName(name);
+        insert.setDesc(desc);
+        insert.setCreatorPid(makerPid);
+        //TODO: Call database function to add group
+        return ret;
+    }
+
+    //Gets a specific group TODO
+    @ApiMethod(name = "group_get")
+    public Group getGroup(@Named("gid") Integer gid) {
+        Group ret = new Group();
+        //TODO database call to get the group
+        Profile maker = null;
+        try {
+            maker = getProfile(ret.getCreatorPid());
+        } catch (Exception e) {
+            maker = new Profile();
+            maker.setDescription("Failed to find creator's profile");
+        }
+        ret.setMembers(getGroupMembers(ret));
+        ret.setPosts(getPosts(ret));
+        return ret;
+    }
+
+    //Helper method to populate group members arraylist when getting specific group TODO
+    public ArrayList<Profile> getGroupMembers(Group group) {
+        ArrayList<Profile> ret = new ArrayList<Profile>();
+        int pids[] = null;
+        //TODO database call to get pids of group memebers
+        for (int i = 0; i < group.getNumMembers(); i++) {
+            Profile temp = new Profile();
+            try {
+                temp = getProfile(pids[i]);
+            } catch (Exception e) {
+                temp.setDescription("Failed to find profile of pid " + pids[i]);
+            }
+            ret.add(temp);
+        }
+        return ret;
+    }
+
+    //Helper method to populate group posts arraylist when getting specific group TODO
+    public ArrayList<Post> getPosts(Group group) {
+        ArrayList<Post> ret = new ArrayList<Post>();
+        //TODO database call to get all posts WHERE gid=group.getGid
+        Collections.sort(ret, new Comparator<Post>() {
+            @Override
+            public int compare(Post p1, Post p2) {
+                return p1.getPostID() - p2.getPostID(); // Ascending
+            }
+        });
         return ret;
     }
 }

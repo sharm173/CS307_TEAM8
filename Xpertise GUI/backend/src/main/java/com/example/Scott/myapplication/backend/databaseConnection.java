@@ -73,19 +73,6 @@ public class databaseConnection {
                             input.getDescription() + "')";
                     PreparedStatement stmt = conn.prepareStatement(statement);
 
-                    /*
-                    // Add all values from profile into prepared statement
-                    stmt.setInt(1, input.getPid());
-                    stmt.setString(1, input.getFirstName());
-                    stmt.setString(2, input.getLastName());
-                    stmt.setString(3, input.getPassword());
-                    stmt.setString(4, input.getEmail());
-                    stmt.setString(5, input.getCity());
-                    stmt.setDouble(6, input.getLat());
-                    stmt.setDouble(7, input.getLng());
-                    stmt.setString(8, input.getDescription());
-                    */
-
                     // Returns 1 on success, 0 on fail
                     success = stmt.executeUpdate();
                 }
@@ -193,19 +180,6 @@ public class databaseConnection {
                     allProfiles.add(temp);
                 }
 
-                /*
-                // TODO: Take this out after testing
-                Profile toTest = new Profile();
-                toTest.setFirstName("Test First Name");
-                toTest.setLastName("Test Last Name");
-                toTest.setPassword("Password");
-                toTest.setCity("Somewhere");
-                toTest.setLat(42.01);
-                toTest.setLng(123.01);
-                toTest.setDescription("Some description");
-                allProfiles.add(toTest);
-                */
-
             }
             finally {
                 conn.close();
@@ -267,10 +241,6 @@ public class databaseConnection {
             try {
                 statement = "SELECT * FROM profile WHERE email=('" + username + "') AND password=('" + password + "')";
                 PreparedStatement stmt = conn.prepareStatement(statement);
-                /*
-                stmt.setString(1, username);
-                stmt.setString(1, password);
-                */
 
                 ResultSet response = stmt.executeQuery();
                 response.next();
@@ -354,7 +324,6 @@ public class databaseConnection {
                 double hiLng = latLngHolder.getHiLng();
                 double loLng = latLngHolder.getLoLng();
 
-                //TODO: Figure out how to do this SQL magic here
                 //lat, lng
                 String statement = "SELECT * FROM profile WHERE lat<=" + hiLat + " AND lat>=" + loLat +
                         " AND lng<=" + hiLng + " AND lng>=" + loLng + " AND pid<>" + pid;
@@ -386,6 +355,7 @@ public class databaseConnection {
         return profiles;
     }
 
+    //TODO
     public static MyBean postReview(Review input){
         String url = Constants.DATABASE_URL;
         MyBean bean = new MyBean();
@@ -426,6 +396,7 @@ public class databaseConnection {
         return bean;
     }
 
+    //TODO
     public static ArrayList<Review> getReviews(int pid){
         String url = Constants.DATABASE_URL;
         ArrayList<Review> reviews = new ArrayList<Review>();
