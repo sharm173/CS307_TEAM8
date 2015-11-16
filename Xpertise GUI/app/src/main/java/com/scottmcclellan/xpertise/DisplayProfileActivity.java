@@ -39,6 +39,7 @@ public class DisplayProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_display_profile);
 
         profile = LoginActivity.loggedInProfile;
+        
         first = (TextView) findViewById(R.id.firstName);
         last = (TextView) findViewById(R.id.lastName);
         email = (TextView) findViewById(R.id.email);
