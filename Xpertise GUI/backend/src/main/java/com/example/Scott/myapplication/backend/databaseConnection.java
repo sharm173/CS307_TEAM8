@@ -355,7 +355,6 @@ public class databaseConnection {
         return profiles;
     }
 
-    //TODO
     public static MyBean postReview(Review input){
         String url = Constants.DATABASE_URL;
         MyBean bean = new MyBean();
@@ -367,12 +366,12 @@ public class databaseConnection {
 
             try{
 
-                statement = "INSERT INTO review (aboutID, byID, rating, review) " +
+                statement = "INSERT INTO review (aboutID, byID, rating, review, name) " +
                         "VALUES (" +
-                        Integer.toString(input.getReviewer_pid()) + ", " +
                         Integer.toString(input.getReviewee_pid()) + ", " +
+                        Integer.toString(input.getReviewer_pid()) + ", " +
                         Integer.toString(input.getStars()) + ", '" +
-                        input.getReviewDesc() + "')"; //TODO: Update to store reviewer name when db is updated
+                        input.getReviewDesc() + "', '" + input.getReviewerName() + "')";
                 PreparedStatement stmt = conn.prepareStatement(statement);
 
                 success = stmt.executeUpdate();
@@ -396,7 +395,6 @@ public class databaseConnection {
         return bean;
     }
 
-    //TODO
     public static ArrayList<Review> getReviews(int pid){
         String url = Constants.DATABASE_URL;
         ArrayList<Review> reviews = new ArrayList<Review>();
@@ -420,7 +418,7 @@ public class databaseConnection {
                     temp.setReviewee_pid(response.getInt("aboutID"));
                     temp.setReviewer_pid(response.getInt("byID"));
                     temp.setStars(response.getInt("rating"));
-                    //temp.setReviewerName(""); TODO: Confirm new column in database
+                    temp.setReviewerName(response.getString("name"));
                     reviews.add(temp);
                 }
 

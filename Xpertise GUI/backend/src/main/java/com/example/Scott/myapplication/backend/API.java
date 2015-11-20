@@ -28,6 +28,7 @@ public class API {
 
     // Returns profile with specified pid
     // If pid not found, returns empty profile object with "ERROR" as firstName
+    //TODO
     @ApiMethod(name = "profile_get", httpMethod = "get")
     public Profile getProfile(@Named("pid") Integer pid) throws NotFoundException {
         Profile ret = null;
@@ -39,11 +40,12 @@ public class API {
             throw new NotFoundException("Profile not found with an index: " + pid);
         }
         ret.setTags(getTags(ret.getPid()));
-        ret.setGroups(getGroups(ret.getPid()));
+        //ret.setGroups(getGroups(ret.getPid())); TODO: Uncomment when groups are done
         return ret;
     }
 
     //Returns an ArrayList of all the profiles currently stored in the database
+    //TODO
     @ApiMethod(name = "profile_listAll")
     public ArrayList<Profile> listProfiles() {
         ArrayList<Profile> profiles = new ArrayList<Profile>();
@@ -51,7 +53,7 @@ public class API {
         //lol gl trying to understand my magical one liners
         for (int i = 0; i < profiles.size(); i++) {
             profiles.get(i).setTags(getTags(profiles.get(i).getPid()));
-            profiles.get(i).setGroups(getGroups(profiles.get(i).getPid()));
+            //profiles.get(i).setGroups(getGroups(profiles.get(i).getPid())); TODO: Uncomment when groups are done
         }
         return profiles;
     }
@@ -85,6 +87,7 @@ public class API {
     }
 
     //Return the profile object matching the email and password combo, if not found return null
+    //TODO
     @ApiMethod(name = "profile_auth", httpMethod = "get")
     public Profile authProfile(@Named("email") String email, @Named("password") String password) {
         //Attempts to find the profile information associated with the provided password and email
@@ -93,7 +96,7 @@ public class API {
         Profile ret = databaseConnection.findUserPassCombo(email, password);
         if (ret.getFirstName() == null) return null;
         ret.setTags(getTags(ret.getPid()));
-        ret.setGroups(getGroups(ret.getPid()));
+        //ret.setGroups(getGroups(ret.getPid())); TODO: Uncomment when groups are done
         return ret;
     }
 
@@ -120,6 +123,7 @@ public class API {
     }
 
     //Find all profiles in the same city
+    //TODO
     @ApiMethod(name = "profile_city")
     public ArrayList<Profile> profilesInCity(@Named("pid") Integer pid, @Named("city") String city) {
         ArrayList<Profile> ret = new ArrayList<Profile>();
@@ -135,11 +139,13 @@ public class API {
 
         for (int i = 0; i < ret.size(); i++) {
             ret.get(i).setTags(getTags(ret.get(i).getPid()));
+            //ret.get(i).setGroups(getGroups(ret.get(i).getPid())); TODO: uncomment when groups are done
         }
         return ret;
     }
 
     //Find all profiles within a certain radius in miles
+    //TODO
     @ApiMethod(name = "profile_radius")
     public ArrayList<Profile> profilesInRadius(@Named("pid") Integer pid, @Named("miles") double distance) {
         ArrayList<Profile> ret = new ArrayList<Profile>();
@@ -148,6 +154,7 @@ public class API {
 
         for (int i = 0; i < ret.size(); i++) {
             ret.get(i).setTags(getTags(ret.get(i).getPid()));
+            //ret.get(i).setGroups(getGroups(ret.get(i).getPid())); TODO: uncomment when groups are done
         }
         return ret;
     }
@@ -208,6 +215,10 @@ public class API {
     public ArrayList<Profile> searchTags(@Named("tag") String tag) {
         ArrayList<Profile> ret = new ArrayList<Profile>();
         //TODO database call to get all profiles with a certain tag
+        for (int i = 0; i < ret.size(); i++) {
+            ret.get(i).setTags(getTags(ret.get(i).getPid()));
+            //ret.get(i).setGroups(getGroups(ret.get(i).getPid())); TODO: uncomment when groups are done
+        }
         return ret;
     }
 
