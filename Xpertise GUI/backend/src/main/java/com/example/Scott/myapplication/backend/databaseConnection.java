@@ -507,4 +507,18 @@ public class databaseConnection {
         }
         return beans;
     }
+
+    // TODO: ArrayList<Profile> searchTags(tag)
+
+    // TODO: MyBean setGroup(pid, gid)
+
+    // TODO: ArrayList<Group> getGroups(pid)
+
+    // TODO: MyBean postGroup(name, desc, makerPid)
+
+    // TODO: Group getGroup(gid)
+
+    // TODO: ArrayList<Profile> getGroupMembers(group)
+
+    // TODO: ArrayList<Post> getPosts(group)
 }
