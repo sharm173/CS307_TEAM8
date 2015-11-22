@@ -507,16 +507,272 @@ public class databaseConnection {
     }
 
     // TODO: ArrayList<Profile> searchTags(tag)
+    // Returns list of all profiles with specific tag
+    public static ArrayList<Profile> searchTags(String tag){
+        String url = Constants.DATABASE_URL;
+        ArrayList<Profile> profiles = new ArrayList<Profile>();
+        String statement = null;
+
+        try{
+            Class.forName(Constants.GOOGLE_DRIVER);
+            Connection conn = DriverManager.getConnection(url);
+
+            try{
+
+                statement = "SELECT * FROM tag WHERE tag=(" + tag + ")";
+                PreparedStatement stmt = conn.prepareStatement(statement);
+
+                ResultSet response = stmt.executeQuery();
+                while(response.next()){
+                    Profile temp;
+
+                    temp = getSpecificProfile(response.getInt("pid"));
+                    profiles.add(temp);
+                }
+
+            }finally{
+                conn.close();
+            }
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return profiles;
+    }
+
 
     // TODO: MyBean setGroup(pid, gid)
+    // Associates a profile with a specific group
+    public static MyBean setGroup(int pid, int gid){
+        String url = Constants.DATABASE_URL;
+        String statement;
+        MyBean bean = new MyBean();
+        int success = 0;
+
+        try{
+            Class.forName(Constants.GOOGLE_DRIVER);
+            Connection conn = DriverManager.getConnection(url);
+
+            try{
+
+                statement = "INSERT INTO groupTable (gid, pid) VALUES(" +
+                gid + "," +
+                pid + ")";
+                PreparedStatement stmt = conn.prepareStatement(statement);
+                success = stmt.executeUpdate();
+
+
+            }finally{
+                conn.close();
+            }
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        if(success == 1){
+            bean.setBool(true);
+            bean.setData("Successful insert");
+        }else{
+            bean.setBool(false);
+            bean.setData("Error: Insert failed");
+        }
+
+        return bean;
+    }
 
     // TODO: ArrayList<Group> getGroups(pid)
+    // Returns list of all groups for a specific profile
+    public static ArrayList<Group> searchTags(int pid){
+        String url = Constants.DATABASE_URL;
+        ArrayList<Group> groups = new ArrayList<Group>();
+        String statement = null;
+
+        try{
+            Class.forName(Constants.GOOGLE_DRIVER);
+            Connection conn = DriverManager.getConnection(url);
+
+            try{
+
+                statement = "SELECT * FROM groupTable WHERE pid=(" + pid + ")";
+                PreparedStatement stmt = conn.prepareStatement(statement);
+
+                ResultSet response = stmt.executeQuery();
+                while(response.next()){
+                    Group temp = new Group();
+
+                    temp.setGid(response.getInt("gid"));
+                    temp.setCreatorPid(response.getInt("creator"));
+                    temp.setName(response.getString("name"));
+                    temp.setDesc(response.getString("description"));
+                    temp.setCreator(getSpecificProfile(temp.getCreatorPid()));
+
+                    groups.add(temp);
+                }
+
+            }finally{
+                conn.close();
+            }
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return groups;
+    }
 
     // TODO: MyBean postGroup(name, desc, makerPid)
+    // Insert a new group into the database
+    public static MyBean postGroup(String name, String desc, int makerPid) {
+        String url = Constants.DATABASE_URL;
+        MyBean bean = new MyBean();
+        String statement;
+        int success = 0;
+
+        try {
+            // Load GoogleDriver class at runtime
+            Class.forName(Constants.GOOGLE_DRIVER);
+
+            // Open connection to database
+            Connection conn = DriverManager.getConnection(url);
+            try {
+
+                    statement = "INSERT INTO groupTable (creatorPid, name, description)" +
+                            " VALUES ('" +
+                            makerPid + "', '" +
+                            name + "', '" +
+                            desc + "')";
+                    PreparedStatement stmt = conn.prepareStatement(statement);
+
+                    // Returns 1 on success, 0 on fail
+                    success = stmt.executeUpdate();
+
+            }
+            finally {
+                // Always make sure to close database connection
+                conn.close();
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        if (success == 1) {
+            bean.setBool(true);
+            bean.setData("Successful insert");
+        } else {
+            bean.setBool(false);
+            bean.setData("Error: Inserting into database failed");
+        }
+        return bean;
+    }
 
     // TODO: Group getGroup(gid)
+    // Return a specific group from the database
+    public static Group getGroup(int gid) {
+        String url = Constants.DATABASE_URL;
+        Group g = new Group();
+
+        try {
+            Class.forName(Constants.GOOGLE_DRIVER);
+            Connection conn = DriverManager.getConnection(url);
+            try {
+
+                String statement = "SELECT * FROM groupTable WHERE gid=(" + gid + ")";
+                PreparedStatement stmt = conn.prepareStatement(statement);
+
+                ResultSet response = stmt.executeQuery();
+                response.next();
+                g.setName(response.getString("name"));
+                g.setCreatorPid(response.getInt("creatorPid"));
+                g.setDesc(response.getString("description"));
+                g.setCreator(getSpecificProfile(g.getCreatorPid()));
+
+            }
+            finally {
+                conn.close();
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return g;
+    }
 
     // TODO: ArrayList<Profile> getGroupMembers(group)
+    // Returns list of all group members for a specific group
+    public static ArrayList<Profile> getGroupMembers(Group g){
+        String url = Constants.DATABASE_URL;
+        ArrayList<Profile> members = new ArrayList<Profile>();
+        String statement;
+
+        try{
+            Class.forName(Constants.GOOGLE_DRIVER);
+            Connection conn = DriverManager.getConnection(url);
+
+            try{
+
+                statement = "SELECT * FROM groupMembers WHERE gid=(" + g.getGid() + ")";
+                PreparedStatement stmt = conn.prepareStatement(statement);
+
+                ResultSet response = stmt.executeQuery();
+                while(response.next()){
+
+                    Profile temp = getSpecificProfile(response.getInt("pid"));
+                    members.add(temp);
+                }
+
+            }finally{
+                conn.close();
+            }
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return members;
+    }
 
     // TODO: ArrayList<Post> getPosts(group)
+    // Returns list of all posts for a specific group
+    public static ArrayList<Post> getPosts(Group g){
+        String url = Constants.DATABASE_URL;
+        ArrayList<Post> posts = new ArrayList<Post>();
+        String statement;
+
+        try{
+            Class.forName(Constants.GOOGLE_DRIVER);
+            Connection conn = DriverManager.getConnection(url);
+
+            try{
+
+                statement = "SELECT * FROM post WHERE gid=(" + g.getGid() + ")";
+                PreparedStatement stmt = conn.prepareStatement(statement);
+
+                ResultSet response = stmt.executeQuery();
+                while(response.next()){
+
+                    Post temp = new Post();
+
+                    // TODO: Make sure column names are correct
+                    temp.setBody(response.getString("body"));
+                    temp.setDate(response.getString("date"));
+                    temp.setPostID(response.getInt("postID"));
+                    temp.setTitle(response.getString("title"));
+
+                    posts.add(temp);
+                }
+
+            }finally{
+                conn.close();
+            }
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return posts;
+    }
 }
