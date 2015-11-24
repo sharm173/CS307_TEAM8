@@ -140,7 +140,7 @@ public class SelectedUserActivity extends AppCompatActivity {
             try {
                 //Simulate network access.
                 //Thread.sleep(2000);
-                MyBean b = myApiService.profilePostReview(LoginActivity.loggedInProfile.getPid(), pid, rate, comments).execute();
+                MyBean b = myApiService.profilePostReview(LoginActivity.loggedInProfile.getPid(),LoginActivity.loggedInProfile.getFirstName()+" "+LoginActivity.loggedInProfile.getLastName(),pid, rate, comments).execute();
 
 
 

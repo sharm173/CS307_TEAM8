@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.scott.myapplication.backend.xpertiseAPI.model.Profile;
@@ -61,8 +62,9 @@ public class ReviewListAdapter extends BaseAdapter {
             Review r = reviews.get(pos);
             //set image
             //set rating
-            ((TextView)v.findViewById(R.id.userName2)).setText(String.valueOf(r.getReviewerPid()));//change to reviewer's name
-            ((TextView)v.findViewById(R.id.userRating2)).setText(r.getStars().toString());
+            ((TextView)v.findViewById(R.id.userName2)).setText(r.getReviewerName());//change to reviewer's name
+           // ((TextView)v.findViewById(R.id.userRating2)).setText(r.getStars());
+            ((RatingBar)v.findViewById(R.id.ratingBar2)).setRating(r.getStars());
             ((EditText)v.findViewById(R.id.userReview2)).setText(r.getReviewDesc());
             //set tag
 
