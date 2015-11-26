@@ -209,12 +209,12 @@ public class API {
         return ret;
     }
 
-
-    //Get all profiles that have a certain tag TODO
+    //TODO
+    //Get all profiles that have a certain tag
     @ApiMethod(name = "profile_searchTag")
     public ArrayList<Profile> searchTags(@Named("tag") String tag) {
         ArrayList<Profile> ret = new ArrayList<Profile>();
-        //TODO database call to get all profiles with a certain tag
+        ret = databaseConnection.searchTags(tag);
         for (int i = 0; i < ret.size(); i++) {
             ret.get(i).setTags(getTags(ret.get(i).getPid()));
             //ret.get(i).setGroups(getGroups(ret.get(i).getPid())); TODO: uncomment when groups are done
@@ -222,28 +222,31 @@ public class API {
         return ret;
     }
 
-    //Associates a single group with a profile TODO
+    //TODO: test
+    //Associates a single group with a profile
     @ApiMethod(name = "profile_setGroup")
     public MyBean setGroup(@Named("pid") Integer pid, @Named("gid") Integer gid) {
         MyBean ret = new MyBean();
-        //TODO: Database call to store group
+        ret = databaseConnection.setGroup(pid, gid);
         return ret;
     }
 
-    //Gets all groups associated with a profile TODO
+    //TODO: test
+    //Gets all groups associated with a profile
     @ApiMethod(name = "profile_getGroups")
     public ArrayList<Group> getGroups(@Named("pid") Integer pid) {
         ArrayList<Group> ret = new ArrayList<Group>();
-        int gids[] = null;
-        //TODO database call to get all gids associated with pid
-        for (int i = 0; i < gids.length; i++) {
+        ArrayList<Integer> gids = new ArrayList<Integer>();
+        gids = databaseConnection.getGroups(pid);
+        for (int i = 0; i < gids.size(); i++) {
             Group temp = new Group();
-            temp = getGroup(gids[i]);
+            temp = getGroup(gids.get(i));
         }
         return ret;
     }
 
-    //Creates a new group TODO
+    //TODO: test
+    //Creates a new group
     @ApiMethod(name = "group_post")
     public MyBean postGroup(@Named("name") String name, @Named("desc") String desc, @Named("makerPid") Integer makerPid) {
         MyBean ret = new MyBean();
@@ -251,15 +254,16 @@ public class API {
         insert.setName(name);
         insert.setDesc(desc);
         insert.setCreatorPid(makerPid);
-        //TODO: Call database function to add group
+        ret = databaseConnection.postGroup(insert);
         return ret;
     }
 
-    //Gets a specific group TODO
+    //TODO: test
+    //Gets a specific group
     @ApiMethod(name = "group_get")
     public Group getGroup(@Named("gid") Integer gid) {
         Group ret = new Group();
-        //TODO database call to get the group
+        ret = databaseConnection.getGroup(gid);
         Profile maker = null;
         try {
             maker = getProfile(ret.getCreatorPid());
@@ -272,27 +276,29 @@ public class API {
         return ret;
     }
 
-    //Helper method to populate group members arraylist when getting specific group TODO
+    //TODO test
+    //Helper method to populate group members arraylist when getting specific group
     public ArrayList<Profile> getGroupMembers(Group group) {
         ArrayList<Profile> ret = new ArrayList<Profile>();
-        int pids[] = null;
-        //TODO database call to get pids of group memebers
-        for (int i = 0; i < group.getNumMembers(); i++) {
+        ArrayList<Integer> pids = new ArrayList<Integer>();
+        pids = databaseConnection.getGroupMembers(group);
+        for (int i = 0; i < pids.size(); i++) {
             Profile temp = new Profile();
             try {
-                temp = getProfile(pids[i]);
+                temp = getProfile(pids.get(i));
             } catch (Exception e) {
-                temp.setDescription("Failed to find profile of pid " + pids[i]);
+                temp.setDescription("Failed to find profile of pid " + pids.get(i));
             }
             ret.add(temp);
         }
         return ret;
     }
 
-    //Helper method to populate group posts arraylist when getting specific group TODO
+    //TODO: test
+    //Helper method to populate group posts arraylist when getting specific group
     public ArrayList<Post> getPosts(Group group) {
         ArrayList<Post> ret = new ArrayList<Post>();
-        //TODO database call to get all posts WHERE gid=group.getGid
+        ret = databaseConnection.getPosts(group);
         Collections.sort(ret, new Comparator<Post>() {
             @Override
             public int compare(Post p1, Post p2) {

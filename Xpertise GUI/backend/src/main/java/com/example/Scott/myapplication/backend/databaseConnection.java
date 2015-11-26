@@ -269,6 +269,7 @@ public class databaseConnection {
         return ret;
     }
 
+    //Returns a list of profiles within the specified city
     public static ArrayList<Profile> getProfilesInCity(Profile input, String city) {
         ArrayList<Profile> ret = new ArrayList<Profile>();
         String url = Constants.DATABASE_URL;
@@ -308,6 +309,7 @@ public class databaseConnection {
         return ret;
     }
 
+    //Returns a list of profiles within the radius surrounding the specified profile
     public static ArrayList<Profile> profilesInRadius(int pid, double dist) {
         ArrayList<Profile> profiles = new ArrayList<Profile>();
         String url = Constants.DATABASE_URL;
@@ -355,6 +357,7 @@ public class databaseConnection {
         return profiles;
     }
 
+    //Adds a review to the database
     public static MyBean postReview(Review input){
         String url = Constants.DATABASE_URL;
         MyBean bean = new MyBean();
@@ -395,6 +398,7 @@ public class databaseConnection {
         return bean;
     }
 
+    //Returns a list of reviews about a specified profile
     public static ArrayList<Review> getReviews(int pid){
         String url = Constants.DATABASE_URL;
         ArrayList<Review> reviews = new ArrayList<Review>();
@@ -433,6 +437,7 @@ public class databaseConnection {
         return reviews;
     }
 
+    //Associates a specified tag with a specified profile
     public static MyBean setTag(int pid, String tag){
         String url = Constants.DATABASE_URL;
         MyBean bean = new MyBean();
@@ -472,6 +477,7 @@ public class databaseConnection {
         return bean;
     }
 
+    //Returns a list of tags associated with a specified profile
     public static ArrayList<MyBean> getTags(int pid){
         String url = Constants.DATABASE_URL;
         ArrayList<MyBean> beans = new ArrayList<MyBean>();
@@ -506,7 +512,6 @@ public class databaseConnection {
         return beans;
     }
 
-    // TODO: ArrayList<Profile> searchTags(tag)
     // Returns list of all profiles with specific tag
     public static ArrayList<Profile> searchTags(String tag){
         String url = Constants.DATABASE_URL;
@@ -541,8 +546,6 @@ public class databaseConnection {
         return profiles;
     }
 
-
-    // TODO: MyBean setGroup(pid, gid)
     // Associates a profile with a specific group
     public static MyBean setGroup(int pid, int gid){
         String url = Constants.DATABASE_URL;
@@ -583,11 +586,10 @@ public class databaseConnection {
         return bean;
     }
 
-    // TODO: ArrayList<Group> getGroups(pid)
     // Returns list of all groups for a specific profile
-    public static ArrayList<Group> searchTags(int pid){
+    public static ArrayList<Integer> getGroups(int pid){
         String url = Constants.DATABASE_URL;
-        ArrayList<Group> groups = new ArrayList<Group>();
+        ArrayList<Integer> gids = new ArrayList<Integer>();
         String statement = null;
 
         try{
@@ -596,20 +598,14 @@ public class databaseConnection {
 
             try{
 
-                statement = "SELECT * FROM groupTable WHERE pid=(" + pid + ")";
+                statement = "SELECT * FROM groupMembers WHERE pid=(" + pid + ")";
                 PreparedStatement stmt = conn.prepareStatement(statement);
 
                 ResultSet response = stmt.executeQuery();
                 while(response.next()){
-                    Group temp = new Group();
-
-                    temp.setGid(response.getInt("gid"));
-                    temp.setCreatorPid(response.getInt("creator"));
-                    temp.setName(response.getString("name"));
-                    temp.setDesc(response.getString("description"));
-                    temp.setCreator(getSpecificProfile(temp.getCreatorPid()));
-
-                    groups.add(temp);
+                    Integer temp;
+                    temp = response.getInt("gid");
+                    gids.add(temp);
                 }
 
             }finally{
@@ -620,15 +616,14 @@ public class databaseConnection {
         }catch(Exception e){
             e.printStackTrace();
         }
-        return groups;
+        return gids;
     }
 
-    // TODO: MyBean postGroup(name, desc, makerPid)
     // Insert a new group into the database
-    public static MyBean postGroup(String name, String desc, int makerPid) {
+    public static MyBean postGroup(Group insert) {
         String url = Constants.DATABASE_URL;
         MyBean bean = new MyBean();
-        String statement;
+        String statement = null;
         int success = 0;
 
         try {
@@ -641,9 +636,9 @@ public class databaseConnection {
 
                     statement = "INSERT INTO groupTable (creatorPid, name, description)" +
                             " VALUES ('" +
-                            makerPid + "', '" +
-                            name + "', '" +
-                            desc + "')";
+                            insert.getCreatorPid() + "', '" +
+                            insert.getName() + "', '" +
+                            insert.getDesc() + "')";
                     PreparedStatement stmt = conn.prepareStatement(statement);
 
                     // Returns 1 on success, 0 on fail
@@ -663,12 +658,11 @@ public class databaseConnection {
             bean.setData("Successful insert");
         } else {
             bean.setBool(false);
-            bean.setData("Error: Inserting into database failed");
+            bean.setData("Error: Inserting into database failed; statement: " + statement);
         }
         return bean;
     }
 
-    // TODO: Group getGroup(gid)
     // Return a specific group from the database
     public static Group getGroup(int gid) {
         String url = Constants.DATABASE_URL;
@@ -701,11 +695,10 @@ public class databaseConnection {
         return g;
     }
 
-    // TODO: ArrayList<Profile> getGroupMembers(group)
     // Returns list of all group members for a specific group
-    public static ArrayList<Profile> getGroupMembers(Group g){
+    public static ArrayList<Integer> getGroupMembers(Group g){
         String url = Constants.DATABASE_URL;
-        ArrayList<Profile> members = new ArrayList<Profile>();
+        ArrayList<Integer> members = new ArrayList<Integer>();
         String statement;
 
         try{
@@ -720,7 +713,7 @@ public class databaseConnection {
                 ResultSet response = stmt.executeQuery();
                 while(response.next()){
 
-                    Profile temp = getSpecificProfile(response.getInt("pid"));
+                    Integer temp = response.getInt("pid");
                     members.add(temp);
                 }
 
@@ -735,7 +728,6 @@ public class databaseConnection {
         return members;
     }
 
-    // TODO: ArrayList<Post> getPosts(group)
     // Returns list of all posts for a specific group
     public static ArrayList<Post> getPosts(Group g){
         String url = Constants.DATABASE_URL;
@@ -756,10 +748,11 @@ public class databaseConnection {
 
                     Post temp = new Post();
 
-                    // TODO: Make sure column names are correct
+                    temp.setGid(response.getInt("gid"));
+                    temp.setPid(response.getInt("pid"));
                     temp.setBody(response.getString("body"));
                     temp.setDate(response.getString("date"));
-                    temp.setPostID(response.getInt("postID"));
+                    temp.setPostID(response.getInt("postId"));
                     temp.setTitle(response.getString("title"));
 
                     posts.add(temp);
