@@ -19,7 +19,7 @@
 package com.example.scott.myapplication.backend.xpertiseAPI.model;
 
 /**
- * Model definition for MyBeanCollection.
+ * Model definition for GroupCollection.
  *
  * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
  * transmitted over HTTP when working with the xpertiseAPI. For a detailed explanation see:
@@ -29,37 +29,43 @@ package com.example.scott.myapplication.backend.xpertiseAPI.model;
  * @author Google, Inc.
  */
 @SuppressWarnings("javadoc")
-public final class MyBeanCollection extends com.google.api.client.json.GenericJson {
+public final class GroupCollection extends com.google.api.client.json.GenericJson {
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.util.List<MyBean> items;
+  private java.util.List<Group> items;
+
+  static {
+    // hack to force ProGuard to consider Group used, since otherwise it would be stripped out
+    // see https://github.com/google/google-api-java-client/issues/543
+    com.google.api.client.util.Data.nullOf(Group.class);
+  }
 
   /**
    * @return value or {@code null} for none
    */
-  public java.util.List<MyBean> getItems() {
+  public java.util.List<Group> getItems() {
     return items;
   }
 
   /**
    * @param items items or {@code null} for none
    */
-  public MyBeanCollection setItems(java.util.List<MyBean> items) {
+  public GroupCollection setItems(java.util.List<Group> items) {
     this.items = items;
     return this;
   }
 
   @Override
-  public MyBeanCollection set(String fieldName, Object value) {
-    return (MyBeanCollection) super.set(fieldName, value);
+  public GroupCollection set(String fieldName, Object value) {
+    return (GroupCollection) super.set(fieldName, value);
   }
 
   @Override
-  public MyBeanCollection clone() {
-    return (MyBeanCollection) super.clone();
+  public GroupCollection clone() {
+    return (GroupCollection) super.clone();
   }
 
 }

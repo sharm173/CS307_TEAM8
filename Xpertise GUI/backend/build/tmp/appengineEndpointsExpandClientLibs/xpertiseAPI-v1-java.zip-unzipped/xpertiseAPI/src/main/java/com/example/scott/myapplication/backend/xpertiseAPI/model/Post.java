@@ -19,7 +19,7 @@
 package com.example.scott.myapplication.backend.xpertiseAPI.model;
 
 /**
- * Model definition for MyBean.
+ * Model definition for Post.
  *
  * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
  * transmitted over HTTP when working with the xpertiseAPI. For a detailed explanation see:
@@ -29,43 +29,25 @@ package com.example.scott.myapplication.backend.xpertiseAPI.model;
  * @author Google, Inc.
  */
 @SuppressWarnings("javadoc")
-public final class MyBean extends com.google.api.client.json.GenericJson {
+public final class Post extends com.google.api.client.json.GenericJson {
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.Boolean bool;
+  private java.lang.String body;
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.String data;
+  private java.lang.String date;
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.Double hiLat;
-
-  /**
-   * The value may be {@code null}.
-   */
-  @com.google.api.client.util.Key
-  private java.lang.Double hiLng;
-
-  /**
-   * The value may be {@code null}.
-   */
-  @com.google.api.client.util.Key
-  private java.lang.Double loLat;
-
-  /**
-   * The value may be {@code null}.
-   */
-  @com.google.api.client.util.Key
-  private java.lang.Double loLng;
+  private java.lang.Integer gid;
 
   /**
    * The value may be {@code null}.
@@ -74,92 +56,59 @@ public final class MyBean extends com.google.api.client.json.GenericJson {
   private java.lang.Integer pid;
 
   /**
+   * The value may be {@code null}.
+   */
+  @com.google.api.client.util.Key
+  private java.lang.Integer postID;
+
+  /**
+   * The value may be {@code null}.
+   */
+  @com.google.api.client.util.Key
+  private java.lang.String title;
+
+  /**
    * @return value or {@code null} for none
    */
-  public java.lang.Boolean getBool() {
-    return bool;
+  public java.lang.String getBody() {
+    return body;
   }
 
   /**
-   * @param bool bool or {@code null} for none
+   * @param body body or {@code null} for none
    */
-  public MyBean setBool(java.lang.Boolean bool) {
-    this.bool = bool;
+  public Post setBody(java.lang.String body) {
+    this.body = body;
     return this;
   }
 
   /**
    * @return value or {@code null} for none
    */
-  public java.lang.String getData() {
-    return data;
+  public java.lang.String getDate() {
+    return date;
   }
 
   /**
-   * @param data data or {@code null} for none
+   * @param date date or {@code null} for none
    */
-  public MyBean setData(java.lang.String data) {
-    this.data = data;
+  public Post setDate(java.lang.String date) {
+    this.date = date;
     return this;
   }
 
   /**
    * @return value or {@code null} for none
    */
-  public java.lang.Double getHiLat() {
-    return hiLat;
+  public java.lang.Integer getGid() {
+    return gid;
   }
 
   /**
-   * @param hiLat hiLat or {@code null} for none
+   * @param gid gid or {@code null} for none
    */
-  public MyBean setHiLat(java.lang.Double hiLat) {
-    this.hiLat = hiLat;
-    return this;
-  }
-
-  /**
-   * @return value or {@code null} for none
-   */
-  public java.lang.Double getHiLng() {
-    return hiLng;
-  }
-
-  /**
-   * @param hiLng hiLng or {@code null} for none
-   */
-  public MyBean setHiLng(java.lang.Double hiLng) {
-    this.hiLng = hiLng;
-    return this;
-  }
-
-  /**
-   * @return value or {@code null} for none
-   */
-  public java.lang.Double getLoLat() {
-    return loLat;
-  }
-
-  /**
-   * @param loLat loLat or {@code null} for none
-   */
-  public MyBean setLoLat(java.lang.Double loLat) {
-    this.loLat = loLat;
-    return this;
-  }
-
-  /**
-   * @return value or {@code null} for none
-   */
-  public java.lang.Double getLoLng() {
-    return loLng;
-  }
-
-  /**
-   * @param loLng loLng or {@code null} for none
-   */
-  public MyBean setLoLng(java.lang.Double loLng) {
-    this.loLng = loLng;
+  public Post setGid(java.lang.Integer gid) {
+    this.gid = gid;
     return this;
   }
 
@@ -173,19 +122,49 @@ public final class MyBean extends com.google.api.client.json.GenericJson {
   /**
    * @param pid pid or {@code null} for none
    */
-  public MyBean setPid(java.lang.Integer pid) {
+  public Post setPid(java.lang.Integer pid) {
     this.pid = pid;
     return this;
   }
 
-  @Override
-  public MyBean set(String fieldName, Object value) {
-    return (MyBean) super.set(fieldName, value);
+  /**
+   * @return value or {@code null} for none
+   */
+  public java.lang.Integer getPostID() {
+    return postID;
+  }
+
+  /**
+   * @param postID postID or {@code null} for none
+   */
+  public Post setPostID(java.lang.Integer postID) {
+    this.postID = postID;
+    return this;
+  }
+
+  /**
+   * @return value or {@code null} for none
+   */
+  public java.lang.String getTitle() {
+    return title;
+  }
+
+  /**
+   * @param title title or {@code null} for none
+   */
+  public Post setTitle(java.lang.String title) {
+    this.title = title;
+    return this;
   }
 
   @Override
-  public MyBean clone() {
-    return (MyBean) super.clone();
+  public Post set(String fieldName, Object value) {
+    return (Post) super.set(fieldName, value);
+  }
+
+  @Override
+  public Post clone() {
+    return (Post) super.clone();
   }
 
 }

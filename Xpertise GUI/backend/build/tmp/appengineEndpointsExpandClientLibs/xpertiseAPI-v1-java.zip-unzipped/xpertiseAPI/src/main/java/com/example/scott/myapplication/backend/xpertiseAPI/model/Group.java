@@ -19,7 +19,7 @@
 package com.example.scott.myapplication.backend.xpertiseAPI.model;
 
 /**
- * Model definition for MyBean.
+ * Model definition for Group.
  *
  * <p> This is the Java data model class that specifies how to parse/serialize into the JSON that is
  * transmitted over HTTP when working with the xpertiseAPI. For a detailed explanation see:
@@ -29,163 +29,190 @@ package com.example.scott.myapplication.backend.xpertiseAPI.model;
  * @author Google, Inc.
  */
 @SuppressWarnings("javadoc")
-public final class MyBean extends com.google.api.client.json.GenericJson {
+public final class Group extends com.google.api.client.json.GenericJson {
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.Boolean bool;
+  private Profile creator;
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.String data;
+  private java.lang.Integer creatorPid;
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.Double hiLat;
+  private java.lang.String desc;
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.Double hiLng;
+  private java.lang.Integer gid;
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.Double loLat;
+  private java.util.List<Profile> members;
+
+  static {
+    // hack to force ProGuard to consider Profile used, since otherwise it would be stripped out
+    // see https://github.com/google/google-api-java-client/issues/543
+    com.google.api.client.util.Data.nullOf(Profile.class);
+  }
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.Double loLng;
+  private java.lang.String name;
 
   /**
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.lang.Integer pid;
+  private java.lang.Integer numMembers;
+
+  /**
+   * The value may be {@code null}.
+   */
+  @com.google.api.client.util.Key
+  private java.util.List<Post> posts;
 
   /**
    * @return value or {@code null} for none
    */
-  public java.lang.Boolean getBool() {
-    return bool;
+  public Profile getCreator() {
+    return creator;
   }
 
   /**
-   * @param bool bool or {@code null} for none
+   * @param creator creator or {@code null} for none
    */
-  public MyBean setBool(java.lang.Boolean bool) {
-    this.bool = bool;
+  public Group setCreator(Profile creator) {
+    this.creator = creator;
     return this;
   }
 
   /**
    * @return value or {@code null} for none
    */
-  public java.lang.String getData() {
-    return data;
+  public java.lang.Integer getCreatorPid() {
+    return creatorPid;
   }
 
   /**
-   * @param data data or {@code null} for none
+   * @param creatorPid creatorPid or {@code null} for none
    */
-  public MyBean setData(java.lang.String data) {
-    this.data = data;
+  public Group setCreatorPid(java.lang.Integer creatorPid) {
+    this.creatorPid = creatorPid;
     return this;
   }
 
   /**
    * @return value or {@code null} for none
    */
-  public java.lang.Double getHiLat() {
-    return hiLat;
+  public java.lang.String getDesc() {
+    return desc;
   }
 
   /**
-   * @param hiLat hiLat or {@code null} for none
+   * @param desc desc or {@code null} for none
    */
-  public MyBean setHiLat(java.lang.Double hiLat) {
-    this.hiLat = hiLat;
+  public Group setDesc(java.lang.String desc) {
+    this.desc = desc;
     return this;
   }
 
   /**
    * @return value or {@code null} for none
    */
-  public java.lang.Double getHiLng() {
-    return hiLng;
+  public java.lang.Integer getGid() {
+    return gid;
   }
 
   /**
-   * @param hiLng hiLng or {@code null} for none
+   * @param gid gid or {@code null} for none
    */
-  public MyBean setHiLng(java.lang.Double hiLng) {
-    this.hiLng = hiLng;
+  public Group setGid(java.lang.Integer gid) {
+    this.gid = gid;
     return this;
   }
 
   /**
    * @return value or {@code null} for none
    */
-  public java.lang.Double getLoLat() {
-    return loLat;
+  public java.util.List<Profile> getMembers() {
+    return members;
   }
 
   /**
-   * @param loLat loLat or {@code null} for none
+   * @param members members or {@code null} for none
    */
-  public MyBean setLoLat(java.lang.Double loLat) {
-    this.loLat = loLat;
+  public Group setMembers(java.util.List<Profile> members) {
+    this.members = members;
     return this;
   }
 
   /**
    * @return value or {@code null} for none
    */
-  public java.lang.Double getLoLng() {
-    return loLng;
+  public java.lang.String getName() {
+    return name;
   }
 
   /**
-   * @param loLng loLng or {@code null} for none
+   * @param name name or {@code null} for none
    */
-  public MyBean setLoLng(java.lang.Double loLng) {
-    this.loLng = loLng;
+  public Group setName(java.lang.String name) {
+    this.name = name;
     return this;
   }
 
   /**
    * @return value or {@code null} for none
    */
-  public java.lang.Integer getPid() {
-    return pid;
+  public java.lang.Integer getNumMembers() {
+    return numMembers;
   }
 
   /**
-   * @param pid pid or {@code null} for none
+   * @param numMembers numMembers or {@code null} for none
    */
-  public MyBean setPid(java.lang.Integer pid) {
-    this.pid = pid;
+  public Group setNumMembers(java.lang.Integer numMembers) {
+    this.numMembers = numMembers;
+    return this;
+  }
+
+  /**
+   * @return value or {@code null} for none
+   */
+  public java.util.List<Post> getPosts() {
+    return posts;
+  }
+
+  /**
+   * @param posts posts or {@code null} for none
+   */
+  public Group setPosts(java.util.List<Post> posts) {
+    this.posts = posts;
     return this;
   }
 
   @Override
-  public MyBean set(String fieldName, Object value) {
-    return (MyBean) super.set(fieldName, value);
+  public Group set(String fieldName, Object value) {
+    return (Group) super.set(fieldName, value);
   }
 
   @Override
-  public MyBean clone() {
-    return (MyBean) super.clone();
+  public Group clone() {
+    return (Group) super.clone();
   }
 
 }
