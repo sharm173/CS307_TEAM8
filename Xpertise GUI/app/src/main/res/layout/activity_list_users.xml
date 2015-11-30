@@ -19,16 +19,20 @@
             android:gravity="center_horizontal">
 
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="191dp"
                 android:layout_height="wrap_content"
                 android:text="Radius"
-                android:id="@+id/radiusButton"/>
+                android:id="@+id/radiusButton"
+                android:background="@drawable/button_shape"
+                android:textColor="#ffffff" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="City"
-                android:id="@+id/cityButton"/>
+                android:id="@+id/cityButton"
+                android:background="@drawable/button_shape"
+                android:textColor="#ffffff" />
 
         </LinearLayout>
 

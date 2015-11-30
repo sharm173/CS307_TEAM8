@@ -136,7 +136,9 @@
         android:layout_height="wrap_content"
         android:text="Submit"
         android:id="@+id/button"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/button_shape"
+        android:textColor="#ffffff" />
 
 
 </LinearLayout>
