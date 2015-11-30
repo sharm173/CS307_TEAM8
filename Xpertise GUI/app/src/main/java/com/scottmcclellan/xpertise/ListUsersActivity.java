@@ -155,8 +155,14 @@ public class ListUsersActivity extends AppCompatActivity {
                 Toast.makeText(ListUsersActivity.this, "Unknown error", Toast.LENGTH_SHORT).show();
             }
             else{
-                ListAdapter custAdapter = new ProfileListAdapter(context, profiles);
-                userList.setAdapter(custAdapter);
+                if(profiles == null || profiles.size() == 0){
+                    Toast.makeText(ListUsersActivity.this, "No results", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                else {
+                    ListAdapter custAdapter = new ProfileListAdapter(context, profiles);
+                    userList.setAdapter(custAdapter);
+                }
             }
 
         }
@@ -220,8 +226,14 @@ public class ListUsersActivity extends AppCompatActivity {
                 Toast.makeText(ListUsersActivity.this, "Unknown error", Toast.LENGTH_SHORT).show();
             }
             else{
-                ListAdapter custAdapter = new ProfileListAdapter(context, profiles);
-                userList.setAdapter(custAdapter);
+                if(profiles == null || profiles.size() == 0){
+                    Toast.makeText(ListUsersActivity.this, "No results", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                else {
+                    ListAdapter custAdapter = new ProfileListAdapter(context, profiles);
+                    userList.setAdapter(custAdapter);
+                }
             }
 
         }
@@ -285,8 +297,14 @@ public class ListUsersActivity extends AppCompatActivity {
                 Toast.makeText(ListUsersActivity.this, "Unknown error", Toast.LENGTH_SHORT).show();
             }
             else{
-                ListAdapter custAdapter = new ProfileListAdapter(context, profiles);
-                userList.setAdapter(custAdapter);
+                if(profiles == null || profiles.size() == 0){
+                    Toast.makeText(ListUsersActivity.this, "No results", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                else {
+                    ListAdapter custAdapter = new ProfileListAdapter(context, profiles);
+                    userList.setAdapter(custAdapter);
+                }
             }
 
         }

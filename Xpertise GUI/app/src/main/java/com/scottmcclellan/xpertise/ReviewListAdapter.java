@@ -65,6 +65,7 @@ public class ReviewListAdapter extends BaseAdapter {
             ((TextView)v.findViewById(R.id.userName2)).setText(r.getReviewerName());//change to reviewer's name
            // ((TextView)v.findViewById(R.id.userRating2)).setText(r.getStars());
             ((RatingBar)v.findViewById(R.id.ratingBar2)).setRating(r.getStars());
+            ((RatingBar)v.findViewById(R.id.ratingBar2)).setFocusable(false);
             ((TextView)v.findViewById(R.id.userReview2)).setText(r.getReviewDesc());
             //set tag
 
