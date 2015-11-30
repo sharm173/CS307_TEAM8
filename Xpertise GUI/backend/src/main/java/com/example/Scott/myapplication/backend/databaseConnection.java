@@ -489,7 +489,7 @@ public class databaseConnection {
 
             try{
 
-                statement = "SELECT * FROM tag WHERE pid=(" + pid + ")";
+                statement = "SELECT * FROM tag WHERE pid=" + pid + "";
                 PreparedStatement stmt = conn.prepareStatement(statement);
 
                 ResultSet response = stmt.executeQuery();
@@ -524,7 +524,7 @@ public class databaseConnection {
 
             try{
 
-                statement = "SELECT * FROM tag WHERE tag=(" + tag + ")";
+                statement = "SELECT * FROM tag WHERE tag='" + tag + "'";
                 PreparedStatement stmt = conn.prepareStatement(statement);
 
                 ResultSet response = stmt.executeQuery();
@@ -598,7 +598,7 @@ public class databaseConnection {
 
             try{
 
-                statement = "SELECT * FROM groupMembers WHERE pid=(" + pid + ")";
+                statement = "SELECT * FROM groupMembers WHERE pid=" + pid + "";
                 PreparedStatement stmt = conn.prepareStatement(statement);
 
                 ResultSet response = stmt.executeQuery();
@@ -673,7 +673,7 @@ public class databaseConnection {
             Connection conn = DriverManager.getConnection(url);
             try {
 
-                String statement = "SELECT * FROM groupTable WHERE gid=(" + gid + ")";
+                String statement = "SELECT * FROM groupTable WHERE gid=" + gid + "";
                 PreparedStatement stmt = conn.prepareStatement(statement);
 
                 ResultSet response = stmt.executeQuery();
@@ -707,7 +707,7 @@ public class databaseConnection {
 
             try{
 
-                statement = "SELECT * FROM groupMembers WHERE gid=(" + g.getGid() + ")";
+                statement = "SELECT * FROM groupMembers WHERE gid=" + g.getGid() + "";
                 PreparedStatement stmt = conn.prepareStatement(statement);
 
                 ResultSet response = stmt.executeQuery();
@@ -740,7 +740,7 @@ public class databaseConnection {
 
             try{
 
-                statement = "SELECT * FROM post WHERE gid=(" + g.getGid() + ")";
+                statement = "SELECT * FROM post WHERE gid=" + g.getGid() + "";
                 PreparedStatement stmt = conn.prepareStatement(statement);
 
                 ResultSet response = stmt.executeQuery();
