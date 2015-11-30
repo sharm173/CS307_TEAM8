@@ -214,11 +214,26 @@ public class API {
     @ApiMethod(name = "profile_searchTag")
     public ArrayList<Profile> searchTags(@Named("tag") String tag) {
         ArrayList<Profile> ret = new ArrayList<Profile>();
-        ret = databaseConnection.searchTags(tag);
-        for (int i = 0; i < ret.size(); i++) {
-            ret.get(i).setTags(getTags(ret.get(i).getPid()));
-            //ret.get(i).setGroups(getGroups(ret.get(i).getPid())); TODO: uncomment when groups are done
+        ArrayList<MyBean> pids = new ArrayList<MyBean>();
+        Profile temp = null;
+
+        pids = databaseConnection.searchTags(tag);
+
+        for (int i = 0; i < pids.size(); i++) {
+
+            try {
+                temp = getProfile(pids.get(i).getPid());
+            } catch (Exception e) {
+                temp = new Profile();
+                temp.setDescription("ERROR could not find profile with pid: " + pids.get(i).getPid());
+            }
+
+            temp.setTags(getTags(temp.getPid()));
+            //temp.setGroups(getGroups(temp.getPid())); TODO: uncomment when groups are done
+            ret.add(temp);
         }
+
+
         return ret;
     }
 
