@@ -513,10 +513,11 @@ public class databaseConnection {
     }
 
     // Returns list of all profiles with specific tag
-    public static ArrayList<Profile> searchTags(String tag){
+    public static ArrayList<MyBean> searchTags(String tag){
         String url = Constants.DATABASE_URL;
-        ArrayList<Profile> profiles = new ArrayList<Profile>();
+        ArrayList<MyBean> pids = new ArrayList<MyBean>();
         String statement = null;
+        MyBean temp = null;
 
         try{
             Class.forName(Constants.GOOGLE_DRIVER);
@@ -529,10 +530,9 @@ public class databaseConnection {
 
                 ResultSet response = stmt.executeQuery();
                 while(response.next()){
-                    Profile temp;
-
-                    temp = getSpecificProfile(response.getInt("pid"));
-                    profiles.add(temp);
+                    temp = new MyBean();
+                    temp.setPid(response.getInt("pid"));
+                    pids.add(temp);
                 }
 
             }finally{
@@ -541,9 +541,11 @@ public class databaseConnection {
 
 
         }catch(Exception e){
-            e.printStackTrace();
+            temp = new MyBean();
+            temp.setBool(false);
+            temp.setData("ERROR IN DATABASE; statement: " + statement);
         }
-        return profiles;
+        return pids;
     }
 
     // Associates a profile with a specific group
