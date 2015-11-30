@@ -532,7 +532,7 @@ public class databaseConnection {
                 while(response.next()){
                     temp = new MyBean();
                     temp.setPid(response.getInt("pid"));
-                    pids.add(temp);
+                    if(!pids.contains(temp)) pids.add(temp);
                 }
 
             }finally{
