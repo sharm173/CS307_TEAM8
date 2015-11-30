@@ -102,7 +102,7 @@ public class DisplayProfileActivity extends AppCompatActivity {
         find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DisplayProfileActivity.this, ListUsersActivity.class);
+                Intent intent = new Intent(DisplayProfileActivity.this, SearchActivity.class);
                 startActivity(intent);
             }
         });

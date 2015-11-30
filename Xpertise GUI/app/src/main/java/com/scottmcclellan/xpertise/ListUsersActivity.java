@@ -50,16 +50,13 @@ import java.util.List;
 
 
 public class ListUsersActivity extends AppCompatActivity {
-    //private ListView lv;
-    Button radiusButton;
-    Button cityButton;
-    Button getCityButton;
-    EditText cityText;
-    LinearLayout linLay;
+
+
     Context context;
     ListView userList;
     private UserListTask mAuthTask = null;
     private UserListCityTask mAuthTask2 = null;
+    private UserListTagTask mAuthTask3 = null;
     List<Profile> profiles;
 
     public static Profile selectedProf = null;
@@ -70,62 +67,33 @@ public class ListUsersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_users);
         context = this;
 
-        radiusButton = (Button) findViewById(R.id.radiusButton);
-        cityButton = (Button) findViewById(R.id.cityButton);
-        getCityButton = (Button) findViewById(R.id.citySearchButton);
-        cityText = (EditText) findViewById(R.id.cityEdit);
-        linLay = (LinearLayout) findViewById(R.id.cityInput);
         userList = (ListView) findViewById(R.id.userList);
 
-        radiusButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                linLay.setVisibility(View.GONE);
-                int pid = LoginActivity.loggedInProfile.getPid(); // TODO:change to selected users profile
-                //make the radius call using pid and some radius
-                double rad = 100.00; //hardcoded for now
-                mAuthTask = new UserListTask(pid,rad);
-                mAuthTask.execute((Void) null);
 
-            }
-        });
+        Bundle b = getIntent().getExtras();
+        String data = b.getString("data");
+        String type = b.getString("type");
 
-        cityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                linLay.setVisibility(View.VISIBLE);
+        if(type.equals("tag")){
+//            int pid = LoginActivity.loggedInProfile.getPid();
+//            mAuthTask3 = new UserListTagTask(pid, data);
+//            mAuthTask3.execute((Void) null);
 
-            }
-        });
-
-        getCityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String city = cityText.getText().toString();
-                if(city.length() != 0){
-                    int pid = LoginActivity.loggedInProfile.getPid();
-                    mAuthTask2 = new UserListCityTask(pid, city);
-                    mAuthTask2.execute((Void) null);
-                }
-                else {
-                    Toast.makeText(context, "Please enter a city", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
-//        userList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                selectedProf = profiles.get(position);
-//                Intent i = new Intent(context, SelectedUserActivity.class);
-//                startActivity(i);
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
+            int pid = LoginActivity.loggedInProfile.getPid();
+            mAuthTask2 = new UserListCityTask(pid, data);
+            mAuthTask2.execute((Void) null);
+        }
+        else if(type.equals("radius")){
+            int pid = LoginActivity.loggedInProfile.getPid(); // TODO:change to selected users profile
+            double rad = Double.parseDouble(data);
+            mAuthTask = new UserListTask(pid,rad);
+            mAuthTask.execute((Void) null);
+        }
+        else{ //city
+            int pid = LoginActivity.loggedInProfile.getPid();
+            mAuthTask2 = new UserListCityTask(pid, data);
+            mAuthTask2.execute((Void) null);
+        }
 
         userList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -138,22 +106,6 @@ public class ListUsersActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_list_users, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     public class UserListTask extends AsyncTask<Void, Void, Boolean> {
         private final int mPid;
@@ -199,13 +151,14 @@ public class ListUsersActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
 
-            if (success) {
-                setTagsTask tagsTask = new setTagsTask(0);
-                tagsTask.execute((Void) null);
-
-            } else {
+            if (!success) {
                 Toast.makeText(ListUsersActivity.this, "Unknown error", Toast.LENGTH_SHORT).show();
             }
+            else{
+                ListAdapter custAdapter = new ProfileListAdapter(context, profiles);
+                userList.setAdapter(custAdapter);
+            }
+
         }
 
         @Override
@@ -213,6 +166,8 @@ public class ListUsersActivity extends AppCompatActivity {
             mAuthTask = null;
         }
     }
+
+
     public class UserListCityTask extends AsyncTask<Void, Void, Boolean> {
         private final int mPid;
         private final String city;
@@ -261,34 +216,34 @@ public class ListUsersActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
 
-            if (success) {
-                setTagsTask tagsTask = new setTagsTask(0);
-                tagsTask.execute((Void) null);
-            } else {
+            if (!success) {
                 Toast.makeText(ListUsersActivity.this, "Unknown error", Toast.LENGTH_SHORT).show();
             }
+            else{
+                ListAdapter custAdapter = new ProfileListAdapter(context, profiles);
+                userList.setAdapter(custAdapter);
+            }
+
         }
 
         @Override
         protected void onCancelled() {
-            mAuthTask = null;
+            mAuthTask2 = null;
         }
     }
 
 
-    public class setTagsTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserListTagTask extends AsyncTask<Void, Void, Boolean> {
+        private final int mPid;
+        private final String mTag;
 
-        Profile prof;
-        int count;
-
-        setTagsTask(int count) {
-            prof = profiles.get(count);
-            this.count = count;
+        UserListTagTask(int pid, String tag) {
+            mPid = pid;
+            mTag = tag;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
             XpertiseAPI myApiService = null;
 
             if(myApiService == null) {  // Only do this once
@@ -307,35 +262,40 @@ public class ListUsersActivity extends AppCompatActivity {
             }
 
 
-            try {
-                MyBeanCollection beanList = myApiService.profileGetTags(prof.getPid()).execute();
-                List<MyBean> beans = beanList.getItems();
-                prof.setTags(beans);
+//            try {
+//
+//                //TODO
+//                ProfileCollection b = myApiService.ProfileSearchTag(mTag).execute();
+//                profiles = b.getItems();
+//
+//                return b != null;
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                return false;
+//            }
+            return true;
 
-                return true;
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                return false;
-            }
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            if(count != (profiles.size() - 1)){
-                setTagsTask tagsTask = new setTagsTask(count + 1);
-                tagsTask.execute((Void) null);
+
+            if (!success) {
+                Toast.makeText(ListUsersActivity.this, "Unknown error", Toast.LENGTH_SHORT).show();
             }
             else{
-                userList = (ListView) findViewById(R.id.userList);
-                ListAdapter custAdapt = new ProfileListAdapter(context, profiles);
-                userList.setAdapter(custAdapt);
+                ListAdapter custAdapter = new ProfileListAdapter(context, profiles);
+                userList.setAdapter(custAdapter);
             }
+
         }
 
         @Override
         protected void onCancelled() {
-            mAuthTask = null;
+            mAuthTask3 = null;
         }
     }
+
+
 }
