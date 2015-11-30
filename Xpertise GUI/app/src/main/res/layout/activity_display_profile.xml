@@ -129,24 +129,30 @@
 
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="249dp"
         android:layout_height="60dp"
         android:text="Return to Login"
         android:id="@+id/login"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/button_shape"
+        android:textColor="#ffffff" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="249dp"
         android:layout_height="wrap_content"
         android:text="Edit Profile"
         android:id="@+id/edit"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/button_shape"
+        android:textColor="#ffffff" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="248dp"
         android:layout_height="wrap_content"
         android:text="Find other users"
         android:id="@+id/findButton"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/button_shape"
+        android:textColor="#ffffff" />
 
 </LinearLayout>

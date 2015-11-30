@@ -44,6 +44,7 @@ public class SelectedUserActivity extends AppCompatActivity {
     //    private TextView lat;
 //    private TextView lng;
     private TextView desc;
+    private TextView tags1;
     private RatingBar rating;
     private Button submit;
     private TextView comment;
@@ -69,6 +70,7 @@ public class SelectedUserActivity extends AppCompatActivity {
         lv = (ListView) findViewById(R.id.listView);
 
         desc = (TextView) findViewById(R.id.desc);
+        tags1 = (TextView) findViewById(R.id.textView3);
         rating = (RatingBar) findViewById(R.id.ratingBar);
         comment = (TextView) findViewById(R.id.editText);
        // login = (Button) findViewById(R.id.login);
@@ -79,6 +81,18 @@ public class SelectedUserActivity extends AppCompatActivity {
        // pass.setText(profile.getPassword());
         city.setText(profile.getCity());
         desc.setText(profile.getDescription());
+        List<MyBean> tagBeans = profile.getTags();
+        String tags = "";
+        if(tagBeans != null) {
+            for (int i = 0; i < tagBeans.size(); i++) {
+                tags += tagBeans.get(i).getData();
+                if (i != (tagBeans.size() - 1)) {
+                    tags += ", ";
+                }
+            }
+        }
+        //((TextView)v.findViewById(R.id.userTags)).setText(tags);
+        tags1.setText(tags);
 
         mAuthTask2 = new UserGetRatingsTask(profile);//populate listview with ratings
         mAuthTask2.execute((Void) null);
