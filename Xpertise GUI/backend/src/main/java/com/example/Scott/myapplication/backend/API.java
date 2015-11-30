@@ -251,16 +251,15 @@ public class API {
     @ApiMethod(name = "profile_getGroups")
     public ArrayList<Group> getGroups(@Named("pid") Integer pid) {
         ArrayList<Group> ret = new ArrayList<Group>();
-        ArrayList<Integer> gids = new ArrayList<Integer>();
+        ArrayList<MyBean> gids = new ArrayList<MyBean>();
         gids = databaseConnection.getGroups(pid);
         for (int i = 0; i < gids.size(); i++) {
-            Group temp = new Group();
-            temp = getGroup(gids.get(i));
+            Group temp = getGroup(gids.get(i).getPid());
+            ret.add(temp);
         }
         return ret;
     }
 
-    //TODO: test
     //Creates a new group
     @ApiMethod(name = "group_post")
     public MyBean postGroup(@Named("name") String name, @Named("desc") String desc, @Named("makerPid") Integer makerPid) {
@@ -273,7 +272,6 @@ public class API {
         return ret;
     }
 
-    //TODO: test
     //Gets a specific group
     @ApiMethod(name = "group_get")
     public Group getGroup(@Named("gid") Integer gid) {
@@ -291,7 +289,6 @@ public class API {
         return ret;
     }
 
-    //TODO test
     //Helper method to populate group members arraylist when getting specific group
     public ArrayList<Profile> getGroupMembers(Group group) {
         ArrayList<Profile> ret = new ArrayList<Profile>();

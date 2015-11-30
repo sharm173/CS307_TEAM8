@@ -551,7 +551,7 @@ public class databaseConnection {
     // Associates a profile with a specific group
     public static MyBean setGroup(int pid, int gid){
         String url = Constants.DATABASE_URL;
-        String statement;
+        String statement = null;
         MyBean bean = new MyBean();
         int success = 0;
 
@@ -582,17 +582,18 @@ public class databaseConnection {
             bean.setData("Successful insert");
         }else{
             bean.setBool(false);
-            bean.setData("Error: Insert failed");
+            bean.setData("Error: Insert failed; statement: " + statement);
         }
 
         return bean;
     }
 
     // Returns list of all groups for a specific profile
-    public static ArrayList<Integer> getGroups(int pid){
+    public static ArrayList<MyBean> getGroups(int pid){
         String url = Constants.DATABASE_URL;
-        ArrayList<Integer> gids = new ArrayList<Integer>();
+        ArrayList<MyBean> gids = new ArrayList<MyBean>();
         String statement = null;
+        MyBean temp;
 
         try{
             Class.forName(Constants.GOOGLE_DRIVER);
@@ -605,8 +606,8 @@ public class databaseConnection {
 
                 ResultSet response = stmt.executeQuery();
                 while(response.next()){
-                    Integer temp;
-                    temp = response.getInt("gid");
+                    temp = new MyBean();
+                    temp.setPid(response.getInt("gid"));
                     gids.add(temp);
                 }
 
