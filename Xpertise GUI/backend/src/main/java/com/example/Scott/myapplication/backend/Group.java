@@ -7,31 +7,24 @@ import java.util.ArrayList;
  */
 public class Group {
     int gid;
-    int numMembers;
     private int creatorPid;
     private Profile creator;
     private ArrayList<Profile> members;
     private String name;
     private String desc;
     private ArrayList<Post> posts;
+    private ArrayList<MyBean> tags;
 
     public void Group() {
         members = new ArrayList<Profile>();
         posts = new ArrayList<Post>();
         creator = new Profile();
+        tags = new ArrayList<MyBean>();
     }
 
     public void setGid(int set) { gid = set; }
 
     public int getGid() { return gid; }
-
-    public void setNumMembers(int set) { numMembers = set; }
-
-    public int getNumMembers() { return numMembers; }
-
-    public void incrementNumMembers() { numMembers++; }
-
-    public void decrementNumMembers() { numMembers--; }
 
     public void setCreatorPid(int set) { creatorPid = set; }
 
@@ -57,4 +50,7 @@ public class Group {
 
     public String getDesc() { return desc; }
 
+    public ArrayList<MyBean> getTags() { return tags; }
+
+    public void setTags(ArrayList<MyBean> set) { tags = set; }
 }

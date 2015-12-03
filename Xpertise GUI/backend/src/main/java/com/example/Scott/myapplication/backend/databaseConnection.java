@@ -16,6 +16,22 @@ import java.util.ArrayList;
  */
 public class databaseConnection {
 
+    /*
+    List of database tables:
+
+    profile - stores user profiles
+
+    review - stores all review objects
+
+    tag - stores all tags
+
+    groupTable - stores group profiles
+
+    groupMembers - stores which pid belongs with which gid(s)
+
+    post - stores all group posts
+     */
+
     // Alert the user of a failure with the database
     private static void databaseError(Constants.DB_ERROR err){
 
@@ -561,7 +577,7 @@ public class databaseConnection {
 
             try{
 
-                statement = "INSERT INTO groupTable (gid, pid) VALUES(" +
+                statement = "INSERT INTO groupMembers (gid, pid) VALUES(" +
                 gid + "," +
                 pid + ")";
                 PreparedStatement stmt = conn.prepareStatement(statement);
@@ -684,8 +700,6 @@ public class databaseConnection {
                 g.setName(response.getString("name"));
                 g.setCreatorPid(response.getInt("creatorPid"));
                 g.setDesc(response.getString("description"));
-                g.setCreator(getSpecificProfile(g.getCreatorPid()));
-
             }
             finally {
                 conn.close();
@@ -769,6 +783,8 @@ public class databaseConnection {
         }catch(Exception e){
             e.printStackTrace();
         }
+
+
         return posts;
     }
 }
