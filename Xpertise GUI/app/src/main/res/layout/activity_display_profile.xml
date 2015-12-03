@@ -135,7 +135,10 @@
         android:id="@+id/login"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/button_shape"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        />
 
     <Button
         android:layout_width="249dp"
@@ -144,7 +147,9 @@
         android:id="@+id/edit"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/button_shape"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp" />
 
     <Button
         android:layout_width="248dp"
@@ -153,6 +158,8 @@
         android:id="@+id/findButton"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/button_shape"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"/>
 
 </LinearLayout>

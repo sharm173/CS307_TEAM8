@@ -180,7 +180,9 @@ public class SelectedUserActivity extends AppCompatActivity {
 
 
                 Toast.makeText(SelectedUserActivity.this, "Review submitted", Toast.LENGTH_SHORT).show();
-
+                Intent i = new Intent(context, SelectedUserActivity.class);
+                startActivity(i);
+                finish();
 
             } else {
                 //password.setError(getString(R.string.error_incorrect_password));

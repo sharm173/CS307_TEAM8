@@ -525,7 +525,7 @@ public class databaseConnection {
 
             try{
 
-                statement = "SELECT * FROM tag WHERE tag='" + tag + "'";
+                statement = "SELECT DISTINCT pid FROM tag WHERE tag='" + tag + "'";
                 PreparedStatement stmt = conn.prepareStatement(statement);
 
                 ResultSet response = stmt.executeQuery();
