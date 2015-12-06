@@ -604,6 +604,7 @@ public class databaseConnection {
         return bean;
     }
 
+    // TODO: fix this and test
     // Returns list of all groups for a specific profile
     public static ArrayList<MyBean> getGroups(int pid){
         String url = Constants.DATABASE_URL;
@@ -682,6 +683,7 @@ public class databaseConnection {
         return bean;
     }
 
+    // TODO: fix this and test
     // Return a specific group from the database
     public static Group getGroup(int gid) {
         String url = Constants.DATABASE_URL;
@@ -712,6 +714,7 @@ public class databaseConnection {
         return g;
     }
 
+    // TODO: fix this and test
     // Returns list of all group members for a specific group
     public static ArrayList<Integer> getGroupMembers(Group g){
         String url = Constants.DATABASE_URL;
@@ -786,5 +789,157 @@ public class databaseConnection {
 
 
         return posts;
+    }
+
+    // TODO: Test this
+    // Post to a group
+    public MyBean postPost(int gid, int pid, String title, String body){
+        String url = Constants.DATABASE_URL;
+        MyBean bean = new MyBean();
+        String statement;
+        int success = 0;
+
+        try{
+            Class.forName(Constants.GOOGLE_DRIVER);
+            Connection conn = DriverManager.getConnection(url);
+
+            try{
+
+                statement = "INSERT INTO post (gid, pid, title, body) VALUES (" +
+                        gid + ", " +
+                        pid + ", " +
+                        "'" + title + "', " +
+                        "'" + body + "'" +
+                ")";
+                PreparedStatement stmt = conn.prepareStatement(statement);
+                success = stmt.executeUpdate();
+
+            }finally{
+                conn.close();
+            }
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        if(success == 1){
+            bean.setBool(true);
+            bean.setData("Successful insert");
+        }else{
+            bean.setBool(false);
+            bean.setData("Error: Insert failed");
+        }
+
+        return bean;
+    }
+
+    // TODO: Test this
+    // Search for a group by 'name'
+    public Group groupSearchByName(String name){
+        String url = Constants.DATABASE_URL;
+        Group g = new Group();
+
+        try {
+            Class.forName(Constants.GOOGLE_DRIVER);
+            Connection conn = DriverManager.getConnection(url);
+            try {
+
+                String statement = "SELECT * FROM groupTable WHERE name='" + name + "'";
+                PreparedStatement stmt = conn.prepareStatement(statement);
+
+                ResultSet response = stmt.executeQuery();
+                response.next();
+                g.setGid(response.getInt("gid"));
+                g.setName(name);
+                g.setCreatorPid(response.getInt("creatorPid"));
+                g.setDesc(response.getString("description"));
+            }
+            finally {
+                conn.close();
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return g;
+    }
+
+    // TODO: Test this
+    // Associate the given tag with the given group
+    public MyBean groupSetTag(int gid, String tag){
+        String url = Constants.DATABASE_URL;
+        MyBean bean = new MyBean();
+        String statement;
+        int success = 0;
+
+        try{
+            Class.forName(Constants.GOOGLE_DRIVER);
+            Connection conn = DriverManager.getConnection(url);
+
+            try{
+
+                statement = "INSERT INTO groupTag (gid, tag) VALUES (" +
+                        gid + ", " +
+                        "'" + tag + "'" +
+                        ")";
+                PreparedStatement stmt = conn.prepareStatement(statement);
+                success = stmt.executeUpdate();
+
+            }finally{
+                conn.close();
+            }
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        if(success == 1){
+            bean.setBool(true);
+            bean.setData("Successful insert");
+        }else{
+            bean.setBool(false);
+            bean.setData("Error: Insert failed");
+        }
+
+        return bean;
+    }
+
+    // TODO: Test this
+    // Return a list of tags for a group
+    public ArrayList<MyBean> groupGetTags(int gid){
+        String url = Constants.DATABASE_URL;
+        ArrayList<MyBean> beans = new ArrayList<MyBean>();
+        String statement = null;
+
+        try{
+            Class.forName(Constants.GOOGLE_DRIVER);
+            Connection conn = DriverManager.getConnection(url);
+
+            try{
+
+                statement = "SELECT * FROM groupTag WHERE gid=" + gid + "";
+                PreparedStatement stmt = conn.prepareStatement(statement);
+
+                ResultSet response = stmt.executeQuery();
+                while(response.next()){
+                    MyBean temp = new MyBean();
+
+                    temp.setData(response.getString("tag"));
+                    temp.setGid(response.getInt("gid"));
+                    beans.add(temp);
+                }
+
+            }finally{
+                conn.close();
+            }
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return beans;
     }
 }

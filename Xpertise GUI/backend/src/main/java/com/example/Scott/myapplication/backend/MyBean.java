@@ -6,6 +6,7 @@ package com.example.Scott.myapplication.backend;
 public class MyBean {
 
     private int pid;
+    private int gid;
 
     private String data;
 
@@ -43,4 +44,8 @@ public class MyBean {
     public void setPid(int set) { pid = set; }
 
     public int getPid() { return pid; }
+
+    public void setGid(int set) { gid = set; }
+
+    public int getGid() { return gid; }
 }
